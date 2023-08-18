@@ -3,7 +3,7 @@
 </div>
 </main>
 <footer>
-	<span>Desarrollado por la facultad de <a href="https://ciya.utc.edu.ec/">CIYA</a></span>
+	<span>Desarrollado por la facultad de <a href="https://ciya.utc.edu.ec/" class="mayus">Ciencias de la ingeniería y aplicadas</a></span>
 </footer>
 
 <!-- Core JS -->
