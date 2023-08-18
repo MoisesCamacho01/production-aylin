@@ -1,0 +1,35 @@
+.background-img{
+	background-image: url('../img/fondo-login.jpg');
+   background-size: cover;
+   background-position: center;
+	backdrop-filter: brightness(60%);
+}
+
+footer{
+	background-color: #0707077c;
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	bottom: 0px;
+}
+
+footer span{
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+}
+
+footer span a{
+	color: aqua;
+}
+
+footer span a:hover{
+	color: rgb(6, 170, 170);
+}
+
+.pointer-no{
+	cursor:default;
+}
+
