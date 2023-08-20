@@ -16,6 +16,8 @@ class AlarmsController extends MY_Controller
 
 	public function index($submenu, $idSector)
 	{
+
+
 		$js = [
 			'resources/librerias/paginator/paginator.js',
 			'resources/src/js/alarms.js?t=5',
@@ -25,6 +27,7 @@ class AlarmsController extends MY_Controller
 		$this->submenu = $submenu;
 
 		$this->data = [
+
 			'title' => 'Alarmas',
 			'js' => $js,
 			'sector' => $this->Sector_model->getForId($idSector),

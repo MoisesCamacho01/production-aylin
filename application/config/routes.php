@@ -56,7 +56,6 @@ $route['translate_uri_dashes'] = TRUE;
 // INTEGRAR LAS RUTAS
 $carpeta = new RecursiveDirectoryIterator(APPPATH."routes/");
 $archivos = new RecursiveIteratorIterator($carpeta);
-
 foreach ($archivos as $archivo) {
     if ($archivo->isFile() && $archivo->getExtension() == 'php') {
         include $archivo->getPathname();

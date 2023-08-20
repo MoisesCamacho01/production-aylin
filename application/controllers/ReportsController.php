@@ -18,6 +18,8 @@ class ReportsController extends MY_Controller
 
 	public function index($submenu)
 	{
+		$user = $this->session->userdata('usuario');
+
 		$js = [
 			'resources/librerias/paginator/paginator.js',
 			'resources/src/js/reports2.js?t=5',
@@ -27,6 +29,8 @@ class ReportsController extends MY_Controller
 		$this->submenu = $submenu;
 
 		$this->data = [
+			'code' => $user->id,
+			'userName' => $user->user_name,
 			'title' => 'REPORTES',
 			'states' => $this->State_model->getAll('C001'),
 			'managers' => $this->Manager_model->getAll(),
@@ -269,6 +273,8 @@ class ReportsController extends MY_Controller
 		$thead = ['N°', 'IP', 'EMAIL', 'NOMBRE', 'APELLIDO','FECHA DE ACCESO'];
 		$tbody = $this->RegisterLog_model->getSuccessAccess('', 0, 0, true);
 
+		$this->registerHistory('pdf', 'el historial de acceso correcto de los usuarios');
+
 		$data = [
 			'title' => 'accessCorrect',
 			'titleDocument' => 'Acceso correcto',
@@ -286,6 +292,8 @@ class ReportsController extends MY_Controller
 	{
 		$thead = ['N°', 'ESTADO', 'EMAIL', 'NOMBRE', 'APELLIDO', 'FECHA DE ACCESO'];
 		$tbody = $this->RegisterLog_model->getPasswordReset('',0,0,true);
+
+		$this->registerHistory('pdf', 'el historial de cambios de contraseña de los usuarios');
 
 		$data = [
 			'title' => 'Cambio de contraseña',
@@ -305,6 +313,8 @@ class ReportsController extends MY_Controller
 		$thead = ['N°', '¿POR QUÉ?', 'IP', 'SECTOR', 'EMAIL','USERNAME', 'NOMBRE', 'APELLIDO', 'FECHA DE ACTIVACIÓN'];
 		$tbody = $this->RegisterLog_model->getActiveAlarm('',0,0,true);
 
+		$this->registerHistory('pdf', 'el historial de activacion de alarmas por los usuarios');
+
 		$data = [
 			'title' => 'Activación de alarmas',
 			'titleDocument' => 'Historial de activación de alarmas',
@@ -322,6 +332,9 @@ class ReportsController extends MY_Controller
 	{
 		$thead = ['N°', 'USUARIO', 'EMAIL', 'TIPO DE USUARIO', 'ESTADO'];
 		$tbody = $this->RegisterLog_model->getHistory('',0,0,true);
+
+		$this->registerHistory('pdf', 'el historial de uso del sistema por parte de los usuarios');
+
 		$data = [
 			'title' => 'Historial',
 			'titleDocument' => 'Historial de seguimiento',
@@ -338,6 +351,9 @@ class ReportsController extends MY_Controller
 	public function excelAccessCorrect()
 	{
 		$header = ['IP', 'EMAIL', 'NOMBRE', 'APELLIDO', 'FECHA DE ACCESO'];
+
+		$this->registerHistory('excel', 'el historial de acceso correcto de los usuarios');
+
 		$users = $this->RegisterLog_model->getSuccessAccess('',0,0,true);
 		$this->excelGenerate($header, $users, 'Access-correct');
 	}
@@ -345,6 +361,7 @@ class ReportsController extends MY_Controller
 	public function excelPasswordReset()
 	{
 		$header = ['ESTADO', 'EMAIL', 'NOMBRE', 'APELLIDO', 'FECHA DE ACCESO'];
+		$this->registerHistory('excel', 'el historial de cambios de contraseña de los usuarios');
 		$users = $this->RegisterLog_model->getPasswordReset('',0,0,true);
 		$this->excelGenerate($header, $users, 'password-reset');
 	}
@@ -352,6 +369,7 @@ class ReportsController extends MY_Controller
 	public function excelActiveAlarm()
 	{
 		$header = ['¿POR QUÉ?', 'IP', 'SECTOR', 'EMAIL','USERNAME', 'NOMBRE', 'APELLIDO', 'FECHA DE ACTIVACIÓN'];
+		$this->registerHistory('excel', 'el historial de activacion de alarmas por los usuarios');
 		$users = $this->RegisterLog_model->getActiveAlarm('',0,0,true);
 		$this->excelGenerate($header, $users, 'active-alarm');
 	}
@@ -359,6 +377,7 @@ class ReportsController extends MY_Controller
 	public function excelHistory()
 	{
 		$header = ['USUARIO', 'EMAIL', 'TIPO DE USUARIO', 'ESTADO'];
+		$this->registerHistory('excel', 'el historial de uso del sistema por parte de los usuarios');
 		$users = $this->RegisterLog_model->getHistory('',0,0,true);
 		$this->excelGenerate($header, $users, 'history');
 	}

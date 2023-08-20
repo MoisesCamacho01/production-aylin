@@ -1,4 +1,4 @@
-var socket = io.connect('https://alarm-socketio.onrender.com/', {
+var socket = io.connect('https://alarm-socketio.up.railway.app/', {
     'forceNew': true,
 })
 
@@ -18,4 +18,14 @@ function message(data) {
 			1
 		);
 	}
+}
+
+function enviar(id, type, msm){
+	var msm = {
+		 idUser:id,
+		 idType:type,
+		 message: msm,
+	}
+	socket.emit('new-message', msm);
+	return false;
 }

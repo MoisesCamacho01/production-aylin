@@ -238,7 +238,7 @@ function initMap(){
 				let response = JSON.parse(answer);
 				if (response.message.type == "success") {
 
-					mapaGenerate('view', drawMap, '#FF7F50', response.data);
+					mapaGenerate('cities', drawMap, '#FF7F50', response.data);
 
 				} else {
 					toast(
@@ -358,7 +358,6 @@ function initMap(){
 				let response = JSON.parse(answer);
 
 				if (response.message.type == "success") {
-
 					mapaGenerate('alarm', drawMap, '#024A86', response.data);
 				} else {
 					toast(
@@ -375,7 +374,6 @@ function initMap(){
 	function mapaGenerate(type, drawMap, color, coordenadas = "") {
 		let base_url = $("input[name=baseUrl]").val();
 		let url = `${base_url}/src/img/logo.png`;
-
 		// Crea un nuevo ícono personalizado
 		let icon = {
 			url: url,
@@ -436,7 +434,7 @@ function initMap(){
 					1
 				);
 			}
-		} else if('cities'){
+		} else if(type == 'cities'){
 			if (coordenadas != "") {
 				path = [];
 				markers = [];
@@ -488,7 +486,7 @@ function initMap(){
 					1
 				);
 			}
-		} else if('parishes'){
+		} else if(type == 'parishes'){
 			if (coordenadas != "") {
 				path = [];
 				markers = [];
@@ -540,7 +538,7 @@ function initMap(){
 					1
 				);
 			}
-		} else if('sectors'){
+		} else if(type == 'sectors'){
 			if (coordenadas != "") {
 				path = [];
 				markers = [];
@@ -592,7 +590,7 @@ function initMap(){
 					1
 				);
 			}
-		} else if('alarm'){
+		} else if(type == 'alarm'){
 			if (coordenadas != "") {
 				path = [];
 				markers = [];
@@ -621,7 +619,7 @@ function initMap(){
 					position: centroid,
 					map: drawMap,
 					label: {
-						text: 'ddd',
+						text: geo[0].code,
 						color: "#251A1C",
 						fontWeight: "bold",
 						fontSize: "24px",
@@ -838,7 +836,6 @@ function update() {
 
 function ipm(){
 	$.getJSON("https://ipapi.co/json",function(data){
-		console.log(data);
 		$("#ip").val(data.ip)
    },"json");
 }
@@ -1041,6 +1038,9 @@ $("#btnActiveAlarm").click(function (e) {
 							);
 							$("#sound").attr("active", "true");
 							$('.btn-model-close').trigger('click');
+							codeUser = $("input[name=codeUser]").val();
+							user = $("input[name=nameUser]").val();
+							enviar(codeUser, user, typeNot, why);
 						} else {
 							toast(
 								"bg-danger",
@@ -1115,3 +1115,5 @@ $("#btnStopAlarm").click(function (e) {
 		});
 	}
 });
+
+

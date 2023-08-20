@@ -26,6 +26,7 @@ class MY_Controller extends CI_Controller
 		$this->load->model('MenuPermission_model');
 		$this->load->model('SubMenuPermission_model');
 		$this->load->model('ButtonPermission_model');
+		$this->load->model('RegisterLog_model');
 		$this->response = (object)[
 			"data" => "",
 			"message" => (object)[
@@ -236,6 +237,31 @@ class MY_Controller extends CI_Controller
 			// echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 			return false;
 		}
+	}
+
+	public function registerHistory($type = "insert", $entidad = ""){
+		$user = $this->session->userdata('usuario');
+
+		if($type == 'insert') $observation = "Este usuario ha realizado un registro de $entidad";
+		if($type == 'update') $observation = "Este usuario ha actualizado el registro de $entidad";
+		if($type == 'delete') $observation = "Este usuario ha eliminado el registro de $entidad";
+		if($type == 'suspend') $observation = "Este usuario ha suspendido el registro de $entidad";
+		if($type == 'active') $observation = "Este usuario ha activado el registro de $entidad";
+		if($type == 'profile') $observation = "Este usuario ha actualizado el perfil del usuario $entidad";
+		if($type == 'pdf') $observation = "Este usuario ha solicitado imprimir un pdf de $entidad";
+		if($type == 'excel') $observation = "Este usuario ha solicitado imprimir un excel de $entidad";
+		if($type == 'active-alarm') $observation = "Este usuario ha activado la alarma en el sector $entidad";
+		if($type == 'suspend-alarm') $observation = "Este usuario ha parado la alarma en el sector $entidad";
+
+		$data = (object)[
+			"id" => $this->generateId(),
+			"observation" => $observation,
+			"id_user" => $user->id,
+			"created_at" => date('Y-m-d H:i:s'),
+			"updated_at" => date('Y-m-d H:i:s')
+		];
+
+		return ($this->RegisterLog_model->RegisterHistoryUseSystem($data)) ? true : false;
 	}
 
 }

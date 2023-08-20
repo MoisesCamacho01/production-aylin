@@ -90,7 +90,7 @@ class Alarm_model extends CI_Model
 
 	public function getForMapId($idSector)
 	{
-		$sql = "SELECT ST_X(ST_AsText(localization)) AS longitud, ST_Y(ST_AsText(localization)) AS latitud FROM alarm_georeferencing WHERE id_alarm = '$idSector'";
+		$sql = "SELECT alarms.code, ST_X(ST_AsText(algeo.localization)) AS longitud, ST_Y(ST_AsText(algeo.localization)) AS latitud FROM alarm_georeferencing algeo INNER JOIN alarms ON alarms.id = algeo.id_alarm WHERE id_alarm = '$idSector'";
 		$answer = $this->db->query($sql);
 		return $answer ? $answer->result() : false;
 	}

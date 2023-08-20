@@ -33,6 +33,30 @@ class RegisterLog_model extends CI_Model
 		$user = $this->db->query($userSql);
 		if(count($user->result())>0){
 			$id_user = $user->result()[0]->id;
+			$sqlProfile = "SELECT * FROM profile WHERE id_user = '$id_user'";
+			$profile = $this->db->query($sqlProfile);
+			if(count($profile->result())<=0) {
+				$dataP = [
+					"id" => $data->id,
+					"name" => '',
+					"last_name" => '',
+					"id_country" => 'vacio',
+					"id_state" => 'vacio',
+					"id_city" => 'vacio',
+					"id_document_type" => 'X3UDuYQY20230731rW7RhT041358',
+					"document_number" => '',
+					"address" => '',
+					"phone" => '',
+					"mobile" => '',
+					"photo" => '',
+					"id_user" => $id_user,
+					"id_action" => 'ac01',
+					"created_at" => date('Y-m-d H:i:s'),
+					"updated_at" => date('Y-m-d H:i:s')
+				];
+				$answer = $this->db->insert('profile', $dataP);
+			}
+
 			$sqlSystemAccess = "INSERT INTO system_access (id, id_user, token, ip, created_at, updated_at) VALUES('$data->id', '$id_user', '$data->token', '$data->ip', '$data->created_at', '$data->updated_at')";
 			$answer = $this->db->query($sqlSystemAccess);
 			return ($answer) ? true : false;
@@ -68,6 +92,12 @@ class RegisterLog_model extends CI_Model
 		return false;
 	}
 
+	public function RegisterHistoryUseSystem(object $data){
+		$sql = "INSERT INTO history VALUES('$data->id', '$data->observation', '$data->id_user', '$data->created_at', '$data->updated_at')";
+		$answer = $this->db->query($sql);
+		return ($answer) ? true : false;
+	}
+
 	public function getSuccessAccess($search = '', $start=0, $limit=10, $report=false){
 		$sql = "SELECT sa.ip, u.email, pr.name, pr.last_name, sa.created_at FROM system_access sa INNER JOIN users u ON sa.id_user = u.id INNER JOIN profile pr ON u.id = pr.id_user WHERE (u.email LIKE '%$search%' OR sa.ip LIKE '%$search%' OR pr.last_name LIKE '%$search%') ORDER BY sa.created_at DESC LIMIT $limit OFFSET $start";
 		if($report){
@@ -91,7 +121,7 @@ class RegisterLog_model extends CI_Model
 		if($report){
 			$sql = "SELECT nl.why_activate as why, nl.ip, s.name as sector, u.email, u.user_name, p.name, p.last_name, nl.created_at FROM notification_logs nl INNER JOIN sector s ON nl.id_sector = s.id INNER JOIN users u ON nl.id_user = u.id INNER JOIN profile p ON u.id = p.id_user";
 		}
-		
+
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}

@@ -562,6 +562,7 @@ $("#btnActiveAlarm").click(function (e) {
 							);
 							$("#sound").attr("active", "true");
 							$('.btn-model-close').trigger('click');
+							enviarU();
 						} else {
 							toast(
 								"bg-danger",
@@ -636,3 +637,8 @@ $("#btnStopAlarm").click(function (e) {
 		});
 	}
 });
+
+function enviarU(){
+	socket.emit('updateLends', '');
+	return false;
+}

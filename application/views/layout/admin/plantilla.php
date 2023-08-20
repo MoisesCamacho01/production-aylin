@@ -83,11 +83,11 @@
 	<!-- Core JS -->
 	<!-- build:js assets/vendor/js/core.js -->
 	<script src="<?= base_url('resources/layout/assets/vendor/libs/jquery/jquery.js') ?>"></script>
-	<script src="<?= base_url('resources/layout/assets/vendor/libs/popper/popper2.js') ?>"></script>
-	<script src="<?= base_url('resources/layout/assets/vendor/js/bootstrap2.js') ?>"></script>
+	<!-- <script src="<?= base_url('resources/layout/assets/vendor/libs/popper/popper2.js') ?>"></script> -->
+	<!-- <script src="<?= base_url('resources/layout/assets/vendor/js/bootstrap2.js') ?>"></script> -->
 
-	<!-- <script src="<?= base_url('resources/src/jquery.js') ?>"></script> -->
-	<!-- <script src="<?= base_url('resources/src/bootstrap/js/bootstrap.bundle.min.js') ?>"></script> -->
+	<script src="<?= base_url('resources/src/jquery.js') ?>"></script>
+	<script src="<?= base_url('resources/src/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 	<script src="<?= base_url('resources/layout/assets/vendor/js/menu.js') ?>"></script>
 	<!-- endbuild -->
 
@@ -107,11 +107,11 @@
 	<script src="<?= base_url('resources/src/js/close.js?t=4')?>"></script>
 
 	<!-- Place this tag in your head or just before your close body tag. -->
-	<script async defer src="https://buttons.github.io/buttons.js"></script>
+	<!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
 
 	<!-- WEBSOCKET -->
 	<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
-	<script src="https://alarm-socketio.onrender.com/socket.io/socket.io.js"></script>
+	<script src="https://alarm-socketio.up.railway.app/socket.io/socket.io.js"></script>
 	<script src="<?= base_url('resources/shared/websocket.js')?>"></script>
 
 	<script type="text/javascript">

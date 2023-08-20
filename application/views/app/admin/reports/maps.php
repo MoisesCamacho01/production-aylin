@@ -11,7 +11,7 @@
 	<a class="btn btn-info text-white" id="btnViewAll">
 		TRAER TODOS
 	</a>
-	<a href="#" onclick="javascript:window.print()" class="btn btn-success text-white mayus">
+	<a href="#" onclick="javascript:window.print()" class="btn btn-warning text-white mayus">
 		Imprimir mapa
 	</a>
 
@@ -238,7 +238,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel1">Parar alarma</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -257,6 +257,9 @@
 		</div>
 	</div>
 </div>
+
+<input type="hidden" name="codeUser" id="codeUser" value="<?= $code ?>">
+<input type="hidden" name="userName" id="userName" value="<?= $userName ?>">
 
 <input type="hidden" name="ipUser" id="ip" value="">
 <input type="hidden" id="sound" active="false" name="idSectorSound" value="">
