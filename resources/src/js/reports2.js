@@ -1039,8 +1039,9 @@ $("#btnActiveAlarm").click(function (e) {
 							$("#sound").attr("active", "true");
 							$('.btn-model-close').trigger('click');
 							codeUser = $("input[name=codeUser]").val();
-							user = $("input[name=nameUser]").val();
-							enviar(codeUser, user, typeNot, why);
+							user = $("#userName").val();
+							let typed = $("#typeNotVal").val()
+							enviar(codeUser, user, typed, sector, why);
 						} else {
 							toast(
 								"bg-danger",
@@ -1116,4 +1117,9 @@ $("#btnStopAlarm").click(function (e) {
 	}
 });
 
+$('#typeNot').change(function (e) {
+	e.preventDefault();
+
+	$("#typeNotVal").val($(this).find('option:selected').text());
+});
 

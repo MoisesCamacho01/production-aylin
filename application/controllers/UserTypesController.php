@@ -313,7 +313,7 @@ class UserTypesController extends MY_Controller
 	public function excel()
 	{
 		$header = ['NOMBRE', 'ESTADO'];
-		$users = $this->User_type_model->getAll();
+		$users = $this->User_Type_model->getAll();
 		$this->excelGenerate($header, $users, 'userTypes');
 	}
 }

@@ -259,6 +259,7 @@
 </div>
 
 <input type="hidden" name="codeUser" id="codeUser" value="<?= $code ?>">
+<input type="hidden" name="typeNotVal" id="typeNotVal" value="">
 <input type="hidden" name="userName" id="userName" value="<?= $userName ?>">
 
 <input type="hidden" name="ipUser" id="ip" value="">

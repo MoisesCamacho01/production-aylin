@@ -9,7 +9,7 @@ class UsersController extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model("User_model");
-		$this->load->model("User_type_model");
+		$this->load->model("User_Type_model");
 		$this->load->model("DocumentType_model");
 		$this->load->model("Country_model");
 		$this->load->model("State_model");
@@ -29,7 +29,7 @@ class UsersController extends MY_Controller
 		$this->data = [
 			'title' => 'Usuarios',
 			'js' => $js,
-			'userTypes' => $this->User_type_model->getAll(),
+			'userTypes' => $this->User_Type_model->getAll(),
 			'country'=> $this->Country_model->getForId('C001'),
 			'states'=> $this->State_model->getAll(),
 			'documentTypes'=> $this->DocumentType_model->getAll(),

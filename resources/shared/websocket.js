@@ -20,12 +20,17 @@ function message(data) {
 	}
 }
 
-function enviar(id, type, msm){
+function enviar(id, user, type, sector, msm){
 	var msm = {
-		 idUser:id,
-		 idType:type,
+		 code:id,
+		 User:user,
+		 Type:type,
+		 Sector:sector,
 		 message: msm,
 	}
+
+	console.log(msm);
+
 	socket.emit('new-message', msm);
 	return false;
 }

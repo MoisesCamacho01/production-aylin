@@ -311,6 +311,7 @@ class SectorsController extends MY_Controller
 				<td>{$i}</td>
 				<td><i class='fab fa-angular fa-lg text-danger me-3'></i> <strong>{$row->name}</strong></td>
 				<td><i class='fab fa-angular fa-lg text-danger me-3'></i> <strong>{$row->distric}</strong></td>
+				<td><i class='fab fa-angular fa-lg text-danger me-3'></i> <strong>{$row->id}</strong></td>
 				<td>";
 				if ($row->action == 'create') :
 					$template .= "<span class='badge bg-label-success me-1'>ACTIVO</span>";

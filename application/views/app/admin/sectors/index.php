@@ -33,6 +33,7 @@
 					<th>N</th>
 					<th>Nombre</th>
 					<th>Parroquia</th>
+					<th>Código de asociación</th>
 					<th>Estado</th>
 					<th>Actions</th>
 				</tr>
