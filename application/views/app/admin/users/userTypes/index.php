@@ -132,7 +132,7 @@
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
 					Close
 				</button>
-				<button type="button" id="btnDelete" class="btn btn-primary">Eliminar</button>
+				<button type="button" id="btnDelete" data-bs-dismiss="modal" class="btn btn-primary">Eliminar</button>
 			</div>
 		</div>
 	</div>

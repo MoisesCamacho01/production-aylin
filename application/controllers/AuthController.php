@@ -11,7 +11,6 @@ class AuthController extends MY_Controller{
 		//llamando al modelo
 		$this->load->model("User_model");
 		$this->load->model('Profile_model');
-		$this->load->model('User_Type_model');
 		$this->load->model('RegisterLog_model');
 	}
 

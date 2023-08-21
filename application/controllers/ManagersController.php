@@ -15,7 +15,7 @@ class ManagersController extends MY_Controller
   public function index($submenu)
 	{
 		$js = [
-			'resources/librerias/paginator/paginator.js',
+			'resources/librerias/paginator/paginator.js?t=4',
 			'resources/src/js/managers.js',
 		];
 
@@ -217,9 +217,11 @@ class ManagersController extends MY_Controller
 
 	public function search()
 	{
-		$search = $this->input->post('search');
-		$getSearch = $this->Manager_model->search($search);
-		$table = $this->generateTable($getSearch);
+		$search = htmlspecialchars($this->input->post('search'));
+		$start = $this->input->post('start');
+		$limit = $this->input->post('limit');
+		$getSearch = $this->Manager_model->search($search, $start, $limit);
+		$table = htmlspecialchars_decode($this->generateTable($getSearch));
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = "Registro Encontrado";

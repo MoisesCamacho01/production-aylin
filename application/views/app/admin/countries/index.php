@@ -1,14 +1,5 @@
 <h4 class="fw-bold py-3 mb-4">
 	<span class="text-muted fw-light">Países /</span> Listado
-	<!--<a class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#createModal">
-		AÑADIR
-	</a>
-	<a class="btn btn-info text-white" target="_blank" href="<?= site_url('pdf/countries') ?>">
-		PDF
-	</a>
-	<a class="btn btn-danger text-white" href="<?= site_url('excel/countries') ?>">
-		EXCEL
-	</a>-->
 	<?php foreach ($buttonTop as $row): ?>
 		<?php if($row->id == 'BP001') : ?>
 			<a class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#createModal">
@@ -44,6 +35,7 @@
 
 				</tbody>
 			</table>
+			<div id="loader" class="loader mt-4"></div>
 		</div>
 		<div class="card-footer text-right">
 			<nav class="d-inline-block">

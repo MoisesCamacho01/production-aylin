@@ -5,7 +5,9 @@ var socket = io.connect('https://alarm-socketio.up.railway.app/', {
 //https://alarm-socketio.onrender.com/
 
 socket.on('message', function(data){
-	message(data)
+	if(data.code != ''){
+		message(data)
+	}
 })
 
 function message(data) {
@@ -28,9 +30,6 @@ function enviar(id, user, type, sector, msm){
 		 Sector:sector,
 		 message: msm,
 	}
-
-	console.log(msm);
-
 	socket.emit('new-message', msm);
 	return false;
 }

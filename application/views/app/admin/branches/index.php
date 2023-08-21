@@ -45,6 +45,7 @@
 
 				</tbody>
 			</table>
+			<div id="loader" class="loader mt-4"></div>
 		</div>
 </div>
 <!--/ Basic Bootstrap Table -->

@@ -52,7 +52,7 @@ class Manager_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function search($search = '')
+	public function search($search = '', $start=0, $limit=10)
 	{
 		$this->db->select('alarm_manager.id, alarm_manager.name, alarm_manager.last_name, alarm_manager.phone, alarm_manager.mobile, actions.name as action');
 		$this->db->from('alarm_manager');
@@ -62,6 +62,8 @@ class Manager_model extends CI_Model
 		$this->db->or_like('alarm_manager.phone', $search);
 		$this->db->or_like('alarm_manager.mobile', $search);
 		$this->db->or_like('actions.name', $search);
+		$this->db->limit($limit);
+		$this->db->offset($start);
 		$this->db->order_by('alarm_manager.created_at', 'DESC');
 		$answer = $this->db->get();
 		return ($answer) ? $answer->result() : false;

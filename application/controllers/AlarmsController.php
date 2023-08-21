@@ -85,7 +85,7 @@ class AlarmsController extends MY_Controller
 
 		if($value->status){
 			$valueDuplicate = $this->duplicate([
-				["attribute" => "code", "value" => $code, "message"=>"El nombre de la ciudad"],
+				["attribute" => "code", "value" => $code, "message"=>"El código de la alarma"],
 			]);
 
 			$this->response->message->message = $valueDuplicate->message;
@@ -148,7 +148,7 @@ class AlarmsController extends MY_Controller
 
 		if($value->status){
 			$valueDuplicate = $this->duplicateUpdate([
-				["attribute" => "code", "value" => $code, "message"=>"El nombre de la ciudad"],
+				["attribute" => "code", "value" => $code, "message"=>"El codigo de la alarma"],
 			]);
 
 			$this->response->message->message = $valueDuplicate->message;
@@ -363,11 +363,11 @@ class AlarmsController extends MY_Controller
 								}
 
 								if($rowB->id == 'BP008'){
-									$template .= "<a class='dropdown-item btnInputHidden btnDrawMap' data-bs-toggle='modal' data-bs-target='#dibujarModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bxs-palette' ></i> $rowB->name alarma</a>";
+									$template .= "<a class='dropdown-item btnInputHidden btnDrawMap' data-bs-toggle='modal' data-bs-target='#dibujarModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bxs-palette' ></i> $rowB->name area de alarma</a>";
 								}
 
 								if($rowB->id == 'BP009'){
-									$template .= "<a class='dropdown-item btnInputHidden btnGetDraw' data-bs-toggle='modal' data-bs-target='#viewMapModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bx-low-vision' ></i> $rowB->name alarma</a>";
+									$template .= "<a class='dropdown-item btnInputHidden btnGetDraw' data-bs-toggle='modal' data-bs-target='#viewMapModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bx-low-vision' ></i> $rowB->name area de alarma</a>";
 								}
 							}
 						}

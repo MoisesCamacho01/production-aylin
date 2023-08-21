@@ -46,6 +46,7 @@
 
 				</tbody>
 			</table>
+			<div id="loader" class="loader mt-4"></div>
 		</div>
 		<div class="card-footer text-right">
 			<nav class="d-inline-block">
