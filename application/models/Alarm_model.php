@@ -28,11 +28,22 @@ class Alarm_model extends CI_Model
 	}
 
 	public function getAllofSector($idP){
-		$sql = "SELECT alarms.id, alarms.code, alarms.id_sector, sector.name As sector,
+		// $sql = "SELECT alarms.id, alarms.code, alarms.id_sector, sector.name As sector,
+		// ST_X(ST_AsText(localization)) AS longitud, ST_Y(ST_AsText(localization)) AS latitud,
+		// alarms.id_alarm_manager, alarms.id_user, actions.name As action
+		// FROM alarms INNER JOIN sector ON alarms.id_sector = sector.id
+		// INNER JOIN alarm_manager ON alarms.id_alarm_manager = alarm_manager.id
+		// INNER JOIN actions ON alarms.id_action = actions.id
+		// WHERE alarms.id_sector = '$idP'";
+
+		$sql = "SELECT alarms.id, alarms.code, alarms.id_sector, sector.name As sector, sector.id_actions as a_sector, parishes.id_actions as a_parish, cities.id_actions as a_city, alarms.id_action as a_alarm,
 		ST_X(ST_AsText(localization)) AS longitud, ST_Y(ST_AsText(localization)) AS latitud,
 		alarms.id_alarm_manager, alarms.id_user, actions.name As action
-		FROM alarms INNER JOIN sector ON alarms.id_sector = sector.id
+		FROM alarms
 		INNER JOIN alarm_manager ON alarms.id_alarm_manager = alarm_manager.id
+        INNER JOIN sector ON alarms.id_sector = sector.id
+        INNER JOIN parishes ON sector.id_distric = parishes.id
+        INNER JOIN cities ON parishes.id_city = cities.id
 		INNER JOIN actions ON alarms.id_action = actions.id
 		WHERE alarms.id_sector = '$idP'";
 

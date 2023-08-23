@@ -21,9 +21,7 @@ function suspend() {
 					response.message.message,
 					1
 				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
+				
 			} else {
 				toast(
 					"bg-danger",

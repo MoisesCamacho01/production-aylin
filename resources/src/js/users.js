@@ -113,6 +113,7 @@ function update() {
 		{
 			name: "username",
 			type: "string",
+			campo: "nombre",
 			value: username,
 			min: 6,
 			max: 50,
@@ -122,6 +123,7 @@ function update() {
 		{
 			name: "email",
 			type: "email",
+			campo: "email",
 			value: email,
 			min: 1,
 			max: 255,
@@ -131,6 +133,7 @@ function update() {
 		{
 			name: "userType",
 			type: "string",
+			campo: "tipo de usuario",
 			value: userType,
 			min: 1,
 			max: 255,
@@ -186,6 +189,7 @@ function create() {
 		{
 			name: "username",
 			type: "string",
+			campo: "nombre de usuario",
 			value: username,
 			min: 6,
 			max: 50,
@@ -195,6 +199,7 @@ function create() {
 		{
 			name: "email",
 			type: "email",
+			campo: "email",
 			value: email,
 			min: 1,
 			max: 255,
@@ -204,6 +209,7 @@ function create() {
 		{
 			name: "password",
 			type: "string",
+			campo: "contraseña",
 			value: password,
 			min: 6,
 			max: 18,
@@ -213,6 +219,7 @@ function create() {
 		{
 			name: "userType",
 			type: "string",
+			campo: "tipo de usuario",
 			value: userType,
 			min: 1,
 			max: 255,

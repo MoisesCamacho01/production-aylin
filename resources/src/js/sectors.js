@@ -118,6 +118,7 @@ function update() {
 		{
 			name: "nameE",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 191,
@@ -127,6 +128,7 @@ function update() {
 		{
 			name: "districE",
 			type: "string",
+			campo: "Parroquia",
 			value: distric,
 			min: 1,
 			max: 255,
@@ -136,6 +138,7 @@ function update() {
 		{
 			name: "colorE",
 			type: "string",
+			campo: "color",
 			value: color,
 			min: 1,
 			max: 20,
@@ -189,6 +192,7 @@ function create() {
 			name: "name",
 			type: "string",
 			value: name,
+			campo: "nombre",
 			min: 1,
 			max: 191,
 			required: true,
@@ -197,6 +201,7 @@ function create() {
 		{
 			name: "distric",
 			type: "string",
+			campo: "parroquia",
 			value: distric,
 			min: 1,
 			max: 255,
@@ -206,6 +211,7 @@ function create() {
 		{
 			name: "color",
 			type: "string",
+			campo: "color",
 			value: color,
 			min: 1,
 			max: 20,

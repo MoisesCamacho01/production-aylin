@@ -107,6 +107,7 @@ function updateProfile(){
 		{
 			name: "name",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 6,
 			max: 50,
@@ -116,6 +117,7 @@ function updateProfile(){
 		{
 			name: "lastName",
 			type: "string",
+			campo: "apellido",
 			value: lastName,
 			min: 1,
 			max: 255,
@@ -125,6 +127,7 @@ function updateProfile(){
 		{
 			name: "country",
 			type: "string",
+			campo: "país",
 			value: country,
 			min: 1,
 			max: 255,
@@ -134,6 +137,7 @@ function updateProfile(){
 		{
 			name: "states",
 			type: "string",
+			campo: "provincia",
 			value: state,
 			min: 1,
 			max: 255,
@@ -143,6 +147,7 @@ function updateProfile(){
 		{
 			name: "cities",
 			type: "string",
+			campo: "cantón",
 			value: city,
 			min: 1,
 			max: 255,
@@ -152,6 +157,7 @@ function updateProfile(){
 		{
 			name: "documentType",
 			type: "string",
+			campo: "tipo de documento",
 			value: documentType,
 			min: 1,
 			max: 255,
@@ -161,6 +167,7 @@ function updateProfile(){
 		{
 			name: "ci",
 			type: "cedula",
+			campo: "cédula",
 			value: ci,
 			min: 1,
 			max: 10,
@@ -170,6 +177,7 @@ function updateProfile(){
 		{
 			name: "phone",
 			type: "number",
+			campo: "teléfono",
 			value: phone,
 			min: 0,
 			max: 9,
@@ -179,6 +187,7 @@ function updateProfile(){
 		{
 			name: "mobile",
 			type: "number",
+			campo: "célular",
 			value: mobile,
 			min: 0,
 			max: 10,
@@ -188,6 +197,7 @@ function updateProfile(){
 		{
 			name: "address",
 			type: "string",
+			campo: "dirección",
 			value: address,
 			min: 0,
 			max: 500,

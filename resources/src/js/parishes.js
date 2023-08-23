@@ -117,6 +117,7 @@ function update() {
 		{
 			name: "nameE",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 255,
@@ -126,6 +127,7 @@ function update() {
 		{
 			name: "cityE",
 			type: "string",
+			campo: "cantón",
 			value: city,
 			min: 1,
 			max: 255,
@@ -187,6 +189,7 @@ function create() {
 		{
 			name: "city",
 			type: "string",
+			campo: "cantón",
 			value: city,
 			min: 1,
 			max: 255,

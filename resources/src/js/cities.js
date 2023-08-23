@@ -111,6 +111,7 @@ function update() {
 		{
 			name: "nameE",
 			type: "text",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 50,
@@ -120,6 +121,7 @@ function update() {
 		{
 			name: "statesE",
 			type: "string",
+			campo: "provincia",
 			value: states,
 			min: 1,
 			max: 50,
@@ -173,6 +175,7 @@ function create() {
 		{
 			name: "name",
 			type: "text",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 50,
@@ -182,6 +185,7 @@ function create() {
 		{
 			name: "states",
 			type: "string",
+			campo: "provincia",
 			value: states,
 			min: 1,
 			max: 50,

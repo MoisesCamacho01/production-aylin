@@ -6,6 +6,7 @@ $('#forgotPassword').click(function (e) {
 		{
 			name: 'email',
 			type: "email",
+			campo: "email",
 			value: email,
 			min: 1,
 			max: 150,

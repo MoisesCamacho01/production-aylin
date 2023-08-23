@@ -108,6 +108,7 @@ function update() {
 		{
 			name: "nameE",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 50,
@@ -158,6 +159,7 @@ function create() {
 		{
 			name: "name",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 50,

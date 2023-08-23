@@ -10,8 +10,8 @@ function validate(inputs = []) {
 		if (((input.value === "") || (input.value === undefined)) && input.required === true) {
 			document.querySelector(
 				`span[name=${input.name}]`
-			).textContent = `El campo ${input.name} es obligatorio`;
-			toast("bg-danger", "Campo Obligatorio", `El campo ${input.name} es obligatorio`,1);
+			).textContent = `El campo ${input.campo} es obligatorio`;
+			toast("bg-danger", "Campo Obligatorio", `El campo ${input.campo} es obligatorio`,1);
 			response = false;
 		}
 
@@ -33,32 +33,32 @@ function validate(inputs = []) {
 					input.type === "email" ||
 					input.type === "number"
 				) {
-					
+
 					if (value.length < input.min) {
 						document.querySelector(
 							`span[name=${input.name}]`
-						).textContent = `El campo ${input.name} no puede ser menor que ${input.min} caracteres`;
-						toast("bg-danger", "Cantidad minima", `El campo ${input.name} no puede ser menor que ${input.min} caracteres`,1);
+						).textContent = `El campo ${input.campo} no puede ser menor que ${input.min} caracteres`;
+						toast("bg-danger", "Cantidad minima", `El campo ${input.campo} no puede ser menor que ${input.min} caracteres`,1);
 						response = false;
 					} else if (value.length > input.max) {
 						document.querySelector(
 							`span[name=${input.name}]`
-						).textContent = `El campo ${input.name} no puede ser mayor que ${input.max} caracteres`;
-						toast("bg-danger", "Cantidad maxima", `El campo ${input.name} no puede ser mayor que ${input.max} caracteres`,1);
+						).textContent = `El campo ${input.campo} no puede ser mayor que ${input.max} caracteres`;
+						toast("bg-danger", "Cantidad maxima", `El campo ${input.campo} no puede ser mayor que ${input.max} caracteres`,1);
 						response = false;
 					}
 				} else if(input.type === "integer" || input.type === "decimal") {
 					if (value * 1 < input.min) {
 						document.querySelector(
 							`span[name=${input.name}]`
-						).textContent = `El campo ${input.name} no puede ser menor que ${input.min}`;
-						toast("bg-danger", "Cantidad minima", `El campo ${input.name} no puede ser menor que ${input.min}`,1);
+						).textContent = `El campo ${input.campo} no puede ser menor que ${input.min}`;
+						toast("bg-danger", "Cantidad minima", `El campo ${input.campo} no puede ser menor que ${input.min}`,1);
 						response = false;
 					} else if (value * 1 > input.max) {
 						document.querySelector(
 							`span[name=${input.name}]`
-						).textContent = `El campo ${input.name} no puede ser mayor que ${input.max}`;
-						toast("bg-danger", "Cantidad maxima", `El campo ${input.name} no puede ser mayor que ${input.max}`,1);
+						).textContent = `El campo ${input.campo} no puede ser mayor que ${input.max}`;
+						toast("bg-danger", "Cantidad maxima", `El campo ${input.campo} no puede ser mayor que ${input.max}`,1);
 						response = false;
 					}
 				}
@@ -71,8 +71,8 @@ function validate(inputs = []) {
 				if (num.test(value)) {
 					document.querySelector(
 						`span[name=${input.name}]`
-					).textContent = `El campo ${input.name} no puede tener números`;
-					toast("bg-danger", "Dato no compatible", `El campo ${input.name} no puede tener números`,1);
+					).textContent = `El campo ${input.campo} no puede tener números`;
+					toast("bg-danger", "Dato no compatible", `El campo ${input.campo} no puede tener números`,1);
 					response = false;
 				}
 			}
@@ -83,8 +83,8 @@ function validate(inputs = []) {
 					if (!Number.isInteger(value)) {
 						document.querySelector(
 							`span[name=${input.name}]`
-						).textContent = `El campo ${input.name} tienen que ser entero`;
-						toast("bg-danger", "Dato no compatible", `El campo ${input.name} tienen que ser entero`,1);
+						).textContent = `El campo ${input.campo} tienen que ser entero`;
+						toast("bg-danger", "Dato no compatible", `El campo ${input.campo} tienen que ser entero`,1);
 						response = false;
 					}
 				} else {
@@ -98,8 +98,8 @@ function validate(inputs = []) {
 				if (isNaN(value)) {
 					document.querySelector(
 						`span[name=${input.name}]`
-					).textContent = `El campo ${input.name} no puede tener letras o caracteres especiales`;
-					toast("bg-danger", "Dato no compatible", `El campo ${input.name} no puede tener letras o caracteres especiales`,1);
+					).textContent = `El campo ${input.campo} no puede tener letras o caracteres especiales`;
+					toast("bg-danger", "Dato no compatible", `El campo ${input.campo} no puede tener letras o caracteres especiales`,1);
 					response = false;
 				}
 			}
@@ -110,8 +110,8 @@ function validate(inputs = []) {
 				if (!email.test(value)) {
 					document.querySelector(
 						`span[name=${input.name}]`
-					).textContent = `El campo ${input.name} Tiene que ser un email`;
-					toast("bg-danger", "Dato no compatible", `El campo ${input.name} Tiene que ser un email`,1);
+					).textContent = `El campo ${input.campo} Tiene que ser un email`;
+					toast("bg-danger", "Dato no compatible", `El campo ${input.campo} Tiene que ser un email`,1);
 					response = false;
 				}
 			}
@@ -121,8 +121,8 @@ function validate(inputs = []) {
 				if (isNaN(value)) {
 					document.querySelector(
 						`span[name=${input.name}]`
-					).textContent = `El campo ${input.name} no puede tener letras o caracteres especiales`;
-					toast("bg-danger", "Dato no compatible", `El campo ${input.name} no puede tener letras o caracteres especiales`,1);
+					).textContent = `El campo ${input.campo} no puede tener letras o caracteres especiales`;
+					toast("bg-danger", "Dato no compatible", `El campo ${input.campo} no puede tener letras o caracteres especiales`,1);
 					response = false;
 				}
 			}

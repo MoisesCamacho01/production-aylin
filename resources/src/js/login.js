@@ -10,6 +10,7 @@ $(document).ready(function () {
 			{
 				name: 'email',
 				type: "string",
+				campo: "email o usuario",
 				value: email,
 				min: 1,
 				max: 150,
@@ -19,6 +20,7 @@ $(document).ready(function () {
 			{
 				name: 'password',
 				type: "string",
+				campo: "contraseña",
 				value: password,
 				min: 5,
 				max: 18,
@@ -28,6 +30,7 @@ $(document).ready(function () {
 			 {
 				name: "ip",
 				type: "string",
+				campo: "ip",
 				value: ip,
 				min: 1,
 				max: 15,

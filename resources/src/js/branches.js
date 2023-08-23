@@ -93,9 +93,7 @@ function deleted() {
 					response.message.message,
 					1
 				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
+
 			} else {
 				toast(
 					"bg-danger",
@@ -123,6 +121,7 @@ function update() {
 		{
 			name: "nameE",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max:50,
@@ -132,6 +131,7 @@ function update() {
 		{
 			name: "addressE",
 			type: "string",
+			campo: "dirección",
 			value: address,
 			min: 1,
 			max: 500,
@@ -141,6 +141,7 @@ function update() {
 		{
 			name: "phoneE",
 			type: "number",
+			campo: "celular",
 			value: phone,
 			min: 1,
 			max: 9,

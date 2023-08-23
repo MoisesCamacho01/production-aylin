@@ -117,6 +117,7 @@ function update() {
 		{
 			name: "codeE",
 			type: "string",
+			campo: "código",
 			value: code,
 			min: 1,
 			max: 50,
@@ -126,6 +127,7 @@ function update() {
 		{
 			name: "managerE",
 			type: "string",
+			campo: "encargado",
 			value: manager,
 			min: 1,
 			max: 50,
@@ -135,6 +137,7 @@ function update() {
 		{
 			name: "sectorE",
 			type: "string",
+			campo: "sector",
 			value: sector,
 			min: 1,
 			max: 50,
@@ -144,6 +147,7 @@ function update() {
 		{
 			name: "latitudeE",
 			type: "string",
+			campo: "latitud",
 			value: latitude,
 			min: 1,
 			max: 22,
@@ -153,6 +157,7 @@ function update() {
 		{
 			name: "longitudeE",
 			type: "string",
+			campo: "longitud",
 			value: longitude,
 			min: 1,
 			max: 22,
@@ -210,6 +215,7 @@ function create() {
 		{
 			name: "code",
 			type: "string",
+			campo: "codigo",
 			value: code,
 			min: 1,
 			max: 50,
@@ -219,6 +225,7 @@ function create() {
 		{
 			name: "manager",
 			type: "string",
+			campo: "encargado",
 			value: manager,
 			min: 1,
 			max: 50,
@@ -228,6 +235,7 @@ function create() {
 		{
 			name: "sector",
 			type: "string",
+			campo: "sector",
 			value: sector,
 			min: 1,
 			max: 50,
@@ -237,6 +245,7 @@ function create() {
 		{
 			name: "latitude",
 			type: "string",
+			campo: "latitud",
 			value: latitude,
 			min: 1,
 			max: 22,
@@ -246,6 +255,7 @@ function create() {
 		{
 			name: "longitude",
 			type: "string",
+			campo: "longitud",
 			value: longitude,
 			min: 1,
 			max: 22,

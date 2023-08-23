@@ -27,6 +27,7 @@ function initMap(){
 	$('#bodyTable').on('click', '.btnSoundAlarm', function (e) {
 		e.preventDefault();
 		$('input[name=idSectorSound]').val($(this).attr('sectorId'));
+		$('input[name=nameSectorSound]').val($(this).attr('sector'));
 	});
 
 	$('#states').change(function (e) {
@@ -697,6 +698,13 @@ function initMap(){
 		};
 
 		dataMarker.forEach((row) => {
+			let disabled = '';
+			if((row.a_alarm == 'ac03' || row.a_alarm == 'ac04')
+			|| (row.a_sector == 'ac03' || row.a_sector == 'ac04')
+			|| (row.a_parish == 'ac03' || row.a_parish == 'ac04')
+			|| (row.a_city == 'ac03' || row.a_city == 'ac04')){
+				disabled = 'disabled';
+			}
 			information = `
 				<h3>Información de la alarma</h3>
 				<p><b>Código: ${row.code}</b></p>
@@ -706,11 +714,12 @@ function initMap(){
 				<a class='btnInputHidden btnGetForId' dataId='${row.id}'></a>`
 			if($("#sound").attr('active') == "true" && $("#sound").val() == row.id_sector){
 				information +=`
-					<button type='button' data-bs-toggle='modal' data-bs-target='#stopSoundAlarmModel' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm'>Parar</button>
+					<button type='button' data-bs-toggle='modal' data-bs-target='#stopSoundAlarmModel' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Parar</button>
 				`;
 			}else{
+
 				information +=`
-					<button type='button' data-bs-toggle='modal' data-bs-target='#soundAlarmModel' sectorId='${row.id_sector}' class='btn btn-danger btnSoundAlarm'>Sonar</button>
+					<button type='button' data-bs-toggle='modal' data-bs-target='#soundAlarmModel' sector='${row.sector}' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Activar</button>
 				`;
 			}
 
@@ -1002,6 +1011,7 @@ $("#btnActiveAlarm").click(function (e) {
 	e.preventDefault();
 	if("geolocation" in navigator){
 		let sector = $("#sound").val();
+		let sectorName = $("#soundName").val();
 		let typeNot = $("#typeNot").val();
 		let why = $("#why").val();
 		let lat = '';
@@ -1077,7 +1087,7 @@ $("#btnActiveAlarm").click(function (e) {
 							codeUser = $("input[name=codeUser]").val();
 							user = $("#userName").val();
 							let typed = $("#typeNotVal").val()
-							enviar(codeUser, user, typed, sector, why);
+							enviar(codeUser, user, typed, sector, sectorName, why);
 						} else {
 							toast(
 								"bg-danger",

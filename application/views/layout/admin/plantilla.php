@@ -112,7 +112,8 @@
 	<!-- WEBSOCKET -->
 	<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
 	<script src="https://alarm-socketio.up.railway.app/socket.io/socket.io.js"></script>
-	<script src="<?= base_url('resources/shared/websocket.js?t=2')?>"></script>
+	<!-- <script src="http://localhost:7000/socket.io/socket.io.js"></script> -->
+	<script src="<?= base_url('resources/shared/websocket.js?t=3')?>"></script>
 
 	<script type="text/javascript">
 		function base_url(recurso = "") {

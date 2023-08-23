@@ -267,6 +267,7 @@
 
 <input type="hidden" name="ipUser" id="ip" value="">
 <input type="hidden" id="sound" active="false" name="idSectorSound" value="">
+<input type="hidden" id="soundName" name="nameSectorSound" value="">
 <input type="hidden" name="idInstitution" value="">
 
 <input type="hidden" name="urlMap" value="<?= site_url() ?>">

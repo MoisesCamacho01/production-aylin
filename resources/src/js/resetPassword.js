@@ -9,6 +9,7 @@ $('#forgotPassword').click(function (e) {
 		{
 			name: 'email',
 			type: "email",
+			campo: "email",
 			value: email,
 			min: 1,
 			max: 150,
@@ -18,6 +19,7 @@ $('#forgotPassword').click(function (e) {
 		{
 			name: 'password',
 			type: "string",
+			campo: "contraseña 1",
 			value: password,
 			min: 6,
 			max: 18,
@@ -27,6 +29,7 @@ $('#forgotPassword').click(function (e) {
 		{
 			name: 'password2',
 			type: "string",
+			campo: "contraseña 2",
 			value: password2,
 			min: 6,
 			max: 18,
@@ -36,6 +39,7 @@ $('#forgotPassword').click(function (e) {
 		{
 			name: 'token',
 			type: "string",
+			campo: "código de seguridad",
 			value: token,
 			min: 6,
 			max: 100,

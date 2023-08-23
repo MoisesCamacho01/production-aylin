@@ -23,9 +23,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-
-$config['base_url'] = 'https://ciya.utc.edu.ec/aylin/';
-
+//$config['base_url'] = 'http://127.0.0.1:5500/proyectosUniversidad/alarmascomunitarias/';
+$config['base_url'] = 'http://localhost/proyectosUniversidad/alarmascomunitarias/';
+// $config['base_url'] = 'http://127.0.0.1:5500/proyectosUniversidad/alarmascomunitarias/';
+//$config['base_url'] = 'http://localhost/proyectosUniversidad/alarmascomunitarias/';
+// $config['base_url'] = 'http://localhost/proyecto/alarmascomunitarias/';
+// $config['base_url'] = 'http://localhost/tesis/alarmascomunitarias/';
 
 /*
 |--------------------------------------------------------------------------

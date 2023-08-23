@@ -7,7 +7,7 @@
 				document.write(new Date().getFullYear());
 			</script>
 			, Hecho con ❤️ por
-			<a href="#" target="_blank" class="footer-link fw-bolder">Moises Camacho & Silvana Malisa</a>
+			<a href="#" class="footer-link fw-bolder mayus">CARRERA DE SISTEMAS DE INFORMACIÓN Ciencias de la ingeniería y aplicadas</a>
 		</div>
 
 	</div>
