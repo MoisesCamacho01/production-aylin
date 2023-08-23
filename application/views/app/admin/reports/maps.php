@@ -22,17 +22,20 @@
 		<div class="col-12">
 			<h5 class="card-header" id="title-map">Descripción de mapa</h5>
 		</div>
-		<div class="col-3 ps-5 mb-4" style="font-size:18px;">
-			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #1051D5; float: left; margin-top: 5px; margin-right:10px;"></div> Alarmas
+		<div class="col-2 ps-5 mb-4" style="font-size:18px;">
+			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #1051D5; float: left; margin-top: 5px; margin-right:10px;"></div> Alarmas <span id="cantidadAlarmas"></span>
+		</div>
+		<div class="col-2 ps-5 mb-4" style="font-size:18px;">
+			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #B22222; float: left; margin-top: 5px; margin-right:10px;"></div> Provincia <span id="cantidadProvincias"></span>
+		</div>
+		<div class="col-2 ps-5 mb-4" style="font-size:18px;">
+			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #FF7F50; float: left; margin-top: 5px; margin-right:10px;"></div> Cantón <span id="cantidadCantones"></span>
 		</div>
 		<div class="col-3 ps-5 mb-4" style="font-size:18px;">
-			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #B22222; float: left; margin-top: 5px; margin-right:10px;"></div> Provincia
+			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #8C4966; float: left; margin-top: 5px; margin-right:10px;"></div> Parroquia <span id="cantidadParroquias"></span>
 		</div>
-		<div class="col-3 ps-5 mb-4" style="font-size:18px;">
-			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #FF7F50; float: left; margin-top: 5px; margin-right:10px;"></div> Cantón
-		</div>
-		<div class="col-3 ps-5 mb-4" style="font-size:18px;">
-			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #8C4966; float: left; margin-top: 5px; margin-right:10px;"></div> Parroquia
+		<div class="col-2 ps-5 mb-4" style="font-size:18px;">
+			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #8C4966; float: left; margin-top: 5px; margin-right:10px;"></div> Barrios <span id="cantidadBarrios"></span>
 		</div>
 	</div>
 	<div id="bodyTable">
@@ -202,7 +205,7 @@
 				<div class="row">
 					<div class="col mb-3">
 						<label for="why" class="form-label">¿Por que la activo?</label>
-						<input type="text" id="why" class="form-control" placeholder="Nombre de la extensión" />
+						<input type="text" id="why" class="form-control" placeholder="Motivo" />
 						<span class="validate-text" name="why"></span>
 					</div>
 				</div>

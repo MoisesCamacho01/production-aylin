@@ -17,6 +17,7 @@ class NotificationType_model extends CI_Model {
   // ------------------------------------------------------------------------
   public function getAll(){
 	$this->db->select('id, name');
+	$this->db->where("id_action != 'ac04' AND id_action != 'ac03'");
 	$answer = $this->db->get('notifications_types');
 
 	return ($answer) ? $answer->result() : false;

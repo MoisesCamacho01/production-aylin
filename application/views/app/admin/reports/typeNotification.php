@@ -64,13 +64,13 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Nuevo Tipo de notificación</h5>
+				<h5 class="modal-title" id="exampleModalLabel1">Nuevo tipo de notificación</h5>
 				<button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
-						<label for="name" class="form-label">Nombre del Tipo de Usuario</label>
+						<label for="name" class="form-label">Nombre del tipo de Usuario</label>
 						<input type="text" id="name" class="form-control" placeholder="Nombre Usuario" />
 						<span class="validate-text" name="name"></span>
 					</div>
@@ -91,13 +91,13 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Actualizar Tipo de Usuario</h5>
+				<h5 class="modal-title" id="exampleModalLabel1">Actualizar tipo de notificación</h5>
 				<button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
-						<label for="nameE" class="form-label">Nombre del Tipo de Usuario</label>
+						<label for="nameE" class="form-label">Nombre del tipo de notificación</label>
 						<input type="text" id="nameE" class="form-control" placeholder="Nombre Usuario" />
 						<span class="validate-text" name="nameE"></span>
 					</div>
@@ -105,7 +105,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnUpdate" class="btn btn-primary">Actualizar</button>
 			</div>
@@ -118,7 +118,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Eliminar Tipo de Usuario</h5>
+				<h5 class="modal-title" id="exampleModalLabel1">Eliminar es tipo de notificación</h5>
 				<button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -130,7 +130,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnDelete" class="btn btn-primary">Eliminar</button>
 			</div>
@@ -143,22 +143,22 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Suspender este tipo de usuario</h5>
+				<h5 class="modal-title" id="exampleModalLabel1">Suspender este tipo de notificación</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
-						<p class="text-danger">Si suspendes este tipo de usuario los usuarios al mismo no tendrán acceso al sistema</p>
+						<p class="text-danger">Si suspendes este tipo de notificación los usuarios no podrán usar esta notificación</p>
 						<label for="usernameE" class="form-label">
-							<b>¿Seguro quieres suspender este tipo de usuario?</b>
+							<b>¿Seguro quieres suspender este tipo de notificación?</b>
 						</label>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnSuspend" data-bs-dismiss="modal" class="btn btn-primary">Suspender</button>
 			</div>
@@ -171,7 +171,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Activar Provincia</h5>
+				<h5 class="modal-title" id="exampleModalLabel1">Activar notificación</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -183,7 +183,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnActive" data-bs-dismiss="modal" class="btn btn-primary">Activar</button>
 			</div>

@@ -518,10 +518,12 @@
 	  let seguimiento = JSON.parse($("input[name=seguimiento]").val());
 	  let valores = [];
 	  let fechaSec = [];
+	  let tope = 0
 
 	  seguimiento.forEach(row => {
+		tope = (row.cantidad_registros*1 > tope) ? row.cantidad_registros*1 : tope;
 		valores.push(row.cantidad_registros);
-		fechaSec.push(row.fecha);
+		fechaSec.push(row.fecha+" "+row.name);
 	  });
 	  let incomeChartEl = document.querySelector('#incomeChart'),
 		 incomeChartConfig = {
@@ -532,7 +534,7 @@
 			  }
 			],
 			chart: {
-			  height: 215,
+			  height: 250,
 			  parentHeightOffset: 0,
 			  parentWidthOffset: 0,
 			  toolbar: {
@@ -612,7 +614,7 @@
 				 show: false
 			  },
 			  min: 1,
-			  max: 30,
+			  max: tope+5,
 			  tickAmount: 4
 			}
 		 };

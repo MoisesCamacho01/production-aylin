@@ -24,7 +24,7 @@
 					<th>Email</th>
 					<th>Nombre</th>
 					<th>Sector</th>
-					<th>¿Porque?</th>
+					<th>Motivo de activación</th>
 					<th>Fecha de activación</th>
 				</tr>
 			</thead>

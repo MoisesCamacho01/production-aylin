@@ -9,6 +9,11 @@ function initMap(){
 	let drawMap = "";
 	let informationAlarms = [];
 	var polygonMarker = "";
+	var cantidadProvincias = 0;
+	var cantidadCantones = 0;
+	var cantidadParroquias = 0;
+	var cantidadBarrios = 0;
+	var cantidadAlarmas = 0;
 
 	$('#bodyTable').on('click', '.btnAlarmEdit', function (e) {
 		e.preventDefault();
@@ -33,11 +38,13 @@ function initMap(){
 				center: coords,
 			}
 		);
-
+		cantidadProvincias=0;
 		var primerOption = $("#cities option:first-child").detach();
-      $("#cities").empty().append(primerOption);
+      	$("#cities").empty().append(primerOption);
 		cities($(this).val());
 		viewState($(this).val(), 'si');
+
+
 	});
 
 	$('#cities').change(function (e) {
@@ -49,6 +56,7 @@ function initMap(){
 				center: coords,
 			}
 		);
+		cantidadCantones = 0;
 		var primerOption = $("#parishes option:first-child").detach();
       $("#parishes").empty().append(primerOption);
 		parishes($(this).val());
@@ -57,6 +65,7 @@ function initMap(){
 
 	$('#parishes').change(function (e) {
 		e.preventDefault();
+		cantidadParroquias = 0;
 		drawMap = new google.maps.Map(
 			document.getElementById("viewMap"),
 			{
@@ -72,15 +81,16 @@ function initMap(){
 
 	$('#sectors').change(function (e) {
 		e.preventDefault();
+		cantidadBarrios = 0;
+		cantidadAlarmas = 0;
 		drawMap = new google.maps.Map(
 			document.getElementById("viewMap"),
 			{
-				zoom: 13,
+				zoom: 15,
 				center: coords,
 			}
 		);
-		viewSector($(this).val())
-		viewAllAlarm($(this).val(), 'si')
+		viewSector($(this).val(), 'si')
 	});
 
 	$("#btnViewAll").click(function (e) {
@@ -98,14 +108,12 @@ function initMap(){
 			}
 		);
 		states();
-		// viewCity('I5rznkBh202308165AmHL7180130');
-		// viewParish('4UnRPr9F20230816OCVQ8O191745');
-		// viewSector('0cGPmBKO20230816Yi7C0R194022');
-		// viewAllAlarm('0cGPmBKO20230816Yi7C0R194022');
+
 	}
 
 	function states(){
 		let url = base_url("reports/states/all-state-country/C001");
+		cantidadProvincias = 0;
 		$.ajax({
 			type: "GET",
 			url: url,
@@ -119,7 +127,6 @@ function initMap(){
 						1
 					);
 					let data = response.data;
-
 					data.forEach(row => {
 						viewState(row.id);
 					});
@@ -130,6 +137,7 @@ function initMap(){
 
 	function cities(idState, grafica = ''){
 		let url = base_url("reports/cities/all-city-state/"+idState);
+		cantidadCantones = 0;
 		$.ajax({
 			type: "GET",
 			url: url,
@@ -161,6 +169,7 @@ function initMap(){
 
 	function parishes(idCity, grafica = ''){
 		let url = base_url("reports/parish/all-parish-city/"+idCity);
+		cantidadParroquias = 0;
 		$.ajax({
 			type: "GET",
 			url: url,
@@ -174,6 +183,7 @@ function initMap(){
 						1
 					);
 					let data = response.data;
+
 					if(grafica == ''){
 						data.forEach(row => {
 							var nuevaOpcion = $("<option>").val(row.id).text(row.name);
@@ -190,9 +200,8 @@ function initMap(){
 	}
 
 	function sectors(idParish, grafica = ''){
-
 		let url = base_url("reports/sectors/all-sectors-barrio/"+idParish);
-
+		cantidadBarrios = 0;
 		$.ajax({
 			type: "GET",
 			url: url,
@@ -225,13 +234,14 @@ function initMap(){
 
 	function viewState(idState, centrar = ''){
 		let url = base_url("drawState/"+idState);
-
 		$.ajax({
 			type: "GET",
 			url: url,
 			success: function (answer) {
 				let response = JSON.parse(answer);
 				if (response.message.type == "success") {
+					cantidadProvincias = cantidadProvincias + 1;
+					cantidades();
 					if(centrar != ''){
 						centerMap(response.data);
 					}
@@ -251,6 +261,8 @@ function initMap(){
 			success: function (answer) {
 				let response = JSON.parse(answer);
 				if (response.message.type == "success") {
+					cantidadCantones = cantidadCantones + 1;
+					cantidades();
 
 					if(centrar != ''){
 						centerMap(response.data);
@@ -279,7 +291,8 @@ function initMap(){
 			success: function (answer) {
 				let response = JSON.parse(answer);
 				if (response.message.type == "success") {
-
+					cantidadParroquias = cantidadParroquias + 1;
+					cantidades();
 					if(centrar != ''){
 						centerMap(response.data);
 					}
@@ -299,6 +312,8 @@ function initMap(){
 			success: function (answer) {
 				let response = JSON.parse(answer);
 				if (response.message.type == "success") {
+					cantidadBarrios = cantidadBarrios+1;
+					cantidades();
 
 					if(centrar != ''){
 						centerMap(response.data);
@@ -312,6 +327,7 @@ function initMap(){
 
 	function viewAllAlarm(idSector, centrar = '') {
 		let url = base_url("reports/alarms/all-of-sector/"+idSector);
+		cantidadAlarmas = 0;
 		$.ajax({
 			type: "GET",
 			url: url,
@@ -350,6 +366,8 @@ function initMap(){
 						centerMap(response.data);
 					}
 
+
+
 				}
 			},
 		});
@@ -364,6 +382,8 @@ function initMap(){
 				let response = JSON.parse(answer);
 
 				if (response.message.type == "success") {
+					cantidadAlarmas = cantidadAlarmas + 1;
+					cantidades();
 					mapaGenerate('alarm', drawMap, '#024A86', response.data);
 				}
 			},
@@ -743,6 +763,15 @@ function initMap(){
 		});
 		let centroid = getPolygonCentroid(cor);
 		drawMap.setCenter(centroid);
+	}
+
+	function cantidades() {
+
+		$("#cantidadProvincias").text(cantidadProvincias);
+		$("#cantidadCantones").text(cantidadCantones);
+		$("#cantidadParroquias").text(cantidadParroquias);
+		$("#cantidadBarrios").text(cantidadBarrios);
+		$("#cantidadAlarmas").text(cantidadAlarmas);
 	}
 }
 

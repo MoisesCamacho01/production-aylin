@@ -16,16 +16,20 @@ tickColor = 'rgba(0, 0, 0, 0.75)'; // x & y axis tick color
 const comparation = document.getElementById('comparationMotivos');
 let totalSeg = JSON.parse($("input[name=comparativa]").val());
 let totalM = JSON.parse($("input[name=totalMotiveAlarm]").val());
-let motivo = []
   let label = [];
   let cantidadMaxima = 0;
+  let cantidadMaximaX = 0;
   let dataset = [];
 
   totalM.forEach(row => {
 	  let label2 = [];
 	  j=0;
 	  totalSeg.forEach(rowb => {
-		cantidadMaxima = (rowb.cantidad_registros*1)> cantidadMaxima ? rowb.cantidad_registros*1 : cantidadMaxima;
+		if(rowb.cantidad_registros*1 > cantidadMaxima){
+			cantidadMaxima = rowb.cantidad_registros*1;
+			cantidadMaximaX = cantidadMaximaX+1;
+		}
+
 		if(row.name == rowb.name){
 			label2.push(rowb.cantidad_registros);
 		}
@@ -78,8 +82,9 @@ if (comparation) {
 			 scaleLabel: {
             display: true
           },
-			 min: 0,
-          max: cantidadMaxima-13,
+			 min:0,
+			 max: cantidadMaximaX-1
+
         },
         y: {
           scaleLabel: {

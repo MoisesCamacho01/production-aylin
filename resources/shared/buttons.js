@@ -12,47 +12,31 @@ $('#bodyTable').on('click', '.btnGetForId', function (e) {
 $("#btnCreate").click(function (e) {
 	e.preventDefault();
 	create();
-	let urlSearch = $('input[name=searchGlobal]').attr('url');
-	if(urlSearch!=''){
-		console.log("d");
-		paginator(1);
-	}
+	paginator(1);
 });
 
 $("#btnUpdate").click(function (e) {
 	e.preventDefault()
 	update();
-	let urlSearch = $('input[name=searchGlobal]').attr('url');
-	if(urlSearch !=''){
-		paginator(1);
-	}
+	paginator(1);
 });
 
 $("#btnDelete").click(function (e) {
 	e.preventDefault();
 	deleted();
-	let urlSearch = $('input[name=searchGlobal]').attr('url');
-	if(urlSearch !=''){
-		paginator(1);
-	}
+	paginator(1);
 });
 
 $("#btnSuspend").click(function (e) {
 	e.preventDefault();
 	suspend();
-	let urlSearch = $('input[name=searchGlobal]').attr('url');
-	if(urlSearch !=''){
-		paginator(1);
-	}
+	paginator(1);
 });
 
 $("#btnActive").click(function (e) {
 	e.preventDefault();
 	active();
-	let urlSearch = $('input[name=searchGlobal]').attr('url');
-	if(urlSearch !=''){
-		paginator(1);
-	}
+	paginator(1);
 });
 
 function imprSelec(nombre) {

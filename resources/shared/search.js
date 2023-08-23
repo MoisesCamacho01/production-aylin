@@ -30,6 +30,7 @@ function searchGlobal(url, text='', start, limit){
 	}
 
 	$('#loader').removeClass('ocultar');
+	$('#bodyTable').html('');
 
 	$.ajax({
 		type: "POST",
