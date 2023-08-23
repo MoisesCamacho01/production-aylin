@@ -75,32 +75,24 @@ class ManagersController extends MY_Controller
 		$this->response->message->message = $value->message;
 
 		if ($value->status) {
-			$valueDuplicate = $this->duplicate([
 
-				["attribute" => "mobile", "value" => $mobile, "message"=>"El celular"],
-			]);
+			$data = [
+				"id" => $this->generateId(),
+				"name" => $name,
+				"last_name" => $lastName,
+				"phone" => $phone,
+				"mobile" => $mobile,
+				"id_action" => 'ac01',
+				"created_at" => date('Y-m-d H:i:s'),
+				"updated_at" => date('Y-m-d H:i:s')
+			];
 
-			$this->response->message->message = $valueDuplicate->message;
+			$this->response->message->title = "Encargado Creado";
+			$this->response->message->message = "El Encargado no fue creado con éxito";
 
-			if ($valueDuplicate->status) {
-				$data = [
-					"id" => $this->generateId(),
-					"name" => $name,
-					"last_name" => $lastName,
-					"phone" => $phone,
-					"mobile" => $mobile,
-					"id_action" => 'ac01',
-					"created_at" => date('Y-m-d H:i:s'),
-					"updated_at" => date('Y-m-d H:i:s')
-				];
-
-				$this->response->message->title = "Encargado Creado";
-				$this->response->message->message = "El Encargado no fue creado con éxito";
-
-				if ($this->Manager_model->insert($data)) {
-					$this->response->message->type = 'success';
-					$this->response->message->message = "El Encargado fue creado con éxito";
-				}
+			if ($this->Manager_model->insert($data)) {
+				$this->response->message->type = 'success';
+				$this->response->message->message = "El Encargado fue creado con éxito";
 			}
 		}
 
@@ -131,30 +123,21 @@ class ManagersController extends MY_Controller
 		$this->response->message->message = $value->message;
 
 		if ($value->status) {
-			$valueDuplicate = $this->duplicateUpdate([
-				// ["attribute" => "phone", "value" => $phone, "message"=>"El teléfono"],
-				["attribute" => "mobile", "value" => $mobile, "message"=>"El celular"],
-			]);
+			$data = [
+				"name" => $name,
+				"last_name" => $lastName,
+				"phone" => $phone,
+				"mobile" => $mobile,
+				"id_action" => 'ac02',
+				"updated_at" => date('Y-m-d H:i:s')
+			];
 
-			$this->response->message->message = $valueDuplicate->message;
+			$this->response->message->title = "Encargado actualizado";
+			$this->response->message->message = "El Encargado no fue actualizado con éxito";
 
-			if ($valueDuplicate->status) {
-				$data = [
-					"name" => $name,
-					"last_name" => $lastName,
-					"phone" => $phone,
-					"mobile" => $mobile,
-					"id_action" => 'ac02',
-					"updated_at" => date('Y-m-d H:i:s')
-				];
-
-				$this->response->message->title = "Encargado actualizado";
-				$this->response->message->message = "El Encargado no fue actualizado con éxito";
-
-				if ($this->Manager_model->updated($data, $this->input->post('id'))) {
-					$this->response->message->type = 'success';
-					$this->response->message->message = "El Encargado fue actualizado con éxito";
-				}
+			if ($this->Manager_model->updated($data, $this->input->post('id'))) {
+				$this->response->message->type = 'success';
+				$this->response->message->message = "El Encargado fue actualizado con éxito";
 			}
 		}
 
@@ -299,11 +282,11 @@ class ManagersController extends MY_Controller
 
 	public function pdf()
 	{
-		$thead = ['N°', 'NOMBRE', 'TELEFONO', 'CELULAR', 'PAIS', 'ESTADO'];
-		$tbody = $this->Institution_model->getAll();
+		$thead = ['N°', 'NOMBRE', 'APELLIDO','TELEFONO', 'CELULAR', 'ESTADO'];
+		$tbody = $this->Manager_model->getAll();
 		$data = [
-			'title' => 'Instituciones',
-			'titleDocument' => 'Lista de instituciones',
+			'title' => 'Encargados',
+			'titleDocument' => 'Lista de encargados',
 			'thead' => $thead,
 			'tbody' => $tbody
 		];
@@ -316,9 +299,9 @@ class ManagersController extends MY_Controller
 
 	public function excel()
 	{
-		$header = ['NOMBRE', 'TELEFONO', 'CELULAR', 'PAIS', 'ESTADO'];
-		$users = $this->Institution_model->getAll();
-		$this->excelGenerate($header, $users, 'institution');
+		$header = ['NOMBRE', 'APELLIDO', 'TELEFONO', 'CELULAR', 'ESTADO'];
+		$users = $this->Manager_model->getAll();
+		$this->excelGenerate($header, $users, 'encargados');
 	}
 }
 

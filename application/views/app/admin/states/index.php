@@ -242,7 +242,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary btnCloseModal" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button>
 			</div>
@@ -268,7 +268,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<!-- <button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button> -->
 			</div>

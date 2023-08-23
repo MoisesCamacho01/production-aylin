@@ -113,6 +113,7 @@ function update() {
 		{
 			name: "nameE",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 50,
@@ -122,6 +123,7 @@ function update() {
 		{
 			name: "last_nameE",
 			type: "string",
+			campo: "apellido",
 			value: last_name,
 			min: 1,
 			max: 50,
@@ -131,6 +133,7 @@ function update() {
 		{
 			name: "phoneE",
 			type: "number",
+			campo: "teléfono",
 			value: phone,
 			min: 0,
 			max: 9,
@@ -140,10 +143,11 @@ function update() {
 		{
 			name: "mobileE",
 			type: "number",
+			campo: "celular",
 			value: mobile,
 			min: 0,
 			max: 10,
-			required: true,
+			required: false,
 		},
 	])
 
@@ -194,6 +198,7 @@ function create() {
 		{
 			name: "name",
 			type: "string",
+			campo: "nombre",
 			value: name,
 			min: 1,
 			max: 50,
@@ -203,6 +208,7 @@ function create() {
 		{
 			name: "last_name",
 			type: "string",
+			campo: "apellido",
 			value: last_name,
 			min: 1,
 			max: 50,
@@ -212,6 +218,7 @@ function create() {
 		{
 			name: "phone",
 			type: "number",
+			campo: "teléfono",
 			value: phone,
 			min: 0,
 			max: 9,
@@ -221,10 +228,11 @@ function create() {
 		{
 			name: "mobile",
 			type: "number",
+			campo: "celular",
 			value: mobile,
 			min: 0,
 			max: 10,
-			required: true,
+			required: false,
 		},
 	])
 

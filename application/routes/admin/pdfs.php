@@ -1,5 +1,5 @@
 <?php
-$route['pdf-users']['GET'] = 'UsersController/pdf';
+$route['pdf-users/(:any)']['GET'] = 'UsersController/pdf/$1';
 $route['pdf-userTypes']['GET'] = 'UserTypesController/pdf';
 $route['pdf-documentTypes']['GET'] = 'DocumentTypesController/pdf';
 $route['pdf-countries']['GET'] = 'CountriesController/pdf';
@@ -10,7 +10,7 @@ $route['pdf-districts/(:any)']['GET'] = 'DistricsController/pdf/$1';
 $route['pdf-sectors/(:any)']['GET'] = 'SectorsController/pdf/$1';
 $route['pdf-institutions']['GET'] = 'InstitutionsController/pdf';
 $route['pdf-branches']['GET'] = 'BranchesController/pdf';
-$route['pdf-Managers']['GET'] = 'ManagersController/pdf';
+$route['pdf-managers']['GET'] = 'ManagersController/pdf';
 $route['pdf-typeNot']['GET'] = 'TypeNotificationsController/pdf';
 $route['pdf-alarms/(:any)']['GET'] = 'AlarmsController/pdf/$1';
 

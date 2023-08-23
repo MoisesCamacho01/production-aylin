@@ -24,7 +24,7 @@ class DocumentTypesController extends MY_Controller
 		$this->submenu = $submenu;
 
 		$this->data = [
-			'title' => 'Countries',
+			'title' => 'Tipos de documentos',
 			'js' => $js,
 			'url' => site_url('documentTypes/search'),
 			'quantity' => count($this->DocumentType_model->getAll())
@@ -268,7 +268,8 @@ class DocumentTypesController extends MY_Controller
 											$template .= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#suspendModal' dataId='{$row->id}' href='javascript:void(0);'><i class='bx bx-user-x'></i> $rowB->name</a>";
 										}
 									}
-									if($row->id == 'BP004'){
+
+									if($rowB->id == 'BP004'){
 										$template .= "<a class='dropdown-item btnInputHidden btnGetForId' dataId='{$row->id}' data-bs-toggle='modal' data-bs-target='#updateModal' href='javascript:void(0);'><i class='bx bx-edit-alt me-1'></i> $rowB->name</a>";
 									}
 

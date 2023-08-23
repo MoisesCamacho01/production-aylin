@@ -1,5 +1,5 @@
 <h4 class="fw-bold py-3 mb-4">
-	<span class="text-muted fw-light">Permisos de usuario</span>
+	Permisos de usuario
 </h4>
 <!-- Basic Bootstrap Table -->
 

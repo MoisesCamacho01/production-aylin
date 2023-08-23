@@ -211,7 +211,7 @@ function create() {
 					);
 					$("#name").val('');
 					$(".btn-model-close").trigger("click");
-					paginator(1);
+
 				} else {
 					toast(
 						"bg-danger",

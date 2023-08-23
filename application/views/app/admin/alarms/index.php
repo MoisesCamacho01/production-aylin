@@ -5,7 +5,7 @@
 
 
 <h4 class="fw-bold py-3 mb-4">
-	<span class="text-muted fw-light">
+	<span class="text-muted fw-light" id="backButton" >
 		<?= $sector->name ?> /
 	</span> Alarmas
 
@@ -226,7 +226,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnUpdate" class="btn btn-primary">Actualizar</button>
 			</div>
@@ -245,13 +245,14 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
+						<p class="text-danger">Si eliminas esta alarma, no se podrá activar</p>
 						<label for="usernameE" class="form-label">¿Seguro quieres eliminar este registro?</label>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnDelete" data-bs-dismiss="modal" class="btn btn-primary">Eliminar</button>
 			</div>
@@ -264,19 +265,20 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Suspender Barrio</h5>
+				<h5 class="modal-title" id="exampleModalLabel1">Suspender alarma</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
+					<p class="text-danger">Si suspendes esta alarma, no se podrá activar</p>
 						<label for="usernameE" class="form-label">¿Seguro quieres suspender este registro?</label>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnSuspend" data-bs-dismiss="modal" class="btn btn-primary">Suspender</button>
 			</div>
@@ -301,7 +303,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnActive" data-bs-dismiss="modal" class="btn btn-primary">Activar</button>
 			</div>
@@ -327,7 +329,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary btnCloseModal" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button>
 			</div>
@@ -353,7 +355,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<!-- <button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button> -->
 			</div>

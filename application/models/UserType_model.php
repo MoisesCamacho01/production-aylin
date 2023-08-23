@@ -15,10 +15,12 @@ class UserType_model extends CI_Model
 
 
 	// ------------------------------------------------------------------------
-	public function getAll(){
+	public function getAll($id = ''){
 		$this->db->select('user_types.id, user_types.name, actions.name as action');
 		$this->db->from('user_types');
 		$this->db->join('actions', 'user_types.id_action = actions.id');
+		if($id == 'T002') $this->db->where('user_types.id', $id);
+		if($id == 'T001') $this->db->where("user_types.id != 'T002'");
 		$answer = $this->db->get();
 
 		return ($answer) ? $answer->result() : false;

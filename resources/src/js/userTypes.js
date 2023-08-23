@@ -21,7 +21,7 @@ function suspend() {
 					response.message.message,
 					1
 				);
-				paginator(1);
+
 			} else {
 				toast(
 					"bg-danger",
@@ -55,7 +55,7 @@ function active() {
 					response.message.message,
 					1
 				);
-				paginator(1);
+
 			} else {
 				toast(
 					"bg-danger",
@@ -89,7 +89,7 @@ function deleted() {
 					response.message.message,
 					1
 				);
-				paginator(1);
+
 			} else {
 				toast(
 					"bg-danger",
@@ -139,7 +139,7 @@ function update() {
 					);
 
 					$('.btn-model-close').trigger('click');
-					paginator(1);
+
 				} else {
 					toast(
 						"bg-danger",
@@ -188,7 +188,7 @@ function create() {
 						1
 					);
 					$('.btn-model-close').trigger('click');
-					paginator(1);
+
 				} else {
 					toast(
 						"bg-danger",

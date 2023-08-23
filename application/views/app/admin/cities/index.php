@@ -50,7 +50,6 @@
 				<li class="page-item disabled" id="buttonBack">
 					<a class="page-link page-left" href="#" tabindex="-1"><i class='bx bxs-left-arrow'></i></a>
 				</li>
-
 				<?php for ($i = 1; $i <= round(($quantity + 1) / 6); $i++) : ?>
 					<li class="page-item <?= $i == 1 ? 'active' : ''; ?>">
 						<a class="page-link btnPages" href="#"><?= $i ?></a>
@@ -188,6 +187,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
+					<p class="text-danger">Si eliminas este canton las alarmas de este cantón no se podrán usar</p>
 						<label for="usernameE" class="form-label">¿Seguro quieres eliminar este registro?</label>
 					</div>
 				</div>
@@ -213,6 +213,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
+						<p class="text-danger">Si suspendes este canton las alarmas de este cantón no se podrán usar</p>
 						<label for="usernameE" class="form-label">¿Seguro quieres suspender este registro?</label>
 					</div>
 				</div>
@@ -270,7 +271,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary btnCloseModal" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button>
 			</div>
@@ -296,7 +297,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<!-- <button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button> -->
 			</div>

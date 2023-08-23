@@ -25,7 +25,7 @@ class CitiesController extends MY_Controller
 		$this->submenu = $submenu;
 
 		$this->data = [
-			'title' => 'Provincias',
+			'title' => 'Cantones',
 			'js' => $js,
 			'countries' => $this->Country_model->getAll(),
 			'states' => $this->State_model->getAll(),
@@ -402,7 +402,7 @@ class CitiesController extends MY_Controller
 		$tbody = $this->City_model->getAll();
 
 		$data = [
-			'title' => 'Países',
+			'title' => 'Cantones',
 			'titleDocument' => 'Lista de cantónes',
 			'thead' => $thead,
 			'tbody' => $tbody
@@ -418,7 +418,7 @@ class CitiesController extends MY_Controller
 	{
 		$header = ['NOMBRE', 'PROVINCIA', 'ESTADO'];
 		$users = $this->City_model->getAll();
-		$this->excelGenerate($header, $users, 'cities');
+		$this->excelGenerate($header, $users, 'cantones');
 	}
 }
 

@@ -29,7 +29,7 @@ class SectorsController extends MY_Controller
 			'title' => 'SECTORES',
 			'js' => $js,
 			'distric' => $this->Parish_model->getForId($idDistric),
-			'quantity' => count($this->Sector_model->getAll()),
+			'quantity' => count($this->Sector_model->getAll($idDistric)),
 			'url' => site_url('districs/' . $idDistric . '/search')
 		];
 
@@ -384,9 +384,7 @@ class SectorsController extends MY_Controller
 
 	public function pdf($id)
 	{
-
-
-		$thead = ['N°', 'NOMBRE', 'COLOR','PARROQUIA','ESTADO'];
+		$thead = ['N°', 'NOMBRE', 'COLOR', 'CODIGO DE ASOCIACION','PARROQUIA','ESTADO'];
 		$tbody = ($id != 0) ? $this->Sector_model->getAll($id) : $this->Sector_model->getAll();
 
 		$data = [
@@ -402,10 +400,10 @@ class SectorsController extends MY_Controller
 		$mPdf->Output();
 	}
 
-	public function excel()
+	public function excel($id)
 	{
-		$header = ['NOMBRE', 'COLOR', 'PARROQUIA', 'ESTADO'];
-		$users = $this->Sector_model->getAll();
+		$header = ['NOMBRE', 'COLOR', 'PARROQUIA', 'CÓDIGO DE ASOCIACIÓN','ESTADO'];
+		$users = $this->Sector_model->getAll($id);
 		$this->excelGenerate($header, $users, 'barrios');
 	}
 

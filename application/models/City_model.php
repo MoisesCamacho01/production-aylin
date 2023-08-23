@@ -17,7 +17,7 @@ class City_model extends CI_Model
 	// ------------------------------------------------------------------------
 	public function getAll($id_states = '')
 	{
-		$this->db->select('cities.id, cities.name, states.name as state, cities.id_states, actions.name as action');
+		$this->db->select('cities.id, cities.name, states.name as state, actions.name as action');
 		$this->db->from('cities');
 		$this->db->join('states', 'cities.id_states = states.id');
 		$this->db->join('actions', 'cities.id_actions = actions.id');

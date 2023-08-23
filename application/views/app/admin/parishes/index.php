@@ -4,7 +4,7 @@
 <!--  -->
 
 <h4 class="fw-bold py-3 mb-4">
-	<span class="text-muted fw-light"><?= $cities->name ?> /</span> Parroquias
+	<span class="text-muted fw-light" id="backButton"><?= $cities->name ?> /</span> Parroquias
 	<?php foreach ($buttonTop as $row): ?>
 		<?php if($row->id == 'BP001') : ?>
 			<a class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#createModal">
@@ -106,7 +106,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Actualizar Extension</h5>
+				<h5 class="modal-title" id="exampleModalLabel1">Actualizar parroquia</h5>
 				<button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -148,13 +148,14 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
+					<p class="text-danger">Si eliminas esta parroquia las alarmas de esta parroquia no se podrán usar</p>
 						<label for="usernameE" class="form-label">¿Seguro quieres eliminar este registro?</label>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnDelete" data-bs-dismiss="modal" class="btn btn-primary">Eliminar</button>
 			</div>
@@ -173,13 +174,14 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
+						<p class="text-danger">Si suspendes esta parroquia las alarmas de esta parroquia no se podrán usar</p>
 						<label for="usernameE" class="form-label">¿Seguro quieres suspender este registro?</label>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnSuspend" data-bs-dismiss="modal" class="btn btn-primary">Suspender</button>
 			</div>
@@ -230,7 +232,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary btnCloseModal" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button>
 			</div>
@@ -256,7 +258,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<!-- <button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button> -->
 			</div>

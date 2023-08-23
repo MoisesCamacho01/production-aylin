@@ -18,11 +18,11 @@ class MenuPermission_model extends CI_Model
 		$this->db->join('actions', 'menu_permissions.id_action = actions.id');
 		$this->db->where('menu_permissions.id !=', 'MP004');
 		$this->db->where('menu_permissions.id !=', 'MP005');
+		$this->db->where('menu_permissions.id !=', 'MP007');
 		$this->db->where('menu_permissions.id !=', 'MP008');
 		$this->db->where('menu_permissions.id !=', 'MP009');
-		// $this->db->where('menu_permissions.id !=', 'MP0010');
 		$this->db->where('menu_permissions.id !=', 'MP0011');
-		// $this->db->where('menu_permissions.id !=', 'MP0012');
+		$this->db->where('menu_permissions.id !=', 'MP0012');
 		$this->db->order_by('menu_permissions.created_at', 'ASC');
 		$answer = $this->db->get();
 

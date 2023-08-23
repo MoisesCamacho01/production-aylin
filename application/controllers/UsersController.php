@@ -29,11 +29,39 @@ class UsersController extends MY_Controller
 		$this->data = [
 			'title' => 'Usuarios',
 			'js' => $js,
-			'userTypes' => $this->UserType_model->getAll(),
+			'tipeUser' => 'T001',
+			'userTypes' => $this->UserType_model->getAll('T001'),
 			'country'=> $this->Country_model->getForId('C001'),
 			'states'=> $this->State_model->getAll(),
 			'documentTypes'=> $this->DocumentType_model->getAll(),
-			'url' => site_url('usuarios/search'),
+			'url' => site_url('usuarios/search/web'),
+			'quantity' => count($this->User_model->getAll())
+		];
+
+		$this->page = 'app/admin/users/index';
+		$this->layout();
+	}
+
+	public function userMovil($submenu)
+	{
+
+		$js = [
+			'resources/librerias/paginator/paginator.js',
+			'resources/src/js/users.js?t=5',
+			'resources/src/js/profile.js',
+		];
+
+		$this->session->set_userdata('submenu', $submenu);
+		$this->submenu = $submenu;
+		$this->data = [
+			'title' => 'Usuarios',
+			'js' => $js,
+			'tipeUser' => 'T002',
+			'userTypes' => $this->UserType_model->getAll('T002'),
+			'country'=> $this->Country_model->getForId('C001'),
+			'states'=> $this->State_model->getAll(),
+			'documentTypes'=> $this->DocumentType_model->getAll(),
+			'url' => site_url('usuarios/search/movil'),
 			'quantity' => count($this->User_model->getAll())
 		];
 
@@ -228,12 +256,12 @@ class UsersController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function search()
+	public function search($tipo)
 	{
 		$search = htmlspecialchars($this->input->post('search'));
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
-		$getSearch = $this->User_model->search($search, $start, $limit);
+		$getSearch = $this->User_model->search($search, $start, $limit, $tipo);
 		$table = htmlspecialchars_decode($this->generateTable($getSearch));
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
@@ -317,10 +345,10 @@ class UsersController extends MY_Controller
 		return $template;
 	}
 
-	public function pdf()
+	public function pdf($type)
 	{
 		$thead = ['N°', 'USUARIO', 'EMAIL', 'TIPO DE USUARIO', 'ESTADO'];
-		$tbody = $this->User_model->getAll();
+		$tbody = $this->User_model->getAll($type);
 		$data = [
 			'title' => 'Usuarios',
 			'titleDocument' => 'Lista de Usuarios',
@@ -334,10 +362,10 @@ class UsersController extends MY_Controller
 		$mPdf->Output();
 	}
 
-	public function excel()
+	public function excel($type)
 	{
 		$header = ['NOMBRE', 'EMAIL', 'TIPO DE USUARIO', 'ESTADO'];
-		$users = $this->User_model->getAll();
+		$users = $this->User_model->getAll($type);
 		$this->excelGenerate($header, $users, 'users');
 	}
 }

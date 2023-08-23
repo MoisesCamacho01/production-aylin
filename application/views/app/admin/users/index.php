@@ -7,12 +7,12 @@
 			</a>
 		<?php endif; ?>
 		<?php if($row->id == 'BP0010') : ?>
-			<a class="btn btn-info text-white" target="_blank" href="<?= site_url('pdf-users') ?>">
+			<a class="btn btn-info text-white" target="_blank" href="<?= site_url('pdf-users/'.$tipeUser) ?>">
 				<?= $row->name?>
 			</a>
 		<?php endif; ?>
 		<?php if($row->id == 'BP0011') : ?>
-			<a class="btn btn-danger text-white" href="<?= site_url('excel-users') ?>">
+			<a class="btn btn-danger text-white" href="<?= site_url('excel-users/'.$tipeUser) ?>">
 				<?= $row->name?>
 			</a>
 		<?php endif; ?>

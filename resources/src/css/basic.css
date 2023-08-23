@@ -94,6 +94,17 @@
 	top: 9%;
 	left: 9%;
 }
+#backButton{
+	cursor: pointer;
+}
+
+#backButton:hover{
+	text-decoration: underline;
+}
+
+.modal-title{
+	text-transform: uppercase !important;
+}
 
 @keyframes spin{
 	to{
