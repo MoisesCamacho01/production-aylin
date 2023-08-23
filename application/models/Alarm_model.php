@@ -15,9 +15,13 @@ class Alarm_model extends CI_Model
 
 
 	// ------------------------------------------------------------------------
-	public function getAll()
+	public function getAll($idSector = '')
 	{
-		$sql = "select alarms.id, alarms.code, concat(manager.name, ' ', manager.last_name) as name_manager, sector.name as sector, actions.name as action from alarms inner join alarm_manager manager on alarms.id_alarm_manager = manager.id inner join sector on alarms.id_sector = sector.id INNER JOIN actions on alarms.id_action = actions.id";
+		if($idSector != ''){
+			$sql = "SELECT alarms.id, alarms.code, ST_X(ST_AsText(alarms.localization)) AS longitud, ST_Y(ST_AsText(alarms.localization)) AS latitud, concat(manager.name, ' ', manager.last_name) AS name_manager, sector.name AS sector, actions.name AS action from alarms INNER JOIN alarm_manager manager on alarms.id_alarm_manager = manager.id INNER JOIN sector on alarms.id_sector = sector.id INNER JOIN actions on alarms.id_action = actions.id WHERE sector.id = '$idSector'";
+		}else{
+			$sql = "SELECT alarms.id, alarms.code, ST_X(ST_AsText(alarms.localization)) AS longitud, ST_Y(ST_AsText(alarms.localization)) AS latitud, concat(manager.name, ' ', manager.last_name) as name_manager, sector.name as sector, actions.name as action from alarms INNER JOIN alarm_manager manager on alarms.id_alarm_manager = manager.id INNER JOIN sector on alarms.id_sector = sector.id INNER JOIN actions on alarms.id_action = actions.id";
+		}
 		$answer = $this->db->query($sql);
 
 		return ($answer) ? $answer->result() : false;
@@ -67,7 +71,7 @@ class Alarm_model extends CI_Model
 	public function search($search = '', $idPadre = '')
 	{
 
-		$sql = "select alarms.id, alarms.code, concat(manager.name, ' ', manager.last_name) as name_manager, sector.name as sector, actions.name as action from alarms inner join alarm_manager manager on alarms.id_alarm_manager = manager.id inner join sector on alarms.id_sector = sector.id INNER JOIN actions on alarms.id_action = actions.id where (sector.id = '{$idPadre}') and (alarms.code like '%{$search}%' or manager.name like '%{$search}%' or manager.last_name like '%{$search}%' or sector.name like '%{$idPadre}%' or actions.name like '%{$search}%')";
+		$sql = "SELECT alarms.id, alarms.code, concat(manager.name, ' ', manager.last_name) as name_manager, sector.name as sector, actions.name as action from alarms INNER JOIN alarm_manager manager on alarms.id_alarm_manager = manager.id INNER JOIN sector on alarms.id_sector = sector.id INNER JOIN actions on alarms.id_action = actions.id where (sector.id = '{$idPadre}') and (alarms.code like '%{$search}%' or manager.name like '%{$search}%' or manager.last_name like '%{$search}%' or sector.name like '%{$idPadre}%' or actions.name like '%{$search}%')";
 
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;

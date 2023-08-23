@@ -382,14 +382,16 @@ class SectorsController extends MY_Controller
 		return $template;
 	}
 
-	public function pdf()
+	public function pdf($id)
 	{
+
+
 		$thead = ['N°', 'NOMBRE', 'COLOR','PARROQUIA','ESTADO'];
-		$tbody = $this->Sector_model->getAll();
+		$tbody = ($id != 0) ? $this->Sector_model->getAll($id) : $this->Sector_model->getAll();
 
 		$data = [
-			'title' => 'Países',
-			'titleDocument' => 'Lista de Sectores',
+			'title' => 'barrios',
+			'titleDocument' => 'Lista de barrios',
 			'thead' => $thead,
 			'tbody' => $tbody
 		];
@@ -404,7 +406,7 @@ class SectorsController extends MY_Controller
 	{
 		$header = ['NOMBRE', 'COLOR', 'PARROQUIA', 'ESTADO'];
 		$users = $this->Sector_model->getAll();
-		$this->excelGenerate($header, $users, 'sectors');
+		$this->excelGenerate($header, $users, 'barrios');
 	}
 
 	public function all()

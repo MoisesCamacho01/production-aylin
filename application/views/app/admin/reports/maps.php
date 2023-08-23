@@ -66,9 +66,9 @@
 				</div>
 				<div class="row">
 					<div class="col-12 mb-2">
-						<label for="cities" class="form-label">Cities</label>
+						<label for="cities" class="form-label">Canton</label>
                   <select id="cities" class="form-select">
-                     <option value="" selected>Seleccione un Cities</option>
+                     <option value="" selected>Seleccione un canton</option>
                   </select>
 						<span class="validate-text" name="cities"></span>
 					</div>

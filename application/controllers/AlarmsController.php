@@ -382,14 +382,14 @@ class AlarmsController extends MY_Controller
 		return $template;
 	}
 
-	public function pdf()
+	public function pdf($idSector)
 	{
-		$thead = ['N°', 'NOMBRE', 'SECTOR', 'ESTADO'];
-		$tbody = $this->Alarm_model->getAll();
+		$thead = ['N°', 'NOMBRE', 'LATITUD', 'LONGITUD','ENCARGADO','SECTOR', 'ESTADO'];
+		$tbody = ($idSector == 0) ? $this->Alarm_model->getAll() : $this->Alarm_model->getAll($idSector);
 
 		$data = [
-			'title' => 'Países',
-			'titleDocument' => 'Lista de Sectores',
+			'title' => 'Alarmas',
+			'titleDocument' => 'Lista de alarmas',
 			'thead' => $thead,
 			'tbody' => $tbody
 		];
@@ -400,11 +400,11 @@ class AlarmsController extends MY_Controller
 		$mPdf->Output();
 	}
 
-	public function excel()
+	public function excel($idSector)
 	{
-		$header = ['NOMBRE', 'BARRIO', 'ESTADO'];
-		$users = $this->Alarm_model->getAll();
-		$this->excelGenerate($header, $users, 'sectors');
+		$header = ['NOMBRE', 'LATITUD', 'LONGITUD','ENCARGADO', 'SECTOR', 'ESTADO'];
+		$users = ($idSector == 0) ? $this->Alarm_model->getAll() : $this->Alarm_model->getAll($idSector);
+		$this->excelGenerate($header, $users, 'alarms');
 	}
 
 	public function allOfSector($idSector)

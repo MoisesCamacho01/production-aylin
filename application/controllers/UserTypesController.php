@@ -9,7 +9,7 @@ class UserTypesController extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('User_Type_model');
+		$this->load->model('UserType_model');
 	}
 
 	public function index($submenu)
@@ -26,7 +26,7 @@ class UserTypesController extends MY_Controller
 			'title' => 'Countries',
 			'js' => $js,
 			'url' => site_url('userTypes/search'),
-			'quantity' => count($this->User_Type_model->getAll())
+			'quantity' => count($this->UserType_model->getAll())
 		];
 
 		$this->page = 'app/admin/users/userTypes/index';
@@ -35,7 +35,7 @@ class UserTypesController extends MY_Controller
 
 	public function getRegister($id)
 	{
-		$answer = $this->User_Type_model->getForId($id);
+		$answer = $this->UserType_model->getForId($id);
 
 		$this->response->message->type = 'error';
 		$this->response->message->title = "Tipo de Usuario";
@@ -87,7 +87,7 @@ class UserTypesController extends MY_Controller
 				$this->response->message->title = "Tipo de Usuario Creado";
 				$this->response->message->message = "El Tipo de Usuario no pudo ser creado con éxito";
 
-				if ($this->User_Type_model->insert($data)) {
+				if ($this->UserType_model->insert($data)) {
 					$this->response->message->type = 'success';
 					$this->response->message->message = "El Tipo de Usuario fue creado con éxito";
 				}
@@ -136,7 +136,7 @@ class UserTypesController extends MY_Controller
 				$this->response->message->title = "Tipo de Usuario Actualizado";
 				$this->response->message->message = "El Tipo de Usuario no pudo ser actualizado con éxito";
 
-				if ($this->User_Type_model->updated($data, $this->input->post('id'))) {
+				if ($this->UserType_model->updated($data, $this->input->post('id'))) {
 					$this->response->message->type = 'success';
 					$this->response->message->message = "El Tipo de Usuario fue actualizado con éxito";
 				}
@@ -164,7 +164,7 @@ class UserTypesController extends MY_Controller
 				"id_action" => 'ac03'
 			];
 
-			if ($this->User_Type_model->updated($data, $id)) {
+			if ($this->UserType_model->updated($data, $id)) {
 				$this->response->message->type = "success";
 				$this->response->message->title = "Tipo de usuario";
 				$this->response->message->message = "El tipo de Usuario fue eliminado con éxito";
@@ -184,7 +184,7 @@ class UserTypesController extends MY_Controller
 			"id_action" => 'ac04'
 		];
 
-		if ($this->User_Type_model->updated($data, $id)) {
+		if ($this->UserType_model->updated($data, $id)) {
 
 			$this->response->message->type = "success";
 			$this->response->message->message = "El Tipo de Usuario fue suspendido con éxito";
@@ -203,7 +203,7 @@ class UserTypesController extends MY_Controller
 			"id_action" => 'ac01'
 		];
 
-		if ($this->User_Type_model->updated($data, $id)) {
+		if ($this->UserType_model->updated($data, $id)) {
 			$this->response->message->type = "success";
 			$this->response->message->message = "El Tipo de Usuario fue activado con éxito";
 		}
@@ -214,7 +214,7 @@ class UserTypesController extends MY_Controller
 		$search = htmlspecialchars($this->input->post('search'));
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
-		$getSearch = $this->User_Type_model->search($search, $start, $limit);
+		$getSearch = $this->UserType_model->search($search, $start, $limit);
 
 		$table = $this->generateTable($getSearch);
 		$this->response->data = $table;
@@ -296,7 +296,7 @@ class UserTypesController extends MY_Controller
 	public function pdf()
 	{
 		$thead = ['N°', 'NOMBRE', 'ESTADO'];
-		$tbody = $this->User_Type_model->getAll();
+		$tbody = $this->UserType_model->getAll();
 		$data = [
 			'title' => 'Tipos de usuarios',
 			'titleDocument' => 'Listado de los Tipos de Usuarios',
@@ -313,7 +313,7 @@ class UserTypesController extends MY_Controller
 	public function excel()
 	{
 		$header = ['NOMBRE', 'ESTADO'];
-		$users = $this->User_Type_model->getAll();
+		$users = $this->UserType_model->getAll();
 		$this->excelGenerate($header, $users, 'userTypes');
 	}
 }

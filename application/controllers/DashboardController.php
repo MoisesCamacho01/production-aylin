@@ -12,6 +12,7 @@ class DashboardController extends MY_Controller
 		$this->load->model("Alarm_model");
 		$this->load->model("Parish_model");
 		$this->load->model("Dashboard_model");
+		$this->load->model("TypeNotification_model");
 
 	}
 
@@ -21,11 +22,17 @@ class DashboardController extends MY_Controller
 
 		$js = [
 			'resources/layout/assets/vendor/libs/apex-charts/apexcharts.js',
-			'resources/layout/assets/js/dashboards-analytics.js?t=4',
+			'resources/layout/assets/vendor/libs/chartjs/chartjs.js',
+			'resources/layout/assets/js/dashboards-analytics.js?t=5',
+			'resources/layout/assets/js/dashboard-chartjs.js?t=5',
 
 		];
 		$this->data=[
 			'title'=>'Dashboard',
+			'typesNotification' => $this->TypeNotification_model->getAll(),
+			'seguimientoActivacionAlarmas' => json_encode($this->Dashboard_model->getSeguimientoActivacionAlarma('todos')),
+			'comparativaNotificacionAlarmas' => json_encode($this->Dashboard_model->getSeguimientoActivacionAlarma('todos')),
+			'totalMotiveAlarm' => json_encode($this->Dashboard_model->getTotalMotiveAlarm()),
 			'dataUser'=> $this->session->userdata('usuario'),
 			'sectors'=> count($this->Sector_model->getAll()),
 			'alarms'=> count($this->Alarm_model->getAll()),
@@ -40,6 +47,15 @@ class DashboardController extends MY_Controller
 		$this->page = 'app/admin/dashboard/index';
 		$this->layout();
 
+	}
+
+	public function kpi8($tipo){
+		$answer = json_encode($this->Dashboard_model->getSeguimientoActivacionAlarma($tipo));
+		if($answer){
+			$this->response->message->type = 'success';
+			$this->response->data = $answer;
+		}
+		echo json_encode($this->response);
 	}
 }
 

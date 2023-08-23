@@ -381,10 +381,10 @@ class ParishesController extends MY_Controller
 	public function pdf($id_city)
 	{
 		$thead = ['N°', 'NOMBRE', 'CIUDAD','ESTADO'];
-		$tbody = $this->Parish_model->getAll($id_city);
+		$tbody = ($id_city == 0 ) ? $this->Parish_model->getAll() : $this->Parish_model->getAll($id_city);
 
 		$data = [
-			'title' => 'Países',
+			'title' => 'Parroquias',
 			'titleDocument' => 'Lista de Parroquias',
 			'thead' => $thead,
 			'tbody' => $tbody

@@ -15,12 +15,13 @@ class Sector_model extends CI_Model
 
 
 	// ------------------------------------------------------------------------
-	public function getAll()
+	public function getAll($idParishes = '')
 	{
 		$this->db->select('sector.id, sector.name, sector.color, parishes.name as distric, actions.name as action');
 		$this->db->from('sector');
 		$this->db->join('parishes', 'sector.id_distric = parishes.id');
 		$this->db->join('actions', 'sector.id_actions = actions.id');
+		if($idParishes != '') $this->db->where('parishes.id', $idParishes);
 		$answer = $this->db->get();
 
 		return ($answer) ? $answer->result() : false;

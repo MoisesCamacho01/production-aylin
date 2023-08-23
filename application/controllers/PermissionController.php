@@ -12,7 +12,7 @@ class PermissionController extends MY_Controller
 		$this->load->model('MenuPermission_model');
 		$this->load->model('SubMenuPermission_model');
 		$this->load->model('ButtonPermission_model');
-		$this->load->model('User_Type_model');
+		$this->load->model('UserType_model');
 		$this->load->model('AssignMenuPermission_model');
 		$this->load->model('AssignSubMenuPermission_model');
 		$this->load->model('AssignButtonMenuPermission_model');
@@ -30,7 +30,7 @@ class PermissionController extends MY_Controller
 
 		$this->data = [
 			'title' => 'Permission',
-			'menuPermission' => $this->User_Type_model->getForId($id),
+			'menuPermission' => $this->UserType_model->getForId($id),
 			'assignMenuPermissions' => $this->AssignMenuPermission_model->getAll($id),
 			'assignSubMenuPermissions' => $this->AssignSubMenuPermission_model->getAll($id),
 			'assignButtonPermissions' => $this->AssignButtonMenuPermission_model->getAll($id),

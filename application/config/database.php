@@ -74,17 +74,10 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	// 'dsn'	=> '',
-	// 'hostname' => 'localhost',
-	// 'username' => 'postgres',
-	// 'password' => 'moises123',
-	// 'database' => 'alarm_comunity',
-	// 'port' => '5432',
-	// 'dsn'	=> 'pgsql:host=ep-misty-shape-58019240.us-east-2.aws.neon.tech;port=5432;dbname=alarmscommunity;sslmode=require',
-	'dsn'	=> 'pgsql:host=localhost;port=5432;dbname=alarmD',
+	'dsn'	=> 'pgsql:host=containers-us-west-85.railway.app;port=7857;dbname=railway',
 	'hostname' => '',
 	'username' => 'postgres',
-	'password' => 'moises123',
+	'password' => '4Nmtmzy7X3cKKW3G83D1',
 	'database' => '',
 	'port' => '',
 	'dbdriver' => 'pdo',
