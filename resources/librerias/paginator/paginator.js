@@ -1,9 +1,9 @@
-function paginator(pagina){
+async function paginator(pagina){
 	if(pagina>=1){
 		let cantidad = $('input[name="cantidadPaginator"]').val()
 		let searchTxt = $('input[name="searchGlobal"]').val()
 		let inicio = $('input[name="inicioPaginator"]').val()
-		searchGlobal($('input[name="searchGlobal"]').attr('url'), searchTxt, inicio, cantidad)
+		await searchGlobal($('input[name="searchGlobal"]').attr('url'), searchTxt, inicio, cantidad)
 	}else{
 		toast('bg-danger', "¿Error inesperado?", 'Ha ocurrido un problema recarga la pagina', 0, 'top-0 start-50 translate-middle-x');
 	}
@@ -20,7 +20,7 @@ function cantidadPaginator(pagina) {
 	}else{
 		$('.page-left').parent().removeClass('disabled');
 	}
-	
+
 	if((cantidadPaginator*pagina)>=cantidad){
 		$('.page-right').parent().addClass('disabled');
 	}else{

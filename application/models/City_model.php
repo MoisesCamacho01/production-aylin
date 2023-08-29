@@ -72,12 +72,19 @@ class City_model extends CI_Model
 		return ($answer) ? $answer->result() : false;
 	}
 
-	public function drawCreate(object $data)
-	{
-		$sql = "INSERT INTO cities_georeferencing(id, locasation, id_city, id_action, created_at, updated_at) VALUES ('$data->id',ST_SetSRID(ST_MakePoint($data->lng, $data->lat), 4326), '$data->id_state', '$data->id_action', '$data->created_at', '$data->updated_at')";
+	public function drawCreate(object $data){
+		$sql = "INSERT INTO cities_georeferencing VALUES (
+			'$data->id',
+			ST_GeomFromText('POLYGON(($data->geo))', 4326),
+			'$data->id_city',
+			'$data->id_action',
+			'$data->created_at',
+			'$data->updated_at')";
 		$answer = $this->db->query($sql);
-		return $answer ? true : false;
+
+		return ($answer) ? true : false;
 	}
+
 	public function drawDelete($id_state)
 	{
 		$this->db->where('id_city', $id_state);
@@ -85,11 +92,49 @@ class City_model extends CI_Model
 
 		return $answer ? true : false;
 	}
-	public function getForMapId($idState)
+	public function getForMapId($idCity)
 	{
-		$sql = "SELECT sec.name, ST_X(ST_AsText(secgeo.locasation)) AS longitud, ST_Y(ST_AsText(secgeo.locasation)) AS latitud FROM cities_georeferencing secgeo RIGHT JOIN cities sec ON secgeo.id_city = sec.id WHERE sec.id = '$idState'";
+		$sql = "SELECT c.name, ST_AsGeoJSON(locasation)::json AS geom FROM cities_georeferencing geo
+		INNER JOIN cities c ON geo.id_city = c.id
+		WHERE geo.id_city = '$idCity'";
+		// echo $sql;
 		$answer = $this->db->query($sql);
 		return $answer ? $answer->result() : false;
+	}
+
+	public function getAllPolygon($idState){
+		$sql = "SELECT c.name, geo.id_city, ST_AsGeoJSON(locasation)::json AS geom FROM cities_georeferencing geo
+		INNER JOIN cities c ON geo.id_city = c.id
+		INNER JOIN states s ON c.id_states = s.id
+		WHERE s.id = '$idState'";
+		$answer = $this->db->query($sql);
+		return (count($answer->result())>0) ? $answer->result() : false;
+	}
+
+	public function getAllAlarmOfCity($idCity){
+		$sql = "SELECT a.id, a.code, sec.id_actions as a_sector, a.id_sector, sec.name As sector,
+		p.name as parish,
+		c.name as canton,
+		CONCAT(am.name,' ',am.last_name) as name_manager,
+		am.phone,
+		am.mobile,
+		a.id_user,
+		p.id_actions as a_parish,
+		c.id_actions as a_city,
+		a.id_action as a_alarm,
+		ST_X(ST_AsText(a.localization)) AS lng_alarm,
+		ST_Y(ST_AsText(a.localization)) AS lat_alarm,
+		geo.id_alarm as id_city,
+		ST_AsGeoJSON(locasation)::json AS geom FROM alarm_georeferencing geo
+		INNER JOIN alarms a ON geo.id_alarm = a.id
+		INNER JOIN alarm_manager am ON a.id_alarm_manager = am.id
+		INNER JOIN sector sec ON a.id_sector = sec.id
+		INNER JOIN parishes p ON sec.id_distric = p.id
+		INNER JOIN cities c ON p.id_city = c.id
+		INNER JOIN states s ON c.id_states = s.id
+		WHERE c.id = '$idCity'";
+		$answer = $this->db->query($sql);
+		return (count($answer->result())>0) ? $answer->result() : false;
 	}
 
 	// ------------------------------------------------------------------------

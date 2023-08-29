@@ -250,15 +250,18 @@ class SectorsController extends MY_Controller
 		$this->response->message->title = 'Dibujar Sector';
 		$this->response->message->message = 'El mapa del sector no se pudo dibujar';
 
-		if ($this->Sector_model->drawDelete($id)) {
-			$data = (object)[];
-			$status = "";
-			foreach ($cords as $row) {
+		if ($this->City_model->drawDelete($id)) {
+			$poligono = "";
+			if(isset($cords[0]->lng)){
+				foreach ($cords as $row) {
+					$poligono .= "$row->lng $row->lat,";
+				}
 
-				$data = (object)[
+				$poligono .= $cords[0]->lng . " " . $cords[0]->lat;
+
+				$data = (object) [
 					"id" => $this->generateId(),
-					"lat" => $row->lat,
-					"lng" => $row->lng,
+					"geo" => $poligono,
 					"id_sector" => $id,
 					"id_action" => 'ac01',
 					"created_at" => date('Y-m-d H:i:s'),
@@ -266,17 +269,14 @@ class SectorsController extends MY_Controller
 				];
 
 				if ($this->Sector_model->drawCreate($data)) {
-					$status = "success";
-				} else {
-					$status = "";
-					break;
+					$this->response->message->type = 'success';
+					$this->response->message->message = 'El mapa del canton fue dibujado con éxito';
 				}
+			}else{
+				$this->response->message->type = 'success';
+				$this->response->message->message = 'El mapa del canton fue borrado con éxito';
 			}
-		}
 
-		if ($status == "success") {
-			$this->response->message->type = 'success';
-			$this->response->message->message = 'El mapa del sector fue dibujado con éxito';
 		}
 
 		echo json_encode($this->response);
@@ -296,6 +296,22 @@ class SectorsController extends MY_Controller
 			$this->response->message->message = 'La Mapa del sector fue encontrado con éxito';
 		}
 
+		echo json_encode($this->response);
+	}
+
+	public function allAlarmOfSector($idSector)
+	{
+		$answer = $this->Sector_model->getAllAlarmOfSector($idSector);
+
+		$this->response->message->type = "error";
+		$this->response->message->title = "Provincias encontradas";
+		$this->response->message->message = "Las alarmas no fueron encontrados";
+
+		if ($answer) {
+			$this->response->data = $answer;
+			$this->response->message->type = "success";
+			$this->response->message->message = "Las alarmas fueron encontrados";
+		}
 		echo json_encode($this->response);
 	}
 
@@ -424,7 +440,7 @@ class SectorsController extends MY_Controller
 	}
 
 	public function allSectorDistrict($idDistrict){
-		$answer = $this->Sector_model->getAllSectorDistrict($idDistrict);
+		$answer = $this->Sector_model->getAllPolygon($idDistrict);
 
 		$this->response->message->type = "error";
 		$this->response->message->title = "Sectores encontrados";

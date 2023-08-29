@@ -7,9 +7,17 @@ $route['(:any)/reports/historyUseSystem']['GET'] = 'ReportsController/historyUse
 $route['(:any)/reports/passwordReset']['GET'] = 'ReportsController/passwordReset/$1';
 
 // AJAX
+//COUNTRY
 $route['reports/states/all-state-country/(:any)']['GET'] = 'StatesController/allSectorForCountry/$1';
+$route['reports/cities/all-alarm-state/(:any)']['GET'] = 'StatesController/allAlarmOfState/$1';
+
 $route['reports/cities/all-city-state/(:any)']['GET'] = 'CitiesController/allCityForState/$1';
 $route['reports/parish/all-parish-city/(:any)']['GET'] = 'ParishesController/allParishForCity/$1';
+
+$route['reports/cities/all-alarm-city/(:any)']['GET'] = 'CitiesController/allAlarmOfCity/$1';
+$route['reports/parish/all-alarm-parish/(:any)']['GET'] = 'ParishesController/allAlarmOfParish/$1';
+
+$route['reports/sector/all-alarm-sector/(:any)']['GET'] = 'SectorsController/allAlarmOfSector/$1';
 
 // ALL
 $route['reports/sectors/all']['GET'] = 'SectorsController/all';

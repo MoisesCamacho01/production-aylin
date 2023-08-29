@@ -1,5 +1,5 @@
 <!-- API DE GOOGLE MAPS -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&libraries=places,geometry&callback=initMap" defer>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&libraries=places,geometry,drawing&callback=initMap" defer>
 </script>
 <!--  -->
 
@@ -109,7 +109,7 @@
 
 						<div class="row">
 							<div class="col-12 mb-2">
-								<label for="institutionsE" class="form-label">Sector</label>
+								<label for="NameCiudad" class="form-label">Sector</label>
 								<input type="text" id="NameCiudad" class="form-control" disabled value="<?= $sector->name ?>"
 									placeholder="Ingrese una ciudad" />
 								<input type="hidden" id="sector" value="<?= $sector->id ?>">
@@ -119,7 +119,7 @@
 
 						<div class="row">
 							<div class="col-12 mb-2 mt-2">
-								<label for="mapLocationAlarm" class="form-label">Ubicación de la alarma</label>
+								<label class="form-label">Ubicación de la alarma</label>
 							</div>
 							<div class="col-6 mb-2 mt-2">
 								<input type="text" id="latitude" class="form-control" disabled value=""
@@ -199,7 +199,7 @@
 
 						<div class="row">
 							<div class="col-12 mb-2 mt-2">
-								<label for="mapLocationAlarmE" class="form-label">Ubicación de la alarma</label>
+								<label class="form-label">Ubicación de la alarma</label>
 							</div>
 							<div class="col-6 mb-2 mt-2">
 								<input type="text" id="latitudeE" class="form-control" disabled value=""
@@ -246,7 +246,7 @@
 				<div class="row">
 					<div class="col mb-3">
 						<p class="text-danger">Si eliminas esta alarma, no se podrá activar</p>
-						<label for="usernameE" class="form-label">¿Seguro quieres eliminar este registro?</label>
+						<label class="form-label">¿Seguro quieres eliminar este registro?</label>
 					</div>
 				</div>
 			</div>
@@ -272,7 +272,7 @@
 				<div class="row">
 					<div class="col mb-3">
 					<p class="text-danger">Si suspendes esta alarma, no se podrá activar</p>
-						<label for="usernameE" class="form-label">¿Seguro quieres suspender este registro?</label>
+						<label class="form-label">¿Seguro quieres suspender este registro?</label>
 					</div>
 				</div>
 			</div>
@@ -297,7 +297,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
-						<label for="usernameE" class="form-label">¿Seguro quieres activar este registro?</label>
+						<label class="form-label">¿Seguro quieres activar este registro?</label>
 					</div>
 				</div>
 			</div>
@@ -321,17 +321,55 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-12 bg-gray">
-						<div id="map" class="" style="border: none; width: 100%; height: 70vh;"></div>
+					<div class="col-12">
+						<div class="loaderModal loader mt-4 ocultar"></div>
+						<div id="map" class="mapa ocultar"></div>
 						<input type="hidden" name="cords" value="">
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn btn-info btnNuevo disabled">
+					Nuevo dibujo
+				</button>
+				<button type="button" class="btn btn-info btnMB" data-bs-toggle="modal" data-bs-target="#modalBorrarPolygon">
+					Borrar dibujo
+				</button>
+				<button type="button" class="btn btn-success btnMover">
+					Mover dibujo
+				</button>
+				<button type="button" class="btn btn-danger btnNoMover disabled">
+					No mover dibujo
+				</button>
 				<button type="button" class="btn btn-outline-secondary btnCloseModal" data-bs-dismiss="modal">
 					Cancelar
 				</button>
 				<button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL PARA ASEGURAR BORRAR-->
+<div class="modal fade" id="modalBorrarPolygon" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel1">Borrar dibujo</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col mb-3">
+						<label class="form-label">¿Seguro quieres borrar el dibujo?</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-bs-target="#dibujarModal" data-bs-toggle="modal">
+					Cancelar
+				</button>
+				<button type="button" data-bs-target="#dibujarModal" data-bs-toggle="modal" class="btn btn-primary btnBorrar">Aceptar</button>
 			</div>
 		</div>
 	</div>
@@ -348,8 +386,8 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-12 bg-gray">
-						<div id="viewMap" class="" style="border: none; width: 100%; height: 70vh;"></div>
-						<input type="hidden" name="cords" value="">
+						<div class="loaderModal loader mt-4 ocultar"></div>
+						<div id="viewMap" class="mapa"></div>
 					</div>
 				</div>
 			</div>
@@ -364,8 +402,8 @@
 </div>
 
 <input type="hidden" name="idInstitution" value="<?= $sector->id ?>">
-<input type="hidden" name="lat" value="">
-<input type="hidden" name="lng" value="">
+<input type="hidden" id="lat" name="lat" value="">
+<input type="hidden" id="lng" name="lng" value="">
 
 
 <!-- PAGINATOR -->

@@ -28,13 +28,6 @@ class Alarm_model extends CI_Model
 	}
 
 	public function getAllofSector($idP){
-		// $sql = "SELECT alarms.id, alarms.code, alarms.id_sector, sector.name As sector,
-		// ST_X(ST_AsText(localization)) AS longitud, ST_Y(ST_AsText(localization)) AS latitud,
-		// alarms.id_alarm_manager, alarms.id_user, actions.name As action
-		// FROM alarms INNER JOIN sector ON alarms.id_sector = sector.id
-		// INNER JOIN alarm_manager ON alarms.id_alarm_manager = alarm_manager.id
-		// INNER JOIN actions ON alarms.id_action = actions.id
-		// WHERE alarms.id_sector = '$idP'";
 
 		$sql = "SELECT alarms.id, alarms.code, alarms.id_sector, sector.name As sector, sector.id_actions as a_sector, parishes.id_actions as a_parish, cities.id_actions as a_city, alarms.id_action as a_alarm,
 		ST_X(ST_AsText(localization)) AS longitud, ST_Y(ST_AsText(localization)) AS latitud,
@@ -90,7 +83,13 @@ class Alarm_model extends CI_Model
 
 	public function drawCreate(object $data)
 	{
-		$sql = "INSERT INTO alarm_georeferencing(id, localization, id_alarm, id_action, created_at, updated_at) VALUES ('$data->id',ST_SetSRID(ST_MakePoint($data->lng, $data->lat), 4326), '$data->id_alarm', '$data->id_action', '$data->created_at', '$data->updated_at')";
+		$sql = "INSERT INTO alarm_georeferencing VALUES (
+			'$data->id',
+			ST_GeomFromText('POLYGON(($data->geo))', 4326),
+			'$data->id_alarm',
+			'$data->id_action',
+			'$data->created_at',
+			'$data->updated_at')";
 		$answer = $this->db->query($sql);
 		return $answer ? true : false;
 	}
@@ -103,11 +102,30 @@ class Alarm_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function getForMapId($idSector)
+	public function getForMapId($idAlarm)
 	{
-		$sql = "SELECT alarms.code, ST_X(ST_AsText(algeo.localization)) AS longitud, ST_Y(ST_AsText(algeo.localization)) AS latitud FROM alarm_georeferencing algeo INNER JOIN alarms ON alarms.id = algeo.id_alarm WHERE id_alarm = '$idSector'";
+		$sql = "SELECT a.code, ST_X(ST_AsText(a.localization)) AS lng_alarm, ST_Y(ST_AsText(a.localization)) AS lat_alarm,
+		ST_AsGeoJSON(locasation)::json AS geom FROM alarm_georeferencing geo
+		INNER JOIN alarms a ON a.id = geo.id_alarm
+		WHERE geo.id_alarm = '$idAlarm'";
 		$answer = $this->db->query($sql);
+
+		if(count($answer->result())<=0){
+			$sql = "SELECT a.code, ST_X(ST_AsText(a.localization)) AS lng_alarm, ST_Y(ST_AsText(a.localization)) AS lat_alarm
+			FROM alarms a WHERE a.id = '$idAlarm'";
+			$answer = $this->db->query($sql);
+		}
+
 		return $answer ? $answer->result() : false;
+	}
+
+	public function getAllPolygon($idSector){
+		$sql = "SELECT a.code as name, geo.id_alarm as id_city, ST_AsGeoJSON(locasation)::json AS geom FROM alarm_georeferencing geo
+		INNER JOIN alarms a ON geo.id_alarm = a.id
+		INNER JOIN sector s ON a.id_sector = s.id
+		WHERE s.id = '$idSector'";
+		$answer = $this->db->query($sql);
+		return (count($answer->result())>0) ? $answer->result() : false;
 	}
 
 	// ------------------------------------------------------------------------

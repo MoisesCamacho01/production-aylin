@@ -40,6 +40,7 @@
 	</div>
 	<div id="bodyTable">
 		<div id="viewMap" class="" style="border: none; width: 100%; height: 70vh;"></div>
+
 	</div>
 </div>
 
@@ -143,7 +144,7 @@
 
 						<div class="row">
 							<div class="col-12 mb-2">
-								<label for="NameCiudad" class="form-label">Sector</label>
+								<label for="NameSector" class="form-label">Sector</label>
 								<input type="text" id="NameSector" class="form-control" disabled value="" placeholder="Ingrese un Sector" />
 								<input type="hidden" id="sectorE" value="">
 								<span class="validate-text" name="sectorE"></span>
@@ -152,7 +153,7 @@
 
 						<div class="row">
 							<div class="col-12 mb-2 mt-2">
-								<label for="mapLocationAlarmE" class="form-label">Ubicación de la alarma</label>
+								<label class="form-label">Ubicación de la alarma</label>
 							</div>
 							<div class="col-6 mb-2 mt-2">
 								<input type="text" id="latitudeE" class="form-control" disabled value="" placeholder="latitude" />
@@ -196,7 +197,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
-						<label for="usernameE" class="form-label">¿Seguro quieres activar la alarma?</label>
+						<label class="form-label">¿Seguro quieres activar la alarma?</label>
 						<span class="validate-text" name="sound"></span>
 						<span class="validate-text" name="ip"></span>
 					</div>
@@ -246,7 +247,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col mb-3">
-						<label for="usernameE" class="form-label">¿Seguro quieres para la alarma?</label>
+						<label class="form-label">¿Seguro quieres para la alarma?</label>
 						<span class="validate-text" name="sound"></span>
 					</div>
 				</div>
@@ -266,7 +267,7 @@
 <input type="hidden" name="userName" id="userName" value="<?= $userName ?>">
 
 <input type="hidden" name="ipUser" id="ip" value="">
-<input type="hidden" id="sound" active="false" name="idSectorSound" value="">
+<input type="hidden" id="sound" active="false" value="">
 <input type="hidden" id="soundName" name="nameSectorSound" value="">
 <input type="hidden" name="idInstitution" value="">
 

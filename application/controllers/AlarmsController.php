@@ -16,8 +16,6 @@ class AlarmsController extends MY_Controller
 
 	public function index($submenu, $idSector)
 	{
-
-
 		$js = [
 			'resources/librerias/paginator/paginator.js',
 			'resources/src/js/alarms.js?t=5',
@@ -259,14 +257,17 @@ class AlarmsController extends MY_Controller
 		$this->response->message->message = 'La alarma no se pudo dibujar';
 
 		if ($this->Alarm_model->drawDelete($id)) {
-			$data = (object)[];
-			$status = "";
-			foreach ($cords as $row) {
+			$poligono = "";
+			if(isset($cords[0]->lng)){
+				foreach ($cords as $row) {
+					$poligono .= "$row->lng $row->lat,";
+				}
 
-				$data = (object)[
+				$poligono .= $cords[0]->lng . " " . $cords[0]->lat;
+
+				$data = (object) [
 					"id" => $this->generateId(),
-					"lat" => $row->lat,
-					"lng" => $row->lng,
+					"geo" => $poligono,
 					"id_alarm" => $id,
 					"id_action" => 'ac01',
 					"created_at" => date('Y-m-d H:i:s'),
@@ -274,17 +275,14 @@ class AlarmsController extends MY_Controller
 				];
 
 				if ($this->Alarm_model->drawCreate($data)) {
-					$status = "success";
-				} else {
-					$status = "";
-					break;
+					$this->response->message->type = 'success';
+					$this->response->message->message = 'El area de la alarma fue dibujado con éxito';
 				}
+			}else{
+				$this->response->message->type = 'success';
+				$this->response->message->message = 'El area de la alarma fue borrado con éxito';
 			}
-		}
 
-		if ($status == "success") {
-			$this->response->message->type = 'success';
-			$this->response->message->message = 'La alarma se pudo dibujar';
 		}
 
 		echo json_encode($this->response);
@@ -409,7 +407,7 @@ class AlarmsController extends MY_Controller
 
 	public function allOfSector($idSector)
 	{
-		$answer = $this->Alarm_model->getAllofSector($idSector);
+		$answer = $this->Alarm_model->getAllPolygon($idSector);
 		$this->response->message->type = "error";
 		$this->response->message->title = "Alarmas encontradas";
 		$this->response->message->message = "Las alarmas no fueron encontradas";

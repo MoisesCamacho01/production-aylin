@@ -1,7 +1,9 @@
 <!-- API DE GOOGLE MAPS -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&libraries=places,geometry&callback=initMap" defer>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&libraries=places,geometry,drawing&callback=initMap" defer>
 </script>
-<!--  -->
+<!-- -->
+<link rel="stylesheet" href="<?=base_url('resources/librerias/leaflet/leaflet.css'); ?>" />
+
 
 <h4 class="fw-bold py-3 mb-4">
 	<span class="text-muted fw-light">Cantones /</span> Listado
@@ -263,17 +265,55 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-12 bg-gray">
-						<div id="map" class="" style="border: none; width: 100%; height: 70vh;"></div>
+					<div class="col-12">
+						<div class="loaderModal loader mt-4 ocultar"></div>
+						<div id="map" class="mapa ocultar"></div>
 						<input type="hidden" name="cords" value="">
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn btn-info btnNuevo disabled">
+					Nuevo dibujo
+				</button>
+				<button type="button" class="btn btn-info btnMB" data-bs-toggle="modal" data-bs-target="#modalBorrarPolygon">
+					Borrar dibujo
+				</button>
+				<button type="button" class="btn btn-success btnMover">
+					Mover dibujo
+				</button>
+				<button type="button" class="btn btn-danger btnNoMover disabled">
+					No mover dibujo
+				</button>
 				<button type="button" class="btn btn-outline-secondary btnCloseModal" data-bs-dismiss="modal">
 					Cancelar
 				</button>
 				<button type="button" id="btnSaveDraw" data-bs-dismiss="modal" class="btn btn-primary">Guardar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL PARA ASEGURAR BORRAR-->
+<div class="modal fade" id="modalBorrarPolygon" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel1">Borrar dibujo</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col mb-3">
+						<label for="usernameE" class="form-label">¿Seguro quieres borrar el dibujo?</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-bs-target="#dibujarModal" data-bs-toggle="modal">
+					Cancelar
+				</button>
+				<button type="button" data-bs-target="#dibujarModal" data-bs-toggle="modal" class="btn btn-primary btnBorrar">Aceptar</button>
 			</div>
 		</div>
 	</div>
@@ -289,9 +329,9 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-12 bg-gray">
-						<div id="viewMap" class="" style="border: none; width: 100%; height: 70vh;"></div>
-						<input type="hidden" name="cords" value="">
+					<div class="col-12">
+						<div class="loaderModal loader mt-4 ocultar"></div>
+						<div id="viewMap" class="mapa"></div>
 					</div>
 				</div>
 			</div>

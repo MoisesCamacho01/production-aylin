@@ -17,7 +17,7 @@ class ParishesController extends MY_Controller
 	{
 		$js = [
 			'resources/librerias/paginator/paginator.js',
-			'resources/src/js/parishes.js?t=2',
+			'resources/src/js/parishes.js?t=4',
 		];
 
 		$this->session->set_userdata('submenu', $submenu);
@@ -236,32 +236,32 @@ class ParishesController extends MY_Controller
 		$this->response->message->message = 'El mapa del canton no se pudo dibujar';
 
 		if ($this->Parish_model->drawDelete($id)) {
-			$data = (object)[];
-			$status = "";
-			foreach ($cords as $row) {
+			$poligono = "";
+			if(isset($cords[0]->lng)){
+				foreach ($cords as $row) {
+					$poligono .= "$row->lng $row->lat,";
+				}
 
-				$data = (object)[
+				$poligono .= $cords[0]->lng . " " . $cords[0]->lat;
+
+				$data = (object) [
 					"id" => $this->generateId(),
-					"lat" => $row->lat,
-					"lng" => $row->lng,
-					"id_state" => $id,
+					"geo" => $poligono,
+					"id_parish" => $id,
 					"id_action" => 'ac01',
 					"created_at" => date('Y-m-d H:i:s'),
 					"updated_at" => date('Y-m-d H:i:s')
 				];
 
 				if ($this->Parish_model->drawCreate($data)) {
-					$status = "success";
-				} else {
-					$status = "";
-					break;
+					$this->response->message->type = 'success';
+					$this->response->message->message = 'El mapa del canton fue dibujado con éxito';
 				}
+			}else{
+				$this->response->message->type = 'success';
+				$this->response->message->message = 'El mapa del canton fue borrado con éxito';
 			}
-		}
 
-		if ($status == "success") {
-			$this->response->message->type = 'success';
-			$this->response->message->message = 'El mapa de la parroquia fue dibujado con éxito';
 		}
 
 		echo json_encode($this->response);
@@ -284,8 +284,8 @@ class ParishesController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function allParishForCity($idState){
-		$answer = $this->Parish_model->getAll($idState);
+	public function allParishForCity($idCity){
+		$answer = $this->Parish_model->getAllPolygon($idCity);
 
 		$this->response->message->type = "error";
 		$this->response->message->title = "Parroquias encontradas";
@@ -295,6 +295,22 @@ class ParishesController extends MY_Controller
 			$this->response->data = $answer;
 			$this->response->message->type = "success";
 			$this->response->message->message = "Las parroquias fueron encontrados";
+		}
+		echo json_encode($this->response);
+	}
+
+	public function allAlarmOfParish($idCity)
+	{
+		$answer = $this->Parish_model->getAllAlarmOfParish($idCity);
+
+		$this->response->message->type = "error";
+		$this->response->message->title = "Provincias encontradas";
+		$this->response->message->message = "Las alarmas no fueron encontrados";
+
+		if ($answer) {
+			$this->response->data = $answer;
+			$this->response->message->type = "success";
+			$this->response->message->message = "Las alarmas fueron encontrados";
 		}
 		echo json_encode($this->response);
 	}

@@ -72,7 +72,7 @@
 					<div class="card-body">
 						<div class="card-title d-flex align-items-start justify-content-between">
 							<div class="avatar flex-shrink-0">
-								<a href="<?= base_url('pdf-users'); ?>" target="_blank">
+								<a href="<?= base_url('pdf-users/0'); ?>" target="_blank">
 									<i class='bx bxs-download text-success h2'></i>
 								</a>
 							</div>
@@ -102,8 +102,56 @@
 </div>
 
 <div class="row">
+	<!-- Expense Overview -->
+	<div class="col-md-12 col-lg-12 order-0 mb-4">
+		<div class="card h-100">
+			<div class="card-header d-flex align-items-center justify-content-between">
+				<ul class="nav nav-pills" role="tablist">
+					<li>
+						<span id="textKp8">
+							TODOS
+						</span>
+					</li>
+				</ul>
+				<div class="dropdown">
+					<button class="btn p-0" type="button" id="transactionID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="bx bx-dots-vertical-rounded"></i>
+					</button>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
+					<?php if(count($typesNotification)>0): ?>
+						<a class="dropdown-item btnKPI8" data="todos">TODOS</a>
+						<?php foreach($typesNotification as $row): ?>
+							<a class="dropdown-item btnKPI8" data="<?= $row->name ?>"><?= $row->name ?></a>
+					<?php endforeach; endif;?>
+					</div>
+				</div>
+			</div>
+			<div class="card-body px-0">
+				<div class="tab-content p-0">
+					<div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
+						<div class="d-flex p-4 pt-3">
+							<div class="avatar flex-shrink-0 me-3">
+								<img src="<?= base_url('resources/layout/assets/img/icons/unicons/wallet.png') ?>" alt="User" />
+							</div>
+							<div>
+								<small class="text-muted d-block">Seguimiento de activación de alarmas</small>
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0 me-1" id="cantidadMotivo">
+										<?= count($typesNotification); ?>
+									</h6>
+								</div>
+							</div>
+						</div>
+						<div id="incomeChart"></div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ Expense Overview -->
 	<!-- Order Statistics -->
-	<div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
+	<div class="col-md-12 col-lg-6 order-1 mb-4">
 		<div class="card h-100">
 			<div class="card-header d-flex align-items-center justify-content-between pb-0">
 				<div class="card-title mb-0">
@@ -152,57 +200,8 @@
 	</div>
 	<!--/ Order Statistics -->
 
-	<!-- Expense Overview -->
-	<div class="col-md-6 col-lg-4 order-1 mb-4">
-		<div class="card h-100">
-			<div class="card-header d-flex align-items-center justify-content-between">
-				<ul class="nav nav-pills" role="tablist">
-					<li>
-						<span id="textKp8">
-							TODOS
-						</span>
-					</li>
-				</ul>
-				<div class="dropdown">
-					<button class="btn p-0" type="button" id="transactionID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="bx bx-dots-vertical-rounded"></i>
-					</button>
-					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-					<?php if(count($typesNotification)>0): ?>
-						<a class="dropdown-item btnKPI8" data="todos">TODOS</a>
-						<?php foreach($typesNotification as $row): ?>
-							<a class="dropdown-item btnKPI8" data="<?= $row->name ?>"><?= $row->name ?></a>
-					<?php endforeach; endif;?>
-					</div>
-				</div>
-			</div>
-			<div class="card-body px-0">
-				<div class="tab-content p-0">
-					<div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
-						<div class="d-flex p-4 pt-3">
-							<div class="avatar flex-shrink-0 me-3">
-								<img src="<?= base_url('resources/layout/assets/img/icons/unicons/wallet.png') ?>" alt="User" />
-							</div>
-							<div>
-								<small class="text-muted d-block">Seguimiento de activación de alarmas</small>
-								<div class="d-flex align-items-center">
-									<h6 class="mb-0 me-1" id="cantidadMotivo">
-										<?= count($typesNotification); ?>
-									</h6>
-								</div>
-							</div>
-						</div>
-						<div id="incomeChart"></div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--/ Expense Overview -->
-
 	<!-- Transactions -->
-	<div class="col-md-6 col-lg-4 order-2 mb-4">
+	<div class="col-md-12 col-lg-6 order-2 mb-4">
 		<div class="card h-100">
 			<div class="card-header d-flex align-items-center justify-content-between">
 				<h5 class="card-title m-0 me-2">Historial de notificaciones</h5>
@@ -239,7 +238,7 @@
 	<!--/ Transactions -->
 
 	<!-- SEGUIMIENTO DE ACTIVACION LINEAS -->
-	<div class="col-m12-6 order-2 mb-4">
+	<div class="col-md-12 order-3 mb-4">
 		<div class="card">
 			<div class="card-header header-elements">
 				<div>

@@ -1,7 +1,7 @@
 <!-- API DE GOOGLE MAPS -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&libraries=places&callback=initMap" defer>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&libraries=places,drawing&callback=initMap" defer>
 </script>
-<!--  -->
+<!-- -->
 
 <h4 class="fw-bold py-3 mb-4">
 	<span class="text-muted fw-light">Provincias /</span> Listado
@@ -22,7 +22,12 @@
 				<?= $row->name?>
 			</a>
 		<?php endif; ?>
-	<?php endforeach; ?>
+		<!-- <?php if($row->id == 'BP0017') : ?>
+			<a class="btn btn-warning text-white" href="<?= site_url('draw-state/C001') ?>">
+				<?= $row->name?>
+			</a>
+		<?php endif; ?> -->
+		<?php endforeach; ?>
 </h4>
 <!-- Basic Bootstrap Table -->
 <div class="card">
@@ -234,8 +239,9 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-12 bg-gray">
-						<div id="map" class="" style="border: none; width: 100%; height: 70vh;"></div>
+					<div class="col-12">
+						<div class="loaderModal loader mt-4 ocultar"></div>
+						<div id="map" class="mapa ocultar"></div>
 						<input type="hidden" name="cords" value="">
 					</div>
 				</div>
@@ -260,9 +266,9 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-12 bg-gray">
-						<div id="viewMap" class="" style="border: none; width: 100%; height: 70vh;"></div>
-						<input type="hidden" name="cords" value="">
+					<div class="col-12">
+						<div class="loaderModal loader mt-4 ocultar"></div>
+						<div id="viewMap" class="mapa"></div>
 					</div>
 				</div>
 			</div>

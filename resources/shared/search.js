@@ -32,19 +32,21 @@ function searchGlobal(url, text='', start, limit){
 	$('#loader').removeClass('ocultar');
 	$('#bodyTable').html('');
 
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: data,
-		success: function (answer) {
-			let response = JSON.parse(answer)
-			if(response.message.type === 'success') {
-				$('#loader').addClass('ocultar');
-				$('#bodyTable').html(response.data);
-				cantidadPaginator($("input[name='pagePaginator']").val())
-			}else{
-				toast('bg-danger', response.message.title, response.message.message, 1);
+	setTimeout( async () => {
+		await $.ajax({
+			type: "POST",
+			url: url,
+			data: data,
+			success: function (answer) {
+				let response = JSON.parse(answer)
+				if(response.message.type === 'success') {
+					$('#loader').addClass('ocultar');
+					$('#bodyTable').html(response.data);
+					cantidadPaginator($("input[name='pagePaginator']").val())
+				}else{
+					toast('bg-danger', response.message.title, response.message.message, 1);
+				}
 			}
-		}
-	});
+		});
+	}, 200);
 }

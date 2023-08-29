@@ -7,7 +7,7 @@ function suspend() {
 		id,
 	};
 
-	let url = $("input[name=url]").val() + "districs/suspend";
+	let url = $("input[name=url]").val() + "cities/suspend";
 	$.ajax({
 		type: "POST",
 		url: url,
@@ -21,9 +21,7 @@ function suspend() {
 					response.message.message,
 					1
 				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
+
 			} else {
 				toast(
 					"bg-danger",
@@ -43,7 +41,7 @@ function active() {
 		id,
 	};
 
-	let url = $("input[name=url]").val() + "districs/active";
+	let url = $("input[name=url]").val() + "cities/active";
 	$.ajax({
 		type: "POST",
 		url: url,
@@ -57,9 +55,7 @@ function active() {
 					response.message.message,
 					1
 				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
+
 			} else {
 				toast(
 					"bg-danger",
@@ -79,7 +75,7 @@ function deleted() {
 		id,
 	};
 
-	let url = $("input[name=url]").val() + "districs/delete";
+	let url = $("input[name=url]").val() + "cities/delete";
 	$.ajax({
 		type: "POST",
 		url: url,
@@ -93,9 +89,7 @@ function deleted() {
 					response.message.message,
 					1
 				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
+
 			} else {
 				toast(
 					"bg-danger",
@@ -111,50 +105,38 @@ function deleted() {
 function update() {
 	let id = $("input[name=id]").val();
 	let name = $("#nameE").val();
-	let distric = $("#districE").val();
-	let color = $("#colorE").val();
+	let states = $("#statesE").val();
 
 	let value = validate([
 		{
 			name: "nameE",
-			type: "string",
+			type: "text",
 			campo: "nombre",
 			value: name,
 			min: 1,
-			max: 191,
+			max: 50,
 			required: true,
 		},
 
 		{
-			name: "districE",
+			name: "statesE",
 			type: "string",
-			campo: "Parroquia",
-			value: distric,
+			campo: "provincia",
+			value: states,
 			min: 1,
-			max: 255,
-			required: true,
-		},
-
-		{
-			name: "colorE",
-			type: "string",
-			campo: "color",
-			value: color,
-			min: 1,
-			max: 20,
+			max: 50,
 			required: true,
 		},
 	]);
 
-	if (value) {
+	if(value){
 		const data = {
 			id,
 			name,
-			distric: distric,
-			color: color,
+			states,
 		};
 
-		let url = $("input[name=url]").val() + "districs/update";
+		let url = $("input[name=url]").val() + "cities/update";
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -168,7 +150,9 @@ function update() {
 						response.message.message,
 						1
 					);
+
 					$(".btn-model-close").trigger("click");
+
 				} else {
 					toast(
 						"bg-danger",
@@ -180,53 +164,42 @@ function update() {
 			},
 		});
 	}
+
 }
 
 function create() {
 	let name = $("#name").val();
-	let distric = $("#distric").val();
-	let color = $("#color").val();
+	let states = $("#states").val();
 
 	let value = validate([
 		{
 			name: "name",
-			type: "string",
-			value: name,
+			type: "text",
 			campo: "nombre",
+			value: name,
 			min: 1,
-			max: 191,
+			max: 50,
 			required: true,
 		},
 
 		{
-			name: "distric",
+			name: "states",
 			type: "string",
-			campo: "parroquia",
-			value: distric,
+			campo: "provincia",
+			value: states,
 			min: 1,
-			max: 255,
-			required: true,
-		},
-
-		{
-			name: "color",
-			type: "string",
-			campo: "color",
-			value: color,
-			min: 1,
-			max: 20,
+			max: 50,
 			required: true,
 		},
 	]);
 
-	if (value) {
+	if(value){
 		const data = {
 			name,
-			distric,
-			color,
+			states,
 		};
 
-		let url = $("input[name=url]").val() + "districs/crear";
+		let url = $("input[name=url]").val() + "cities/crear";
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -240,7 +213,7 @@ function create() {
 						response.message.message,
 						1
 					);
-					$("#name").val("");
+					$("#name").val('');
 					$(".btn-model-close").trigger("click");
 
 				} else {
@@ -254,19 +227,18 @@ function create() {
 			},
 		});
 	}
+
 }
 
-function getForId() {
+function getForId(){
 	let id = $("input[name=id]").val();
-	let idI = $("input[name=idInstitution").val();
 
-	let url = $("input[name=url]").val() + "districs/" + idI + "/" + id;
+	let url = $("input[name=url]").val() + "cities/"+id;
 	$.ajax({
 		type: "GET",
 		url: url,
 		success: function (answer) {
 			let response = JSON.parse(answer);
-
 			if (response.message.type == "success") {
 				toast(
 					"bg-success",
@@ -274,9 +246,13 @@ function getForId() {
 					response.message.message,
 					1
 				);
-				$("#nameE").val(response.data.name);
-				$("#colorE").val(response.data.color);
 
+				$('#nameE').val(response.data.name);
+				$('#statesE').val(response.data.state);
+				$('#countriesE').val(response.data.country);
+				// setTimeout(() => {
+				// 	window.location.href = 'dashboard';
+				// }, 600);
 			} else {
 				toast(
 					"bg-danger",
@@ -285,28 +261,29 @@ function getForId() {
 					1
 				);
 
-				$(".btn-close").click();
+				$('.btn-close').click();
 			}
 		},
 	});
 }
 
-function getRegister() {
-	let urlSearch = $("input[name=searchGlobal]").attr("url");
-	if (urlSearch != "") {
+function getRegister(){
+	let urlSearch = $('input[name=searchGlobal]').attr('url');
+	if(urlSearch!=''){
 		paginator(1);
 	}
 }
 
-function initMap() {
+async function initMap() {
 	let path = [];
 	let coords = { lat: -0.9179301528102732, lng: -78.63297106182672 };
 	let drawMap = "";
-	var myPolygon = '';
 	var borrado = 0;
+	var myPolygon = '';
 
 	$("#bodyTable").on("click", ".btnDrawMap", function (e) {
 		e.preventDefault();
+		$("input[name=idInstitution]").val($(this).attr('dataIdC'))
 		drawingPolygon();
 	});
 
@@ -318,11 +295,12 @@ function initMap() {
 
 	$("#bodyTable").on("click", ".btnGetDraw", function (e) {
 		e.preventDefault();
+		$("input[name=idInstitution]").val($(this).attr('dataIdC'))
 		viewDrawOnMap();
 	});
 
-
 	async function saveDraw() {
+		// updatePath();
 		path=[];
 		if(borrado==0){
 			await getPolygonCoords();
@@ -333,8 +311,8 @@ function initMap() {
 			cords: JSON.stringify(path),
 		};
 
-		let url = $("input[name=url]").val() + "drawSector";
-		$.ajax({
+		let url = $("input[name=url]").val() + "drawCity";
+		await $.ajax({
 			type: "POST",
 			url: url,
 			data: data,
@@ -347,6 +325,11 @@ function initMap() {
 						response.message.message,
 						1
 					);
+					borrado = 0;
+					$(".btnNuevo").addClass('disabled');
+					$(".btnNoMover").addClass('disabled');
+					$(".btnMB").removeClass('disabled');
+					$(".btnMover").removeClass('disabled');
 				} else {
 					toast(
 						"bg-danger",
@@ -359,7 +342,6 @@ function initMap() {
 		});
 	}
 
-	// NUEVO CODIGO
 	$(".btnMover").click(function (e) {
 		e.preventDefault();
 		myPolygon.setOptions({draggable: true});
@@ -398,10 +380,10 @@ function initMap() {
 	async function viewDrawOnMap() {
 
 		let id = $("input[name=id").val();
-		let url = base_url("drawSector/" + id);
+		let url = base_url("drawCity/" + id);
 
 		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
-			zoom: 13,
+			zoom: 9,
 			center: coords,
 			styles: [
 				{
@@ -442,7 +424,7 @@ function initMap() {
 					);
 				}else{
 					toast(
-						"bg-info",
+						"bg-success",
 						response.message.title,
 						response.message.message,
 						1
@@ -458,7 +440,7 @@ function initMap() {
 	async function viewDrawFatherOnMap(drawMap) {
 
 		let id = $("input[name=idInstitution").val();
-		let url = base_url("drawParish/" + id);
+		let url = base_url("drawState/" + id);
 
 		$('.loaderModal').removeClass('ocultar');
 		$("#map").addClass("ocultar");
@@ -470,15 +452,6 @@ function initMap() {
 				let response = JSON.parse(answer);
 				if (response.message.type == "success") {
 					let polygon = JSON.parse(response.data[0].geom);
-					let centro = getCentro(polygon);
-					drawMap.setCenter(centro);
-
-					let lat = polygon.coordinates[0][0][1]
-					let lng = polygon.coordinates[0][0][0]
-					path.push({lat: (lat*1)+0.0300, lng: (lng*1)+0.0900});
-					path.push({lat: (lat*1)+0.0300, lng: (lng*1)+0.1100});
-					path.push({lat: (lat*1)+0.0400, lng: (lng*1)+0.100});
-
 					let geoJSON = {
 						type: "Feature",
 						geometry: polygon,
@@ -513,11 +486,12 @@ function initMap() {
 	async function drawingPolygon() {
 		path = [];
 		let id = $("input[name=id").val();
-		let url = base_url("drawParish/" + id);
+		let url = base_url("drawCity/" + id);
 		drawMap = new google.maps.Map(document.getElementById("map"), {
 			center: coords,
-			zoom: 12,
+			zoom: 9,
 			styles: [
+
 				{
 					featureType: "poi",
 					elementType: "labels", // Aplicar estilo a las etiquetas de los parques
@@ -622,7 +596,7 @@ function initMap() {
 
 	async function mySiblingsPolygon(id, drawMap) {
 		let idI = $("input[name=idInstitution").val();
-		let url = base_url("reports/sectors/all-sectors-barrio/"+idI);
+		let url = base_url("reports/cities/all-city-state/"+idI);
 		await $.ajax({
 			type: "GET",
 			url,
@@ -642,27 +616,6 @@ function initMap() {
 								fillColor: "purple",
 								strokeWeight: 1,
 							});
-
-							let centro = getCentro(polygon);
-
-							// Crea un marcador en el centroide del polígono
-							let labelMarker = new google.maps.Marker({
-								position: centro,
-								map: drawMap,
-								label: {
-									text: row.name,
-									color: "#251A1C",
-									fontWeight: "bold",
-									fontSize: "12px",
-									labelOrigin: new google.maps.Point(0, -20),
-								},
-								icon: {
-									url: "https://maps.google.com/mapfiles/transparent.png", // Imagen transparente para ocultar el marcador
-									size: new google.maps.Size(1, 1), // Tamaño del icono del marcador (1x1 píxeles)
-									anchor: new google.maps.Point(0, 0), // Punto de anclaje del icono del marcador
-								},
-							});
-							labelMarker.setMap(drawMap);
 						}
 					});
 				}

@@ -17,13 +17,19 @@ class State_model extends CI_Model
 	// ------------------------------------------------------------------------
 	public function getAll($idCountry = '')
 	{
+		if($idCountry !=''){
+			$where = "states.id != 'vacio' AND states.id_countries = '$idCountry'";
+		}else{
+			$where = "states.id != 'vacio'";
+		}
+
 		$sql = 'states.id, states.name, countries.name as country, actions.name as action';
 		if($idCountry != '') $sql = 'states.id, states.name, countries.name as country, states.id_countries, actions.name as action';
 		$this->db->select($sql);
 		$this->db->from('states');
 		$this->db->join('countries', 'states.id_countries = countries.id');
 		$this->db->join('actions', 'states.id_actions = actions.id');
-		if($idCountry != '') $this->db->where('states.id_countries', $idCountry);
+		$this->db->where($where);
 		$answer = $this->db->get();
 
 		return ($answer) ? $answer->result() : false;
@@ -57,37 +63,77 @@ class State_model extends CI_Model
 	}
 	public function search($search = '', $start=0, $limit=10)
 	{
-		$this->db->select('states.id, states.name, countries.name as country, states.id_countries, actions.name as action');
-		$this->db->from('states');
-		$this->db->join('countries', 'states.id_countries = countries.id');
-		$this->db->join('actions', 'states.id_actions = actions.id');
-		$this->db->like('states.name', $search);
-		$this->db->or_like('countries.name', $search);
-		$this->db->or_like('actions.name', $search);
-		$this->db->order_by('states.created_at', 'ASC');
-		$this->db->limit($limit);
-		$this->db->offset($start);
-		$answer = $this->db->get();
+		$sql = "SELECT s.id, s.name, c.name AS country, s.id_countries, a.name AS ACTION
+		FROM states s
+		INNER JOIN countries c ON s.id_countries = c.id
+		INNER JOIN actions a ON s.id_actions = a.id
+		WHERE (s.id != 'vacio' and c.id = 'C001') AND (s.name LIKE '%%' OR c.name LIKE '%%' OR a.name LIKE '%%')
+		ORDER BY s.created_at ASC LIMIT 10 OFFSET 0";
+		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}
 	public function drawCreate(object $data)
 	{
-		$sql = "INSERT INTO states_georeferencing(id, locasation, id_state, id_action, created_at, updated_at) VALUES ('$data->id',ST_SetSRID(ST_MakePoint($data->lng, $data->lat), 4326), '$data->id_state', '$data->id_action', '$data->created_at', '$data->updated_at')";
+		$sql = "INSERT INTO states_georeferencing VALUES (
+			'$data->id',
+			ST_GeomFromText('POLYGON(($data->geo))', 4326),
+			'$data->id_city',
+			'$data->id_action',
+			'$data->created_at',
+			'$data->updated_at')";
 		$answer = $this->db->query($sql);
-		return $answer ? true : false;
+
+		return ($answer) ? true : false;
 	}
-	public function drawDelete($id_state)
+
+	public function drawDelete($idState)
 	{
-		$this->db->where('id_state', $id_state);
+		$this->db->where('id_state', $idState);
 		$answer = $this->db->delete('states_georeferencing');
 
 		return $answer ? true : false;
 	}
 	public function getForMapId($idState)
 	{
-		$sql = "SELECT sec.name, ST_X(ST_AsText(secgeo.locasation)) AS longitud, ST_Y(ST_AsText(secgeo.locasation)) AS latitud FROM states_georeferencing secgeo RIGHT JOIN states sec ON secgeo.id_state = sec.id WHERE sec.id = '$idState'";
+		$sql = "SELECT s.name, ST_AsGeoJSON(locasation)::json AS geom FROM states_georeferencing geo
+		INNER JOIN states s ON s.id = geo.id_state WHERE geo.id_state = '$idState'";
 		$answer = $this->db->query($sql);
 		return $answer ? $answer->result() : false;
+	}
+
+	public function getAllPolygon($idCountry){
+		$sql = "SELECT s.name, geo.id_state as id_city, ST_AsGeoJSON(locasation)::json AS geom FROM states_georeferencing geo
+		INNER JOIN states s ON geo.id_state = s.id
+		INNER JOIN countries c ON s.id_countries = c.id
+		WHERE c.id = '$idCountry'";
+		$answer = $this->db->query($sql);
+		return (count($answer->result())>0) ? $answer->result() : false;
+	}
+
+	public function getAllAlarmOfState($idState){
+		$sql = "SELECT a.id, a.code, sec.id_actions as a_sector, a.id_sector, sec.name As sector,
+		p.name as parish,
+		c.name as canton,
+		CONCAT(am.name,' ',am.last_name) as name_manager,
+		am.phone,
+		am.mobile,
+		a.id_user,
+		p.id_actions as a_parish,
+		c.id_actions as a_city,
+		a.id_action as a_alarm,
+		ST_X(ST_AsText(a.localization)) AS lng_alarm,
+		ST_Y(ST_AsText(a.localization)) AS lat_alarm,
+		geo.id_alarm as id_city,
+		ST_AsGeoJSON(locasation)::json AS geom FROM alarm_georeferencing geo
+		INNER JOIN alarms a ON geo.id_alarm = a.id
+		INNER JOIN alarm_manager am ON a.id_alarm_manager = am.id
+		INNER JOIN sector sec ON a.id_sector = sec.id
+		INNER JOIN parishes p ON sec.id_distric = p.id
+		INNER JOIN cities c ON p.id_city = c.id
+		INNER JOIN states s ON c.id_states = s.id
+		WHERE s.id = '$idState'";
+		$answer = $this->db->query($sql);
+		return (count($answer->result())>0) ? $answer->result() : false;
 	}
 
 	// ------------------------------------------------------------------------

@@ -602,19 +602,19 @@
 				 show: false
 			  },
 			  labels: {
-				 show: false,
+				 show: true,
 				 style: {
-					fontSize: '8px',
+					fontSize: '10px',
 					colors: axisColor
 				 }
 			  }
 			},
 			yaxis: {
 			  labels: {
-				 show: false
+				 show: true
 			  },
-			  min: 1,
-			  max: tope+5,
+			  min: 0,
+			  max: tope+2,
 			  tickAmount: 4
 			}
 		 };

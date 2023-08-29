@@ -1,6 +1,6 @@
-$('#bodyTable').on('click', '.btnInputHidden', function (e) {
+$("#bodyTable").on("click", ".btnInputHidden", function (e) {
 	e.preventDefault();
-	let id = $(this).attr('dataId');
+	let id = $(this).attr("dataId");
 	$("input[name=id]").val(id);
 	borrarInputs();
 });
@@ -10,63 +10,74 @@ $(".btn-success").click(function (e) {
 	borrarInputs();
 });
 
-$('#bodyTable').on('click', '.btnGetForId', function (e) {
+$("#bodyTable").on("click", ".btnGetForId", function (e) {
 	e.preventDefault();
 	getForId();
 });
 
-$("#btnCreate").click(function (e) {
+$("#btnCreate").click(async function (e){
 	e.preventDefault();
-	create();
-	if($(".validate-text").text() == ''){
+	await create();
+	if ($(".validate-text").text() == "") {
 		paginator(1);
 	}
 });
 
-$("#btnUpdate").click(function (e) {
-	e.preventDefault()
-	update();
-	if($(".validate-text").text() == ''){
+$("#btnUpdate").click(async function (e) {
+	e.preventDefault();
+	await update();
+	if ($(".validate-text").text() == "") {
 		paginator(1);
 	}
 });
 
-$("#btnDelete").click(function (e) {
+$("#btnDelete").click(async function (e) {
 	e.preventDefault();
-	deleted();
+	await deleted();
 	paginator(1);
 });
 
-$("#btnSuspend").click(function (e) {
+$("#btnSuspend").click(async function (e) {
 	e.preventDefault();
-	suspend();
+	await suspend();
 	paginator(1);
 });
 
-$("#btnActive").click(function (e) {
+$("#btnActive").click(async function (e) {
 	e.preventDefault();
-	active();
+	await active();
 	paginator(1);
 });
 
-$('#backButton').click(function() {
+$("#backButton").click(function () {
 	history.back();
+});
+
+$("#close-map").click(function (e) {
+	e.preventDefault();
+	$(".view-map").addClass("ocultar");
 });
 
 function imprSelec(nombre) {
 	var ficha = document.getElementById(nombre);
-	var ventimp = window.open(' ', 'popimpr');
-	ventimp.document.write( ficha.innerHTML );
+	var ventimp = window.open(" ", "popimpr");
+	ventimp.document.write(ficha.innerHTML);
 	ventimp.document.close();
-	ventimp.print( );
+	ventimp.print();
 	ventimp.close();
- }
+}
 
- function borrarInputs(){
-	$("input[type=text]:not(:disabled)").val('')
-	$("input[type=password]:not(:disabled)").val('')
-	$("input[type=number]:not(:disabled)").val('')
-	$("input[type=email]:not(:disabled)").val('')
-	$("input[type=date]:not(:disabled)").val('')
-	$(".validate-text").html('')
- }
+function borrarInputs() {
+	$("input[type=text]:not(:disabled)").val("");
+	$("input[type=password]:not(:disabled)").val("");
+	$("input[type=number]:not(:disabled)").val("");
+	$("input[type=email]:not(:disabled)").val("");
+	$("input[type=date]:not(:disabled)").val("");
+	$(".validate-text").html("");
+}
+
+function showViewMap() {
+	$(".view-card").removeClass("ocultar");
+}
+
+

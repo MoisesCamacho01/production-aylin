@@ -17,7 +17,7 @@ class MenuPermission_model extends CI_Model
 		$this->db->from('menu_permissions');
 		$this->db->join('actions', 'menu_permissions.id_action = actions.id');
 		$this->db->where('menu_permissions.id !=', 'MP004');
-		$this->db->where('menu_permissions.id !=', 'MP005');
+		// $this->db->where('menu_permissions.id !=', 'MP005');
 		$this->db->where('menu_permissions.id !=', 'MP007');
 		$this->db->where('menu_permissions.id !=', 'MP008');
 		$this->db->where('menu_permissions.id !=', 'MP009');

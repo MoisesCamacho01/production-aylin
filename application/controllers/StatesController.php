@@ -17,7 +17,9 @@ class StatesController extends MY_Controller
 	{
 		$js = [
 			'resources/librerias/paginator/paginator.js',
-			'resources/src/js/states.js?t=6',
+			// 'resources/librerias/leaflet/leaflet.js',
+			'resources/src/js/states/states.js?t=6s',
+			// 'resources/src/js/states/map.js?t=3s'
 		];
 
 		$this->session->set_userdata('submenu', $submenu);
@@ -28,7 +30,7 @@ class StatesController extends MY_Controller
 			'js' => $js,
 			'countries' => $this->Country_model->getAll(),
 			'url' => site_url('states/search'),
-			'quantity'=> count($this->State_model->getAll())
+			'quantity' => count($this->State_model->getAll())
 		];
 
 		$this->page = 'app/admin/states/index';
@@ -64,14 +66,14 @@ class StatesController extends MY_Controller
 		$idCountries = htmlspecialchars($this->input->post('country'));
 
 		$value = $validate->validate([
-			["name"=> "Nombre de la provincia", "type"=> "string", "value"=>$name, "min"=>1, "max"=>50, "required"=>true],
-			["name"=> "El país", "type"=> "string", "value"=>$idCountries, "min"=>1, "max"=>191, "required"=>true]
+			["name" => "Nombre de la provincia", "type" => "string", "value" => $name, "min" => 1, "max" => 50, "required" => true],
+			["name" => "El país", "type" => "string", "value" => $idCountries, "min" => 1, "max" => 191, "required" => true]
 		]);
 
 		$this->response->message->title = "Tipo de datos";
 		$this->response->message->message = $value->message;
 
-		if($value->status){
+		if ($value->status) {
 
 			$data = [
 				"id" => $this->generateId(),
@@ -96,7 +98,8 @@ class StatesController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function update(){
+	public function update()
+	{
 
 		$validate = new ValidateController();
 		$this->setTable('states');
@@ -105,17 +108,17 @@ class StatesController extends MY_Controller
 		$name = htmlspecialchars($this->input->post('name'));
 
 		$value = $validate->validate([
-			["name"=>"nombre de usuario", "type"=>"string", "value"=>$name, "min"=>1, "max"=>50, "required"=>true]
+			["name" => "nombre de usuario", "type" => "string", "value" => $name, "min" => 1, "max" => 50, "required" => true]
 		]);
 
-		if($value->status){
+		if ($value->status) {
 			$valueDuplicate = $this->duplicateUpdate([
-				["attribute"=>"name", "value"=>$name, "message"=>"El nombre de a provincia"]
+				["attribute" => "name", "value" => $name, "message" => "El nombre de a provincia"]
 			]);
 
 			$this->response->message->message = $valueDuplicate->message;
 
-			if($valueDuplicate->status){
+			if ($valueDuplicate->status) {
 				$data = [
 					"name" => $name,
 					"id_countries" => $this->input->post('country'),
@@ -124,11 +127,11 @@ class StatesController extends MY_Controller
 				];
 
 				$this->response->message->title = "Provincia Actualizado";
-				$this->response->message->message ="La Provincia no pudo ser actualizada con éxito";
+				$this->response->message->message = "La Provincia no pudo ser actualizada con éxito";
 
 				if ($this->State_model->updated($data, $this->input->post('id'))) {
 					$this->response->message->type = "success";
-					$this->response->message->message ="La Provincia fue actualizada con éxito";
+					$this->response->message->message = "La Provincia fue actualizada con éxito";
 				}
 
 			}
@@ -137,12 +140,13 @@ class StatesController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function delete(){
+	public function delete()
+	{
 		$id = $this->input->post('id');
 
 		$this->response->message->type = "error";
 		$this->response->message->title = "Provincia Eliminada";
-		$this->response->message->message ="La Provincia no pudo ser eliminada con éxito";
+		$this->response->message->message = "La Provincia no pudo ser eliminada con éxito";
 
 		$data = [
 			"id_actions" => 'ac03'
@@ -150,17 +154,18 @@ class StatesController extends MY_Controller
 
 		if ($this->State_model->updated($data, $id)) {
 			$this->response->message->type = "success";
-			$this->response->message->message ="La Provincia fue eliminada con éxito";
+			$this->response->message->message = "La Provincia fue eliminada con éxito";
 
 		}
 		echo json_encode($this->response);
 	}
 
-	public function suspend(){
+	public function suspend()
+	{
 		$id = $this->input->post('id');
 		$this->response->message->type = "error";
 		$this->response->message->title = "Provincia Suspendida";
-		$this->response->message->message ="La Provincia no pudo ser suspendida con éxito";
+		$this->response->message->message = "La Provincia no pudo ser suspendida con éxito";
 
 		$data = [
 			"id_actions" => 'ac04'
@@ -168,16 +173,17 @@ class StatesController extends MY_Controller
 
 		if ($this->State_model->updated($data, $id)) {
 			$this->response->message->type = "success";
-			$this->response->message->message ="La Provincia fue suspendida con éxito";
+			$this->response->message->message = "La Provincia fue suspendida con éxito";
 
 		}
 		echo json_encode($this->response);
 	}
-	public function active(){
+	public function active()
+	{
 		$id = $this->input->post('id');
 		$this->response->message->type = "error";
 		$this->response->message->title = "Provincia Activada";
-		$this->response->message->message ="La Provincia no pudo ser activada con éxito";
+		$this->response->message->message = "La Provincia no pudo ser activada con éxito";
 
 		$data = [
 			"id_actions" => 'ac01'
@@ -185,12 +191,13 @@ class StatesController extends MY_Controller
 
 		if ($this->State_model->updated($data, $id)) {
 			$this->response->message->type = "success";
-			$this->response->message->message ="La Provincia fue activada con éxito";
+			$this->response->message->message = "La Provincia fue activada con éxito";
 		}
 		echo json_encode($this->response);
 	}
 
-	public function search(){
+	public function search()
+	{
 		$search = $this->input->post('search');
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
@@ -199,7 +206,7 @@ class StatesController extends MY_Controller
 		$this->response->data = $table;
 		$this->response->message->type = "success";
 		$this->response->message->title = "Registro Encontrado";
-		$this->response->message->message ="El registro fue encontrado con éxito";
+		$this->response->message->message = "El registro fue encontrado con éxito";
 		echo json_encode($this->response);
 	}
 	public function drawMap()
@@ -212,32 +219,26 @@ class StatesController extends MY_Controller
 		$this->response->message->message = 'El mapa de la provincia no se pudo dibujar';
 
 		if ($this->State_model->drawDelete($id)) {
-			$data = (object)[];
-			$status = "";
+			$poligono = "";
 			foreach ($cords as $row) {
-
-				$data = (object)[
-					"id" => $this->generateId(),
-					"lat" => $row->lat,
-					"lng" => $row->lng,
-					"id_state" => $id,
-					"id_action" => 'ac01',
-					"created_at" => date('Y-m-d H:i:s'),
-					"updated_at" => date('Y-m-d H:i:s')
-				];
-
-				if ($this->State_model->drawCreate($data)) {
-					$status = "success";
-				} else {
-					$status = "";
-					break;
-				}
+				$poligono .= "$row->lng $row->lat,";
 			}
-		}
 
-		if ($status == "success") {
-			$this->response->message->type = 'success';
-			$this->response->message->message = 'El mapa de la provincia fue dibujado con éxito';
+			$poligono .= $cords[0]->lng . " " . $cords[0]->lat;
+
+			$data = (object) [
+				"id" => $this->generateId(),
+				"geo" => $poligono,
+				"id_city" => $id,
+				"id_action" => 'ac01',
+				"created_at" => date('Y-m-d H:i:s'),
+				"updated_at" => date('Y-m-d H:i:s')
+			];
+
+			if ($this->State_model->drawCreate($data)) {
+				$this->response->message->type = 'success';
+				$this->response->message->message = 'El mapa del canton fue dibujado con éxito';
+			}
 		}
 
 		echo json_encode($this->response);
@@ -258,21 +259,38 @@ class StatesController extends MY_Controller
 
 		echo json_encode($this->response);
 	}
-	public function allSectorForCountry($idCountry){
-		$answer = $this->State_model->getAll($idCountry);
+	public function allSectorForCountry($idCountry)
+	{
+		$answer = $this->State_model->getAllPolygon($idCountry);
 
 		$this->response->message->type = "error";
 		$this->response->message->title = "Provincias encontradas";
 		$this->response->message->message = "Las provincias no fueron encontrados";
 
-		if($answer){
+		if ($answer) {
 			$this->response->data = $answer;
 			$this->response->message->type = "success";
 			$this->response->message->message = "Las provincias fueron encontrados";
 		}
 		echo json_encode($this->response);
 	}
-	public function generateTable($getRegisters){
+	public function allAlarmOfState($idState)
+	{
+		$answer = $this->State_model->getAllAlarmOfState($idState);
+
+		$this->response->message->type = "error";
+		$this->response->message->title = "Provincias encontradas";
+		$this->response->message->message = "Las provincias no fueron encontrados";
+
+		if ($answer) {
+			$this->response->data = $answer;
+			$this->response->message->type = "success";
+			$this->response->message->message = "Las provincias fueron encontrados";
+		}
+		echo json_encode($this->response);
+	}
+	public function generateTable($getRegisters)
+	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
 			$i = 0;
@@ -284,13 +302,13 @@ class StatesController extends MY_Controller
 				<td><i class='fab fa-angular fa-lg text-danger me-3'></i> <strong>{$row->name}</strong></td>
 				<td>{$row->country}</td>
 				<td>";
-				if ($row->action == 'create') :
+				if ($row->action == 'create'):
 					$template .= "<span class='badge bg-label-success me-1'>ACTIVO</span>";
-				elseif ($row->action == 'suspend') :
+				elseif ($row->action == 'suspend'):
 					$template .= "<span class='badge bg-label-warning me-1'>SUSPENDIDO</span>";
-				elseif ($row->action == 'edit') :
+				elseif ($row->action == 'edit'):
 					$template .= "<span class='badge bg-label-primary me-1'>EDITADO</span>";
-				elseif ($row->action == 'delete') :
+				elseif ($row->action == 'delete'):
 					$template .= "<span class='badge bg-label-danger me-1'>ELIMINADO</span>";
 				endif;
 				$template .= "
@@ -301,41 +319,41 @@ class StatesController extends MY_Controller
 							<i class='bx bx-dots-vertical-rounded'></i>
 						</button>
 						<div class='dropdown-menu'>";
-						if($this->buttonMenu($this->session->userdata('submenu'))){
-							foreach ($this->buttonMenu($this->session->userdata('submenu')) as $rowB) {
-								if ($row->action == 'suspend'){
-									if($rowB->id == 'BP003'){
-										$template.= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#activeModal' dataId='{$row->id}' href='javascript:void(0);'><i class='bx bx-user-check'></i> $rowB->name</a>";
-									}
-								}else{
-									if($rowB->id == 'BP002'){
-										$template.= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#suspendModal' dataId='{$row->id}' href='javascript:void(0);'><i class='bx bx-user-x'></i> $rowB->name</a>";
-									}
-								}
-								if($rowB->id == 'BP004'){
-									$template.="<a class='dropdown-item btnInputHidden btnGetForId' dataId='{$row->id}' data-bs-toggle='modal' data-bs-target='#updateModal' href='javascript:void(0);'><i class='bx bx-edit-alt me-1'></i> $rowB->name</a>";
-								}
-
-								if($rowB->id == 'BP008'){
-									$template .= "<a class='dropdown-item btnInputHidden btnDrawMap' data-bs-toggle='modal' data-bs-target='#dibujarModal' href='javascript:void(0);' dataId='{$row->id}' dataIdC='$row->id_countries'><i class='bx bxs-palette' ></i> $rowB->name provincia</a>";
-								}
-
-								if($rowB->id == 'BP009'){
-									$template .= "<a class='dropdown-item btnInputHidden btnGetDraw' data-bs-toggle='modal' data-bs-target='#viewMapModal' href='javascript:void(0);' dataId='{$row->id}' dataIdC='$row->id_countries'><i class='bx bx-low-vision' ></i> $rowB->name provincia</a>";
-								}
-
-								if ($row->action == 'delete'){
-									if($rowB->id == 'BP003'){
-										$template.="<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#activeModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bx-user-check me-1'></i> $rowB->name</a>";
-									}
-								}else{
-									if($rowB->id == 'BP005'){
-										$template.="<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#deleteModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bx-trash me-1'></i> $rowB->name</a>";
-									}
-								}
-
+				if ($this->buttonMenu($this->session->userdata('submenu'))) {
+					foreach ($this->buttonMenu($this->session->userdata('submenu')) as $rowB) {
+						if ($row->action == 'suspend') {
+							if ($rowB->id == 'BP003') {
+								$template .= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#activeModal' dataId='{$row->id}' href='javascript:void(0);'><i class='bx bx-user-check'></i> $rowB->name</a>";
+							}
+						} else {
+							if ($rowB->id == 'BP002') {
+								$template .= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#suspendModal' dataId='{$row->id}' href='javascript:void(0);'><i class='bx bx-user-x'></i> $rowB->name</a>";
 							}
 						}
+						if ($rowB->id == 'BP004') {
+							$template .= "<a class='dropdown-item btnInputHidden btnGetForId' dataId='{$row->id}' data-bs-toggle='modal' data-bs-target='#updateModal' href='javascript:void(0);'><i class='bx bx-edit-alt me-1'></i> $rowB->name</a>";
+						}
+
+						if ($rowB->id == 'BP008') {
+							$template .= "<a class='dropdown-item btnInputHidden btnDrawMap' data-bs-toggle='modal' data-bs-target='#dibujarModal' href='javascript:void(0);' dataId='{$row->id}' dataIdC='$row->id_countries'><i class='bx bxs-palette' ></i> $rowB->name provincia</a>";
+						}
+
+						if ($rowB->id == 'BP009') {
+							$template .= "<a class='dropdown-item btnInputHidden btnGetDraw' data-bs-toggle='modal' data-bs-target='#viewMapModal' href='javascript:void(0);' dataId='{$row->id}' dataIdC='$row->id_countries'><i class='bx bx-low-vision' ></i> $rowB->name provincia</a>";
+						}
+
+						if ($row->action == 'delete') {
+							if ($rowB->id == 'BP003') {
+								$template .= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#activeModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bx-user-check me-1'></i> $rowB->name</a>";
+							}
+						} else {
+							if ($rowB->id == 'BP005') {
+								$template .= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#deleteModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bx-trash me-1'></i> $rowB->name</a>";
+							}
+						}
+
+					}
+				}
 				$template .= "
 						</div>
 					</div>

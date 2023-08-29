@@ -97,7 +97,7 @@
 	<script src="<?= base_url('resources/layout/assets/js/main.js') ?>"></script>
 	<script src="<?= base_url('resources/shared/htmlDecode.js');?>"></script>
 	<script src="<?= base_url('resources/shared/search.js?t=4');?>"></script>
-	<script src="<?= base_url('resources/shared/buttons.js?t=5');?>"></script>
+	<script src="<?= base_url('resources/shared/buttons.js?t=1');?>"></script>
 
 	<!-- Page JS -->
 	<script src="<?= base_url('resources/layout/assets/js/ui-toasts.js') ?>"></script>
