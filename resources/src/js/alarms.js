@@ -1,3 +1,21 @@
+$('.select-alarm').select2({
+	dropdownParent: $("#createModal"),
+	placeholder: 'Selecciona un Encargado',
+	allowClear: true,
+	dropdownCssClass: 'select-search',
+	closeOnSelect: false,
+	width: 'resolve'
+});
+
+$('.select-alarmE').select2({
+	dropdownParent: $("#updateModal"),
+	placeholder: 'Selecciona un Encargado',
+	allowClear: true,
+	dropdownCssClass: 'select-search',
+	closeOnSelect: false,
+	width: 'resolve'
+});
+
 getRegister();
 var alarmsCoord;
 var alarmId;

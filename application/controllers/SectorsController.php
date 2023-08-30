@@ -400,7 +400,7 @@ class SectorsController extends MY_Controller
 
 	public function pdf($id)
 	{
-		$thead = ['N°', 'NOMBRE', 'COLOR', 'CODIGO DE ASOCIACION','PARROQUIA','ESTADO'];
+		$thead = ['N°', 'NOMBRE', 'COLOR', 'PARROQUIA','CODIGO DE ASOCIACION','ESTADO'];
 		$tbody = ($id != 0) ? $this->Sector_model->getAll($id) : $this->Sector_model->getAll();
 
 		$data = [

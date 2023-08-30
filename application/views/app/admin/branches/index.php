@@ -38,7 +38,7 @@
 						<th>Estado</th>
 						<th>Ciudad</th>
 						<th>Estado</th>
-						<th>Actions</th>
+						<th>Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="table-border-bottom-0" id="bodyTable">

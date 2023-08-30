@@ -3,6 +3,10 @@
 </script>
 <!--  -->
 
+<!-- SELECT  -->
+<link rel="stylesheet" href="<?= base_url('resources/librerias/select2/dist/css/select2.min.css'); ?>">
+<!--  -->
+
 <h4 class="fw-bold py-3 mb-4">
 	<span class="text-muted fw-light">MAPAS</span>
 	<a class="btn btn-success text-white ms-3" data-bs-toggle="modal" data-bs-target="#viewSector">
@@ -130,8 +134,8 @@
 						<div class="row">
 							<div class="col-12 mb-2">
 								<label for="managerE" class="form-label">Encargado</label>
-								<select id="managerE" class="form-select">
-									<option value="" selected>Selecciona un Encargado</option>
+								<select id="managerE" class="select-alarm form-select" name="managersE" style="width: 100%">
+									<!-- <option value="" selected>Selecciona un Encargado</option> -->
 									<?php if(count($managers)>0): ?>
 										<?php foreach ($managers as $row): ?>
 											<option value="<?= $row->id?>"><?= $row->name?> <?= $row->last_name?></option>

@@ -3,6 +3,9 @@
 </script>
 <!--  -->
 
+<!-- SELECT  -->
+<link rel="stylesheet" href="<?= base_url('resources/librerias/select2/dist/css/select2.min.css'); ?>">
+<!--  -->
 
 <h4 class="fw-bold py-3 mb-4">
 	<span class="text-muted fw-light" id="backButton" >
@@ -16,12 +19,12 @@
 			</a>
 		<?php endif; ?>
 		<?php if ($row->id == 'BP0010'): ?>
-			<a class="btn btn-info text-white" target="_blank" href="<?= site_url('pdf-alarms') ?>">
+			<a class="btn btn-info text-white" target="_blank" href="<?= site_url('pdf-alarms/'.$sector->id) ?>">
 				<?= $row->name ?>
 			</a>
 		<?php endif; ?>
 		<?php if ($row->id == 'BP0011'): ?>
-			<a class="btn btn-danger text-white" href="<?= site_url('excel-alarms') ?>">
+			<a class="btn btn-danger text-white" href="<?= site_url('excel-alarms/'.$sector->id) ?>">
 				<?= $row->name ?>
 			</a>
 		<?php endif; ?>
@@ -39,7 +42,7 @@
 					<th>Encargado</th>
 					<th>Barrio</th>
 					<th>Estado</th>
-					<th>Actions</th>
+					<th>Acciones</th>
 				</tr>
 			</thead>
 			<tbody class="table-border-bottom-0" id="bodyTable">
@@ -74,11 +77,11 @@
 
 <!-- MODALES -->
 <!-- MODAL CREAR-->
-<div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="createModal" aria-hidden="true" aria-labelledby="createModal">
 	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">Nueva Alarma</h5>
+				<h5 class="modal-title" id="createModal">Nueva Alarma</h5>
 				<button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -94,9 +97,10 @@
 
 						<div class="row">
 							<div class="col-12 mb-2">
-								<label for="manager" class="form-label">Encargado</label>
-								<select id="manager" class="form-select">
-									<option selected>Selecciona un Encargado</option>
+								<label for="manager" class="form-label">Encargado</label><br>
+								<select id="manager" class="select-alarm form-select" name="managers" style="width: 100%">
+									<!-- <option selected>Selecciona un Encargado</option> -->
+									<option></option>
 									<?php if (count($managers) > 0): ?>
 										<?php foreach ($managers as $row): ?>
 											<option value="<?= $row->id ?>"><?= $row->name ?> 		<?= $row->last_name ?></option>
@@ -175,8 +179,8 @@
 						<div class="row">
 							<div class="col-12 mb-2">
 								<label for="managerE" class="form-label">Encargado</label>
-								<select id="managerE" class="form-select">
-									<option selected>Selecciona un Encargado</option>
+								<select id="managerE" class="select-alarm2 form-select" name="managersE" style="width: 100%">
+									<!-- <option selected>Selecciona un Encargado</option> -->
 									<?php if (count($managers) > 0): ?>
 										<?php foreach ($managers as $row): ?>
 											<option value="<?= $row->id ?>"><?= $row->name ?> 		<?= $row->last_name ?></option>
@@ -189,8 +193,8 @@
 
 						<div class="row">
 							<div class="col-12 mb-2">
-								<label for="NameCiudad" class="form-label">Sector</label>
-								<input type="text" id="NameCiudad" class="form-control" disabled value="<?= $sector->name ?>"
+								<label for="NameCiudadE" class="form-label">Sector</label>
+								<input type="text" id="NameCiudadE" class="form-control" disabled value="<?= $sector->name ?>"
 									placeholder="Ingrese una ciudad" />
 								<input type="hidden" id="sectorE" value="<?= $sector->id ?>">
 								<span class="validate-text" name="sectorE"></span>

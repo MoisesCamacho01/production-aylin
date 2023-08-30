@@ -1,3 +1,12 @@
+$('.select-alarm').select2({
+	dropdownParent: $("#updateModal"),
+	placeholder: 'Selecciona un Encargado',
+	allowClear: true,
+	dropdownCssClass: 'select-search',
+	closeOnSelect: false,
+	width: 'resolve'
+});
+
 var alarmCoord;
 
 function initMap() {

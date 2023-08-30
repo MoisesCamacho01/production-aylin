@@ -125,15 +125,6 @@
 		<script type="text/javascript" src="<?= base_url($row) ?>"></script>
 	<?php endforeach; ?>
 
-	<?php if (!empty($alert)) : ?>
-		<?php if (gettype($alert) === 'object') : ?>
-			<script type="text/javascript">
-				// Swal.fire()
-			</script>
-	<?php endif;
-	endif; ?>
-
-
 
 </body>
 

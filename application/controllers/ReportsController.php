@@ -22,6 +22,7 @@ class ReportsController extends MY_Controller
 
 		$js = [
 			'resources/librerias/paginator/paginator.js',
+			'resources/librerias/select2/dist/js/select2.min.js',
 			'resources/src/js/reports.js?t=4',
 		];
 
