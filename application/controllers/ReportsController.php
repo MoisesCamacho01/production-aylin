@@ -94,7 +94,7 @@ class ReportsController extends MY_Controller
 
 		$this->session->set_userdata('submenu', $submenu);
 		$this->submenu = $submenu;
-
+		
 		$this->data = [
 			'title' => 'Acceso Correcto',
 			'js' => $js,

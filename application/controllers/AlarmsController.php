@@ -31,7 +31,7 @@ class AlarmsController extends MY_Controller
 			'js' => $js,
 			'sector' => $this->Sector_model->getForId($idSector),
 			'managers' => $this->Manager_model->getAll(),
-			'quantity' => count($this->Alarm_model->getAll()),
+			'quantity' => count($this->Alarm_model->getAll($idSector)),
 			'url' => site_url('alarms/' . $idSector . '/search')
 		];
 

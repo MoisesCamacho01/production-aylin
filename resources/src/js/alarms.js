@@ -7,7 +7,7 @@ $('.select-alarm').select2({
 	width: 'resolve'
 });
 
-$('.select-alarmE').select2({
+$('.select-alarm2').select2({
 	dropdownParent: $("#updateModal"),
 	placeholder: 'Selecciona un Encargado',
 	allowClear: true,

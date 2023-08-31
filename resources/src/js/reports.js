@@ -10,19 +10,10 @@ $('.select-alarm').select2({
 var alarmCoord;
 
 function initMap() {
-	let path = [];
-	let markers = []; // array para almacenar los marcadores
-	let polygon = "";
 	let coords = { lat: -0.9179301528102732, lng: -78.63297106182672 };
-	let polygons = [];
 	let drawMap = "";
 	let informationAlarms = [];
-	var polygonMarker = "";
-	var cantidadProvincias = 0;
-	var cantidadCantones = 0;
-	var cantidadParroquias = 0;
-	var cantidadBarrios = 0;
-	var cantidadAlarmas = 0;
+
 
 	$("#bodyTable").on("click", ".btnAlarmEdit", function (e) {
 		e.preventDefault();
@@ -219,6 +210,7 @@ function initMap() {
 			url: url,
 			success: function (answer) {
 				let response = JSON.parse(answer);
+				console.log(response);
 				if (
 					response.message.type == "success" &&
 					response.message.title != ""
@@ -446,7 +438,7 @@ function initMap() {
 							position: centro,
 							map: drawMap,
 							label: {
-								text: response.data[0].code,
+								text: row.code,
 								color: "#251A1C",
 								fontWeight: "bold",
 								fontSize: "12px",
@@ -637,6 +629,7 @@ function update() {
 		{
 			name: "codeE",
 			type: "string",
+			campo: "codigo",
 			value: code,
 			min: 1,
 			max: 50,
@@ -646,6 +639,7 @@ function update() {
 		{
 			name: "managerE",
 			type: "string",
+			campo: "encargado",
 			value: manager,
 			min: 1,
 			max: 50,
@@ -655,6 +649,7 @@ function update() {
 		{
 			name: "sectorE",
 			type: "string",
+			campo: "sector",
 			value: sector,
 			min: 1,
 			max: 50,
@@ -664,6 +659,7 @@ function update() {
 		{
 			name: "latitudeE",
 			type: "string",
+			campo: "latitud",
 			value: latitude,
 			min: 1,
 			max: 22,
@@ -673,6 +669,7 @@ function update() {
 		{
 			name: "longitudeE",
 			type: "string",
+			campo: "longitud",
 			value: longitude,
 			min: 1,
 			max: 22,
@@ -897,6 +894,7 @@ $("#btnActiveAlarm").click(function (e) {
 				{
 					name: "sound",
 					type: "string",
+					campo: "sonido",
 					value: sector,
 					min: 1,
 					max: 255,
@@ -905,6 +903,7 @@ $("#btnActiveAlarm").click(function (e) {
 				{
 					name: "typeNot",
 					type: "string",
+					campo: "tipo de notificación",
 					value: typeNot,
 					min: 1,
 					max: 255,
@@ -913,6 +912,7 @@ $("#btnActiveAlarm").click(function (e) {
 				{
 					name: "why",
 					type: "string",
+					campo: "motivo",
 					value: why,
 					min: 1,
 					max: 2000,
@@ -921,6 +921,7 @@ $("#btnActiveAlarm").click(function (e) {
 				{
 					name: "ip",
 					type: "string",
+					campo: "ip",
 					value: ip,
 					min: 1,
 					max: 15,

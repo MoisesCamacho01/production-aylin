@@ -26,7 +26,9 @@ $("#btnCreate").click(async function (e){
 $("#btnUpdate").click(async function (e) {
 	e.preventDefault();
 	await update();
-	if ($(".validate-text").text() == "") {
+	let urlSearch = $("input[name=searchGlobal]").attr("url");
+
+	if (($(".validate-text").text() == "") && (urlSearch)) {
 		paginator(1);
 	}
 });
