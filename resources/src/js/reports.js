@@ -453,7 +453,7 @@ function initMap() {
 						labelMarker.setMap(drawMap);
 
 						let urlIcon = base_url("resources/src/img/logo.png");
-						if(row.estado_alarma != 'P3grDcY020230817zW8HaN190633'){
+						if(row.estado_alarma != '0iEh8DYd20230428y8L2u1175602'){
 							urlIcon = base_url("resources/src/img/logo-white.png");
 						}
 						// Crea un nuevo ícono personalizado
@@ -489,7 +489,7 @@ function initMap() {
 						information = `
 							<button type='button' data-bs-toggle='modal' sector='${row.sector}' sectorId='${row.id_sector}' data-bs-target='#updateModal' dataId='${row.id}' class='btnAlarmEdit btn btn-info'>Editar</button>
 							<a class='btnInputHidden btnGetForId' dataId='${row.id}'></a>`;
-							
+
 						if (
 							row.estado_alarma != '0iEh8DYd20230428y8L2u1175602'
 						) {
