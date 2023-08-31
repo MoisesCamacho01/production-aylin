@@ -39,7 +39,7 @@ class DashboardController extends MY_Controller
 			'alarmsActive'=> count($this->Dashboard_model->getAlarmActive()),
 			'alarmsSuspend'=> count($this->Dashboard_model->getAlarmSuspend()),
 			'users'=> count($this->User_model->getAllAdmin()),
-			'usersMovil'=> count($this->User_model->getAllMovil()),
+			// 'usersMovil'=> count($this->User_model->getAllMovil()),
 			'parishes'=> count($this->Parish_model->getAll()),
 			'historyNotifications'=> $this->Dashboard_model->historyNotifications(),
 			'js'=>$js,
