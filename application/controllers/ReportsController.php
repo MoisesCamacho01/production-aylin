@@ -23,7 +23,7 @@ class ReportsController extends MY_Controller
 		$js = [
 			'resources/librerias/paginator/paginator.js',
 			'resources/librerias/select2/dist/js/select2.min.js',
-			'resources/src/js/reports.js?t=4',
+			'resources/src/js/reports.js?t=3',
 		];
 
 		$this->session->set_userdata('submenu', $submenu);
@@ -94,7 +94,7 @@ class ReportsController extends MY_Controller
 
 		$this->session->set_userdata('submenu', $submenu);
 		$this->submenu = $submenu;
-		
+
 		$this->data = [
 			'title' => 'Acceso Correcto',
 			'js' => $js,

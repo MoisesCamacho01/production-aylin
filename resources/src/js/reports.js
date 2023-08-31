@@ -32,6 +32,7 @@ function initMap() {
 
 	$("#states").change(async function (e) {
 		e.preventDefault();
+		$("input[name=msm]").val("");
 		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
 			center: coords,
 			zoom: 9,
@@ -56,6 +57,7 @@ function initMap() {
 
 	$("#cities").change(async function (e) {
 		e.preventDefault();
+		$("input[name=msm]").val("");
 		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
 			center: coords,
 			zoom: 11,
@@ -80,6 +82,7 @@ function initMap() {
 
 	$("#parishes").change(async function (e) {
 		e.preventDefault();
+		$("input[name=msm]").val("");
 		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
 			center: coords,
 			zoom: 12,
@@ -103,6 +106,7 @@ function initMap() {
 
 	$("#sectors").change(async function (e) {
 		e.preventDefault();
+		$("input[name=msm]").val("");
 		drawMap = "";
 		cantidadBarrios = 0;
 		cantidadAlarmas = 0;
@@ -154,12 +158,19 @@ function initMap() {
 			url: url,
 			success: function (answer) {
 				let response = JSON.parse(answer);
-
+				let msm = $("input[name=msm]").val();
 				if (response.message.type == "success") {
+					let message = "";
+					if(msm != ""){
+						message = "Estado de alarma actualizado"
+					}else{
+						message = response.message.message || "El registro fue encontrado"
+					}
+
 					toast(
 						"bg-success",
 						response.message.title || "Registro encontrado",
-						response.message.message || "El registro fue encontrado",
+						message,
 						1
 					);
 					let data = response.data;
@@ -964,6 +975,7 @@ $("#btnActiveAlarm").click(function (e) {
 							let typed = $("#typeNotVal").val();
 							// $("#sound").attr("active", "true")
 							enviar(codeUser, user, typed, sector, sectorName, why);
+							$("input[name=msm]").val("alarmas");
 							$("#btnViewAll").trigger("click");
 						} else {
 							toast(
@@ -1073,8 +1085,9 @@ $("#btnStopAlarm").click(function (e) {
 							user = $("#userName").val();
 							let typed = $("#typeNotVal").val();
 							enviar(codeUser, user, typed, sector, sectorName, why);
-
+							$("input[name=msm]").val("alarmas");
 							$("#btnViewAll").trigger("click");
+
 						} else {
 							toast(
 								"bg-danger",
@@ -1106,4 +1119,5 @@ $("#typeNot").change(function (e) {
 $("#btnRefresh").click(function (e) {
 	e.preventDefault();
 	$("#btnViewAll").trigger("click");
+	$("input[name=msm]").val("alarmas");
 });
