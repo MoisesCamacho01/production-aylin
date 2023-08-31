@@ -19,6 +19,10 @@
 		Imprimir mapa
 	</a>
 
+	<a class="btn btn-info text-white" id="btnViewAll">
+		REFRESCAR
+	</a>
+
 </h4>
 
 <div class="card" id="imprMapa">
@@ -252,7 +256,17 @@
 				<div class="row">
 					<div class="col mb-3">
 						<label class="form-label">¿Seguro quieres para la alarma?</label>
-						<span class="validate-text" name="sound"></span>
+						<span class="validate-text" name="sound2"></span>
+						<span class="validate-text" name="typeNot2"></span>
+						<span class="validate-text" name="ip2"></span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col mb-3">
+						<label for="why2" class="form-label">¿Por que la paraste?</label>
+						<input type="text" id="why2" class="form-control" placeholder="Motivo" />
+						<span class="validate-text" name="why2"></span>
 					</div>
 				</div>
 			</div>
@@ -260,7 +274,7 @@
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
 					Cancelar
 				</button>
-				<button type="button" id="btnPararAlarm" data-bs-dismiss="modal" class="btn btn-primary">Activar</button>
+				<button type="button" id="btnStopAlarm" class="btn btn-primary">Parar</button>
 			</div>
 		</div>
 	</div>

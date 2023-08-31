@@ -124,7 +124,11 @@ class State_model extends CI_Model
 		ST_X(ST_AsText(a.localization)) AS lng_alarm,
 		ST_Y(ST_AsText(a.localization)) AS lat_alarm,
 		geo.id_alarm as id_city,
-		ST_AsGeoJSON(locasation)::json AS geom FROM alarm_georeferencing geo
+		ST_AsGeoJSON(locasation)::json AS geom,
+		(SELECT nt.id FROM notification_logs nl
+		INNER JOIN notifications_types nt ON nl.id_notification_type = nt.id
+		WHERE nl.id_sector = sec.id ORDER BY nl.created_at DESC LIMIT 1) as estado_alarma
+		FROM alarm_georeferencing geo
 		INNER JOIN alarms a ON geo.id_alarm = a.id
 		INNER JOIN alarm_manager am ON a.id_alarm_manager = am.id
 		INNER JOIN sector sec ON a.id_sector = sec.id
