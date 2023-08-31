@@ -88,7 +88,7 @@
 						<div class="card-title d-flex align-items-start justify-content-between">
 							<div class="avatar flex-shrink-0">
 								<a href="<?= base_url('pdf-parishes/0')?>" target="_blank">
-									<i class='bx bxs-download text-success h2'></i> PDF
+									<i class='bx bxs-download text-success h2'></i>
 								</a>
 							</div>
 						</div>
