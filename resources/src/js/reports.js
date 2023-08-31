@@ -464,7 +464,7 @@ function initMap() {
 						labelMarker.setMap(drawMap);
 
 						let urlIcon = base_url("resources/src/img/logo.png");
-						if(row.estado_alarma != '0iEh8DYd20230428y8L2u1175602'){
+						if(row.estado_alarma != 'P3grDcY020230817zW8HaN190633'){
 							urlIcon = base_url("resources/src/img/logo-white.png");
 						}
 						// Crea un nuevo ícono personalizado
@@ -502,7 +502,7 @@ function initMap() {
 							<a class='btnInputHidden btnGetForId' dataId='${row.id}'></a>`;
 
 						if (
-							row.estado_alarma != '0iEh8DYd20230428y8L2u1175602'
+							row.estado_alarma == 'P3grDcY020230817zW8HaN190633'
 						) {
 							information += `
 								<button type='button' data-bs-toggle='modal' data-bs-target='#stopSoundAlarmModel' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Parar</button>
