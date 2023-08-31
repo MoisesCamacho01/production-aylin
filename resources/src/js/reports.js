@@ -210,7 +210,7 @@ function initMap() {
 			url: url,
 			success: function (answer) {
 				let response = JSON.parse(answer);
-				console.log(response);
+				
 				if (
 					response.message.type == "success" &&
 					response.message.title != ""
@@ -489,6 +489,7 @@ function initMap() {
 						information = `
 							<button type='button' data-bs-toggle='modal' sector='${row.sector}' sectorId='${row.id_sector}' data-bs-target='#updateModal' dataId='${row.id}' class='btnAlarmEdit btn btn-info'>Editar</button>
 							<a class='btnInputHidden btnGetForId' dataId='${row.id}'></a>`;
+							console.log(row.sector+""+row.estado_alarma);
 						if (
 							row.estado_alarma != 'P3grDcY020230817zW8HaN190633'
 						) {
