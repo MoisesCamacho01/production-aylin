@@ -18,7 +18,7 @@ class Dashboard_model extends CI_Model
 	public function historyNotifications()
 	{
 		$sql = "SELECT s.name as sector, p.name, p.last_name, nl.created_at, nt.name as type FROM notification_logs nl
-	 INNER JOIN sector s ON nl.id_sector = s.id INNER JOIN users u ON nl.id_user = u.id INNER JOIN profile p ON u.id = p.id_user INNER JOIN notifications_types nt ON nl.id_notification_type = nt.id";
+	 INNER JOIN sector s ON nl.id_sector = s.id INNER JOIN users u ON nl.id_user = u.id INNER JOIN profile p ON u.id = p.id_user INNER JOIN notifications_types nt ON nl.id_notification_type = nt.id ORDER BY nl.created_at DESC LIMIT 10";
 
 		$answer = $this->db->query($sql);
 
