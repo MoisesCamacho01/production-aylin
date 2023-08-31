@@ -74,10 +74,10 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'pgsql:host=containers-us-west-85.railway.app;port=7857;dbname=railway',
+	'dsn'	=> 'pgsql:host=ciyadbaws.cakcdqyqgv2b.us-east-1.rds.amazonaws.com;port=5432;dbname=ciyadatabase',
 	'hostname' => '',
 	'username' => 'postgres',
-	'password' => '4Nmtmzy7X3cKKW3G83D1',
+	'password' => 'xpango2011',
 	'database' => '',
 	'port' => '',
 	'dbdriver' => 'pdo',
