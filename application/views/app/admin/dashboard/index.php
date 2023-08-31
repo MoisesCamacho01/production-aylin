@@ -41,7 +41,7 @@
 						<div class="card-title d-flex align-items-start justify-content-between">
 							<div class="avatar flex-shrink-0">
 								<a href="<?= base_url('pdf-sectors/0'); ?>" target="_blank">
-									<i class='bx bxs-download text-success h2'></i> PDF
+									<i class='bx bxs-download text-success h2'></i>
 								</a>
 							</div>
 						</div>
@@ -62,7 +62,7 @@
 							</div>
 						</div>
 						<span class="fw-semibold d-block mb-1">Alarmas</span>
-						<h3 class="card-title mb-2"><?= $alarms?></h3> PDF
+						<h3 class="card-title mb-2"><?= $alarms?></h3>
 					</div>
 				</div>
 			</div>
@@ -73,11 +73,11 @@
 						<div class="card-title d-flex align-items-start justify-content-between">
 							<div class="avatar flex-shrink-0">
 								<a href="<?= base_url('pdf-users/0'); ?>" target="_blank">
-									<i class='bx bxs-download text-success h2'></i> PDF
+									<i class='bx bxs-download text-success h2'></i>
 								</a>
 							</div>
 						</div>
-						<span class="fw-semibold d-block mb-1">Usuarios administrativos</span>
+						<span class="fw-semibold d-block mb-1">Usuarios</span>
 						<h3 class="card-title mb-2"><?= $users?></h3>
 					</div>
 				</div>
