@@ -32,6 +32,20 @@ class User_model extends CI_Model
 		return ($answer) ? $answer->result() : false;
 	}
 
+	public function getAllAdmin(){
+		$sql = "SELECT users.id, users.user_name, users.email, user_types.name AS user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE users.id_user_type != 'T002'";
+
+		$answer = $this->db->query($sql);
+		return ($answer) ? $answer->result() : false;
+	}
+
+	public function getAllMovile(){
+		$sql = "SELECT users.id, users.user_name, users.email, user_types.name AS user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE users.id = 'T001'";
+
+		$answer = $this->db->query($sql);
+		return ($answer) ? $answer->result() : false;
+	}
+
 	public function getForId($id){
 		$this->db->select('users.id, users.user_name, users.email, users.id_user_type as user_type, actions.name as action');
 		$this->db->from('users');
