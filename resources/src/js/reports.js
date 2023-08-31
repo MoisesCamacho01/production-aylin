@@ -465,7 +465,7 @@ function initMap() {
 
 						let urlIcon = base_url("resources/src/img/logo.png");
 						console.log(row.sector+ " "+ row.estado_alarma);
-						if(row.estado_alarma == 'P3grDcY020230817zW8HaN190633'){
+						if(row.estado_alarma === 'P3grDcY020230817zW8HaN190633'){
 							urlIcon = base_url("resources/src/img/logo-white.png");
 						}
 						// Crea un nuevo ícono personalizado
