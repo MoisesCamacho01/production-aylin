@@ -527,6 +527,7 @@ function initMap() {
 
 						markerAlarm.addListener("click", async function () {
 							await closeAllInfoWindows();
+							$("#sound").val(row.id_sector);
 							panelInformation.open(drawMap, markerAlarm);
 						});
 
@@ -958,6 +959,7 @@ $("#btnActiveAlarm").click(function (e) {
 							codeUser = $("input[name=codeUser]").val();
 							user = $("#userName").val();
 							let typed = $("#typeNotVal").val();
+							// $("#sound").attr("active", "true")
 							enviar(codeUser, user, typed, sector, sectorName, why);
 						} else {
 							toast(
