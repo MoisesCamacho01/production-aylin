@@ -453,6 +453,9 @@ function initMap() {
 						labelMarker.setMap(drawMap);
 
 						let urlIcon = base_url("resources/src/img/logo.png");
+						if(row.estado_alarma != 'P3grDcY020230817zW8HaN190633'){
+							urlIcon = base_url("resources/src/img/logo-white.png");
+						}
 						// Crea un nuevo ícono personalizado
 						let icon = {
 							url: urlIcon,
@@ -487,8 +490,7 @@ function initMap() {
 							<button type='button' data-bs-toggle='modal' sector='${row.sector}' sectorId='${row.id_sector}' data-bs-target='#updateModal' dataId='${row.id}' class='btnAlarmEdit btn btn-info'>Editar</button>
 							<a class='btnInputHidden btnGetForId' dataId='${row.id}'></a>`;
 						if (
-							$("#sound").attr("active") == "true" &&
-							$("#sound").val() == row.id_sector
+							row.estado_alarma != 'P3grDcY020230817zW8HaN190633'
 						) {
 							information += `
 								<button type='button' data-bs-toggle='modal' data-bs-target='#stopSoundAlarmModel' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Parar</button>
@@ -961,6 +963,7 @@ $("#btnActiveAlarm").click(function (e) {
 							let typed = $("#typeNotVal").val();
 							// $("#sound").attr("active", "true")
 							enviar(codeUser, user, typed, sector, sectorName, why);
+							$("#btnViewAll").trigger("click");
 						} else {
 							toast(
 								"bg-danger",
@@ -986,53 +989,120 @@ $("#btnActiveAlarm").click(function (e) {
 
 $("#btnStopAlarm").click(function (e) {
 	e.preventDefault();
-	let sector = $("#sound").val();
+	if ("geolocation" in navigator) {
+		let sector = $("#sound").val();
+		let sectorName = $("#soundName").val();
+		let typeNot = 'P3grDcY020230817zW8HaN190633';
+		let why = $("#why2").val();
+		let lat = "";
+		let lng = "";
 
-	let value = validate([
-		{
-			name: "sound",
-			type: "string",
-			value: sector,
-			min: 1,
-			max: 255,
-			required: true,
-		},
-	]);
+		navigator.geolocation.getCurrentPosition(function (position) {
+			lat = position.coords.latitude;
+			lng = position.coords.longitude;
 
-	if (value) {
-		const data = [sector];
+			let ip = $("#ip").val();
 
-		let url = $("input[name=url]").val() + "stopAlarm";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: data,
-			success: function (answer) {
-				let response = JSON.parse(answer);
-				if (response.message.type == "success") {
-					toast(
-						"bg-success",
-						response.message.title,
-						response.message.message,
-						1
-					);
-					$("#sound").attr("active", "false");
-				} else {
-					toast(
-						"bg-danger",
-						response.message.title,
-						response.message.message,
-						1
-					);
-					$("#sound").attr("active", "false");
-				}
-			},
+			let value = validate([
+				{
+					name: "sound2",
+					type: "string",
+					campo: "sonido",
+					value: sector,
+					min: 1,
+					max: 255,
+					required: true,
+				},
+				{
+					name: "typeNot2",
+					type: "string",
+					campo: "tipo de notificación",
+					value: typeNot,
+					min: 1,
+					max: 255,
+					required: true,
+				},
+				{
+					name: "why2",
+					type: "string",
+					campo: "motivo",
+					value: why,
+					min: 1,
+					max: 2000,
+					required: true,
+				},
+				{
+					name: "ip2",
+					type: "string",
+					campo: "ip",
+					value: ip,
+					min: 1,
+					max: 15,
+					required: true,
+				},
+			]);
+
+			if (value) {
+				const data = {
+					sector,
+					typeNot,
+					ip,
+					why,
+					lat,
+					lng,
+				};
+
+				let url = $("input[name=url]").val() + "activeAlarm";
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: data,
+					success: function (answer) {
+						let response = JSON.parse(answer);
+						if (response.message.type == "success") {
+							toast(
+								"bg-success",
+								response.message.title,
+								response.message.message,
+								1
+							);
+							$("#sound").attr("active", "true");
+							$(".btn-model-close").trigger("click");
+							codeUser = $("input[name=codeUser]").val();
+							user = $("#userName").val();
+							let typed = $("#typeNotVal").val();
+							enviar(codeUser, user, typed, sector, sectorName, why);
+
+							$("#btnViewAll").trigger("click");
+						} else {
+							toast(
+								"bg-danger",
+								response.message.title,
+								response.message.message,
+								1
+							);
+							$("#sound").attr("active", "false");
+						}
+					},
+				});
+			}
 		});
+	} else {
+		toast(
+			"bg-danger",
+			"GEOLOCALIZACION",
+			"La geolocalización no esta disponible en este navegador",
+			1
+		);
 	}
 });
 
 $("#typeNot").change(function (e) {
 	e.preventDefault();
-
 	$("#typeNotVal").val($(this).find("option:selected").text());
+});
+
+$("#btnRefresh").click(function (e) {
+	e.preventDefault();
+	$("#btnViewAll").trigger("click");
 });

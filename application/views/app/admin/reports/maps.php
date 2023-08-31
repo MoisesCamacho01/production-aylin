@@ -19,7 +19,7 @@
 		Imprimir mapa
 	</a>
 
-	<a class="btn btn-info text-white" id="btnViewAll">
+	<a class="btn btn-info text-white" id="btnRefresh">
 		REFRESCAR
 	</a>
 

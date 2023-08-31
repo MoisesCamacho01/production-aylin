@@ -136,6 +136,7 @@ class State_model extends CI_Model
 		INNER JOIN cities c ON p.id_city = c.id
 		INNER JOIN states s ON c.id_states = s.id
 		WHERE s.id = '$idState'";
+		echo $sql;
 		$answer = $this->db->query($sql);
 		return (count($answer->result())>0) ? $answer->result() : false;
 	}
