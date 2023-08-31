@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'pgsql:host=ciyadbaws.cakcdqyqgv2b.us-east-1.rds.amazonaws.com;port=5432;dbname=ciyadatabase',
+	'dsn'	=> 'pgsql:host=ciyadbaws.cakcdqyqgv2b.us-east-1.rds.amazonaws.com;port=5432;dbname=sig_alarma_v1',
 	'hostname' => '',
 	'username' => 'postgres',
 	'password' => 'xpango2011',
