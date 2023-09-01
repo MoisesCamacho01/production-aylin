@@ -403,6 +403,7 @@ class CitiesController extends MY_Controller
 								$template .= "<a class='dropdown-item' href='" . site_url($submenu . '/' . 'parishes/' . $row->id) . "'><i class='bx bx-church'></i> $rowB->name</a>";
 							}
 						}
+						$template .= "<a class='dropdown-item' href='" . site_url('SM001/reports/maps?type=city&code='.$row->id) . "'><i class='bx bxs-map' ></i> Ver mapa</a>";
 					}
 					$template .= "
 							</div>

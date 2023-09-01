@@ -68,7 +68,7 @@ class User_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function search($search = '', $start=0, $limit=10, $type='web'){
+	public function search($search = '', $start=0, $limit=10, $type){
 		$sql = "SELECT * FROM users WHERE id = '0'";
 		if($type == 'web'){
 			$sql = "SELECT users.id, users.user_name, users.email, user_types.name as user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE (users.id != 'U001' AND users.id_user_type != 'T002' ) AND (users.user_name LIKE '%$search%' OR users.email LIKE '%$search%' OR user_types.name LIKE '%$search%' OR actions.name LIKE '%$search%') ORDER BY users.created_at DESC LIMIT $limit OFFSET $start";

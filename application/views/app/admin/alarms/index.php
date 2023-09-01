@@ -54,6 +54,9 @@
 	<div class="card-footer text-right">
 		<nav class="d-inline-block">
 			<ul class="pagination mb-0" id="paginasContainer">
+				<li class="page-item">
+					<a class="page-link pageStart" href="#">INICIO</a>
+				</li>
 				<li class="page-item disabled" id="buttonBack">
 					<a class="page-link page-left" href="#" tabindex="-1"><i class='bx bxs-left-arrow'></i></a>
 				</li>
@@ -68,6 +71,9 @@
 
 				<li class="page-item">
 					<a class="page-link page-right" href="#"><i class='bx bxs-right-arrow'></i></a>
+				</li>
+				<li class="page-item">
+					<a class="page-link pageFinish" href="#">FINAL</a>
 				</li>
 			</ul>
 		</nav>

@@ -385,6 +385,7 @@ class SectorsController extends MY_Controller
 									}
 								}
 							}
+							$template .= "<a class='dropdown-item' href='" . site_url('SM001/reports/maps?type=sector&code='.$row->id) . "'><i class='bx bxs-map' ></i> Ver mapa</a>";
 						}
 
 

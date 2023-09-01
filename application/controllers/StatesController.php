@@ -195,7 +195,6 @@ class StatesController extends MY_Controller
 		}
 		echo json_encode($this->response);
 	}
-
 	public function search()
 	{
 		$search = $this->input->post('search');
@@ -351,8 +350,8 @@ class StatesController extends MY_Controller
 								$template .= "<a class='dropdown-item btnInputHidden' data-bs-toggle='modal' data-bs-target='#deleteModal' href='javascript:void(0);' dataId='{$row->id}'><i class='bx bx-trash me-1'></i> $rowB->name</a>";
 							}
 						}
-
 					}
+					$template .= "<a class='dropdown-item' href='" . site_url('SM001/reports/maps?type=state&code='.$row->id) . "'><i class='bx bxs-map' ></i> Ver mapa</a>";
 				}
 				$template .= "
 						</div>

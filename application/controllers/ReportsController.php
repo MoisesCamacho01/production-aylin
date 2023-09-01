@@ -239,7 +239,7 @@ class ReportsController extends MY_Controller
 					<td>{$i}</td>
 					<td><i class='fab fa-angular fa-lg text-danger me-3'></i> <strong>{$row->ip}</strong></td>
 					<td>{$row->email}</td>
-					<td>{$row->name} {$row->last_name}</td>
+					<td>{$row->user_name}</td>
 					<td>{$row->sector}</td>
 					<td>{$row->why}</td>
 					<td>{$row->created_at}</td>

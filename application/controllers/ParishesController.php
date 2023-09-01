@@ -382,6 +382,7 @@ class ParishesController extends MY_Controller
 									$template .= "<a class='dropdown-item' href='".site_url($submenu.'/'.'districs/'.$row->id)."'><i class='bx bx-building' ></i> $rowB->name</a>";
 								}
 							}
+							$template .= "<a class='dropdown-item' href='" . site_url('SM001/reports/maps?type=parish&code='.$row->id) . "'><i class='bx bxs-map' ></i> Ver mapa</a>";
 						}
 
 				$template .= "

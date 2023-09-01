@@ -117,8 +117,21 @@ class RegisterLog_model extends CI_Model
 		return ($answer) ? $answer->result() : false;
 	}
 	public function getActiveAlarm($search = '', $start=0, $limit=10, $report=false){
-		$sql = "SELECT nl.why_activate as why, nl.ip, s.name as sector, u.email, u.user_name, p.name, p.last_name, nl.created_at FROM notification_logs nl INNER JOIN sector s ON nl.id_sector = s.id INNER JOIN users u ON nl.id_user = u.id INNER JOIN profile p ON u.id = p.id_user WHERE (nl.why_activate LIKE '%$search%' OR nl.ip LIKE '%$search%' OR s.name LIKE '%$search%' OR u.email LIKE '%$search%' OR u.user_name LIKE '%$search%' OR p.name LIKE '%$search%' OR p.last_name LIKE '%$search%') ORDER BY nl.created_at DESC LIMIT $limit OFFSET $start";
-		
+		$sql = "SELECT nl.why_activate as why, nl.ip, s.name as sector, u.email,
+		COALESCE(
+			(SELECT CONCAT(p.name, ' ', p.last_name) FROM profile p WHERE p.id_user = u.id),
+			 u.user_name
+		) as user_name,
+		nl.created_at
+		FROM notification_logs nl
+		INNER JOIN sector s ON nl.id_sector = s.id
+		INNER JOIN users u ON nl.id_user = u.id
+		WHERE (nl.why_activate LIKE '%%' OR nl.ip LIKE '%%' OR s.name LIKE '%%'
+		OR u.email LIKE '%%' OR u.user_name LIKE '%%')
+		ORDER BY nl.created_at DESC LIMIT $limit OFFSET $start";
+
+		// echo $sql;
+
 		if($report){
 			$sql = "SELECT nl.why_activate as why, nl.ip, s.name as sector, u.email, u.user_name, p.name, p.last_name, nl.created_at FROM notification_logs nl INNER JOIN sector s ON nl.id_sector = s.id INNER JOIN users u ON nl.id_user = u.id INNER JOIN profile p ON u.id = p.id_user";
 		}

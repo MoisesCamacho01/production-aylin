@@ -29,7 +29,7 @@
 <!-- Basic Bootstrap Table -->
 <div class="card">
 	<h5 class="card-header">Cantones</h5>
-	<div class="table-responsive text-nowrap">
+	<div class="text-nowrap">
 		<table class="table">
 			<thead>
 				<tr>
@@ -49,17 +49,26 @@
 	<div class="card-footer text-right">
 		<nav class="d-inline-block">
 			<ul class="pagination mb-0" id="paginasContainer">
+				<li class="page-item">
+					<a class="page-link pageStart" href="#">INICIO</a>
+				</li>
 				<li class="page-item disabled" id="buttonBack">
 					<a class="page-link page-left" href="#" tabindex="-1"><i class='bx bxs-left-arrow'></i></a>
 				</li>
-				<?php for ($i = 1; $i <= round(($quantity + 1) / 6); $i++) : ?>
+
+				<?php for ($i = 1; $i <= round(($quantity + 1) / 6); $i++): ?>
 					<li class="page-item <?= $i == 1 ? 'active' : ''; ?>">
-						<a class="page-link btnPages" href="#"><?= $i ?></a>
+						<a class="page-link btnPages" href="#">
+							<?= $i ?>
+						</a>
 					</li>
 				<?php endfor; ?>
 
 				<li class="page-item">
 					<a class="page-link page-right" href="#"><i class='bx bxs-right-arrow'></i></a>
+				</li>
+				<li class="page-item">
+					<a class="page-link pageFinish" href="#">FINAL</a>
 				</li>
 			</ul>
 		</nav>
