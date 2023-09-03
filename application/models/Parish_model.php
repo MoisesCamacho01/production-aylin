@@ -57,13 +57,14 @@ class Parish_model extends CI_Model {
 		return $answer ? true : false;
 	}
 
-	public function search($search = '', $start=0, $limit=10, $idPadre = '')
+	public function search($search = '', $start=0, $limit=10, $idPadre = '', $limited=true)
 	{
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start": "";
 		$sql = "SELECT parishes.id, parishes.name, cities.name as city, actions.name as action FROM parishes
 		INNER JOIN cities ON parishes.id_city = cities.id
 		INNER JOIN actions ON parishes.id_actions = actions.id
-		WHERE (cities.id = '$idPadre') AND (parishes.name LIKE '%$search%' OR cities.name LIKE '%$search%' OR actions.name LIKE '%$search%')
-		ORDER BY parishes.created_at DESC LIMIT $limit OFFSET $start";
+		WHERE (cities.id = '$idPadre') AND (parishes.name ILIKE '%$search%' OR cities.name ILIKE '%$search%' OR actions.name ILIKE '%$search%')
+		ORDER BY parishes.created_at DESC $sql_complete";
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}

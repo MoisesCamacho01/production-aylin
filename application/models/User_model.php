@@ -25,25 +25,30 @@ class User_model extends CI_Model
 		return false;
 	}
 
-	public function getAll(){
-		$sql = "SELECT users.id, users.user_name, users.email, user_types.name AS user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE users.id != 'U001'";
+	public function getAll($type="web"){
+		$condition = "";
+		if($type == "web"){
+			$condition = "AND (users.id_user_type != 'T002')";
+		}else if($type == "movil"){
+			$condition = "AND (users.id_user_type == 'T001')";
+		}
+
+		$sql = "SELECT users.id, users.user_name, users.email, user_types.name AS user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE (users.id != 'U001') $condition";
 
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}
 
 	public function getAllAdmin(){
-		$sql = "SELECT users.id, users.user_name, users.email, user_types.name AS user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE users.id_user_type != 'T002'";
-
+		$sql = "SELECT COUNT(*) FROM users WHERE users.id_user_type != 'T002'";
 		$answer = $this->db->query($sql);
-		return ($answer) ? $answer->result() : false;
+		return ($answer) ? $answer->result()[0]->count : false;
 	}
 
-	public function getAllMovile(){
-		$sql = "SELECT users.id, users.user_name, users.email, user_types.name AS user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE users.id = 'T001'";
-
+	public function getAllMovil(){
+		$sql = "SELECT count(*) FROM users WHERE users.id_user_type = 'T001'";
 		$answer = $this->db->query($sql);
-		return ($answer) ? $answer->result() : false;
+		return ($answer) ? $answer->result()[0]->count : false;
 	}
 
 	public function getForId($id){
@@ -68,12 +73,13 @@ class User_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function search($search = '', $start=0, $limit=10, $type){
+	public function search($search = '', $start=0, $limit=10, $type='web', $limited=true){
 		$sql = "SELECT * FROM users WHERE id = '0'";
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start" : "";
 		if($type == 'web'){
-			$sql = "SELECT users.id, users.user_name, users.email, user_types.name as user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE (users.id != 'U001' AND users.id_user_type != 'T002' ) AND (users.user_name LIKE '%$search%' OR users.email LIKE '%$search%' OR user_types.name LIKE '%$search%' OR actions.name LIKE '%$search%') ORDER BY users.created_at DESC LIMIT $limit OFFSET $start";
+			$sql = "SELECT users.id, users.user_name, users.email, user_types.name as user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE (users.id != 'U001' AND users.id_user_type != 'T002' ) AND (users.user_name LIKE '%$search%' OR users.email LIKE '%$search%' OR user_types.name LIKE '%$search%' OR actions.name LIKE '%$search%') ORDER BY users.created_at DESC $sql_complete";
 		}else{
-			$sql = "SELECT users.id, users.user_name, users.email, user_types.name as user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE (users.id != 'U001' AND users.id_user_type = 'T002' ) AND (users.user_name LIKE '%$search%' OR users.email LIKE '%$search%' OR user_types.name LIKE '%$search%' OR actions.name LIKE '%$search%') ORDER BY users.created_at DESC LIMIT $limit OFFSET $start";
+			$sql = "SELECT users.id, users.user_name, users.email, user_types.name as user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE (users.id != 'U001' AND users.id_user_type = 'T002' ) AND (users.user_name LIKE '%$search%' OR users.email LIKE '%$search%' OR user_types.name LIKE '%$search%' OR actions.name LIKE '%$search%') ORDER BY users.created_at DESC $sql_complete";
 		}
 
 		$answer = $this->db->query($sql);

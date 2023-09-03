@@ -133,7 +133,9 @@ class ReportsController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->RegisterLog_model->getSuccessAccess($search, $start, $limit);
-		$table = htmlspecialchars_decode($this->tableAccessCorrect($getSearch));
+		$table = htmlspecialchars_decode($this->tableAccessCorrect($getSearch, $start));
+		$quantity = $this->RegisterLog_model->getSuccessAccess($search, $start, $limit, false);
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = "Registro Encontrado";
@@ -148,7 +150,9 @@ class ReportsController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->RegisterLog_model->getPasswordReset($search, $start, $limit);
-		$table = htmlspecialchars_decode($this->tablePasswordReset($getSearch));
+		$table = htmlspecialchars_decode($this->tablePasswordReset($getSearch, $start));
+		$quantity = $this->RegisterLog_model->getPasswordReset($search, $start, $limit, false);
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = "Registro Encontrado";
@@ -163,7 +167,9 @@ class ReportsController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->RegisterLog_model->getActiveAlarm($search, $start, $limit);
-		$table = htmlspecialchars_decode($this->tableActiveAlarm($getSearch));
+		$table = htmlspecialchars_decode($this->tableActiveAlarm($getSearch, $start));
+		$quantity = $this->RegisterLog_model->getActiveAlarm($search, $start, $limit, false);
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = "Registro Encontrado";
@@ -178,7 +184,9 @@ class ReportsController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->RegisterLog_model->getHistory($search, $start, $limit);
-		$table = htmlspecialchars_decode($this->tableHistory($getSearch));
+		$table = htmlspecialchars_decode($this->tableHistory($getSearch, $start));
+		$quantity = $this->RegisterLog_model->getHistory($search, $start, $limit, false);
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = "Registro Encontrado";
@@ -187,11 +195,11 @@ class ReportsController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function tableAccessCorrect($getRegisters)
+	public function tableAccessCorrect($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;
@@ -207,11 +215,11 @@ class ReportsController extends MY_Controller
 		return $template;
 	}
 
-	public function tablePasswordReset($getRegisters)
+	public function tablePasswordReset($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;
@@ -227,11 +235,11 @@ class ReportsController extends MY_Controller
 		return $template;
 	}
 
-	public function tableActiveAlarm($getRegisters)
+	public function tableActiveAlarm($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;
@@ -249,11 +257,11 @@ class ReportsController extends MY_Controller
 		return $template;
 	}
 
-	public function tableHistory($getRegisters)
+	public function tableHistory($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;

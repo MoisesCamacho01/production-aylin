@@ -184,8 +184,12 @@
 				</div>
 			</div>
 			<div class="modal-footer">
+				<!-- Button trigger modal -->
+				<button type="button" id="editArea" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#dibujarModal">
+					Editar area
+				</button>
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Close
+					Cancelar
 				</button>
 				<button type="button" id="btnUpdate" class="btn btn-primary">Actualizar</button>
 			</div>
@@ -280,6 +284,70 @@
 	</div>
 </div>
 
+<!-- MODAL DIBUJAR -->
+<div class="modal fade" id="dibujarModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel4">Dibujar Mapa</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-12">
+						<div class="loaderModal loader mt-4 ocultar"></div>
+						<div id="mapArea" class="mapa ocultar"></div>
+						<input type="hidden" name="cords" value="">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info btnNuevo disabled">
+					Nuevo dibujo
+				</button>
+				<button type="button" class="btn btn-info btnMB" data-bs-toggle="modal" data-bs-target="#modalBorrarPolygon">
+					Borrar dibujo
+				</button>
+				<button type="button" class="btn btn-success btnMover">
+					Mover dibujo
+				</button>
+				<button type="button" class="btn btn-danger btnNoMover disabled">
+					No mover dibujo
+				</button>
+				<button type="button" class="btn btn-outline-secondary btnCloseModal" data-bs-target="#updateModal" data-bs-toggle="modal">
+					Cancelar
+				</button>
+				<button type="button" id="btnSaveDraw" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-primary">Guardar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL PARA ASEGURAR BORRAR-->
+<div class="modal fade" id="modalBorrarPolygon" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel1">Borrar dibujo</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col mb-3">
+						<label class="form-label">¿Seguro quieres borrar el dibujo?</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-bs-target="#dibujarModal" data-bs-toggle="modal">
+					Cancelar
+				</button>
+				<button type="button" data-bs-target="#dibujarModal" data-bs-toggle="modal" class="btn btn-primary btnBorrar">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <input type="hidden" name="codeUser" id="codeUser" value="<?= $code ?>">
 <input type="hidden" name="typeNotVal" id="typeNotVal" value="">
 <input type="hidden" name="userName" id="userName" value="<?= $userName ?>">
@@ -289,6 +357,8 @@
 <input type="hidden" id="sound" active="false" value="">
 <input type="hidden" id="soundName" name="nameSectorSound" value="">
 <input type="hidden" name="idInstitution" value="">
+<input type="hidden" id="lat" name="lat" value="">
+<input type="hidden" id="lng" name="lng" value="">
 
 <input type="hidden" name="urlMap" value="<?= site_url() ?>">
 

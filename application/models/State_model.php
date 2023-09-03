@@ -61,14 +61,15 @@ class State_model extends CI_Model
 		$answer = $this->db->update('states', $data);
 		return $answer ? true : false;
 	}
-	public function search($search = '', $start=0, $limit=10)
+	public function search($search = '', $start=0, $limit=10, $limited=true)
 	{
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start" : "";
 		$sql = "SELECT s.id, s.name, c.name AS country, s.id_countries, a.name AS ACTION
 		FROM states s
 		INNER JOIN countries c ON s.id_countries = c.id
 		INNER JOIN actions a ON s.id_actions = a.id
 		WHERE (s.id != 'vacio' and c.id = 'C001') AND (s.name LIKE '%%' OR c.name LIKE '%%' OR a.name LIKE '%%')
-		ORDER BY s.created_at ASC LIMIT 10 OFFSET 0";
+		ORDER BY s.created_at DESC $sql_complete";
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}

@@ -72,10 +72,11 @@ class Alarm_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function search($search = '', $idPadre = '')
+	public function search($search = '', $start=0, $limit=10, $idPadre = '', $limited=true)
 	{
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start": "";
 
-		$sql = "SELECT alarms.id, alarms.code, concat(manager.name, ' ', manager.last_name) as name_manager, sector.name as sector, actions.name as action from alarms INNER JOIN alarm_manager manager on alarms.id_alarm_manager = manager.id INNER JOIN sector on alarms.id_sector = sector.id INNER JOIN actions on alarms.id_action = actions.id where (sector.id = '{$idPadre}') and (alarms.code like '%{$search}%' or manager.name like '%{$search}%' or manager.last_name like '%{$search}%' or sector.name like '%{$idPadre}%' or actions.name like '%{$search}%')";
+		$sql = "SELECT alarms.id, alarms.code, concat(manager.name, ' ', manager.last_name) as name_manager, sector.name as sector, actions.name as action from alarms INNER JOIN alarm_manager manager on alarms.id_alarm_manager = manager.id INNER JOIN sector on alarms.id_sector = sector.id INNER JOIN actions on alarms.id_action = actions.id where (sector.id = '{$idPadre}') and (alarms.code ILIKE '%{$search}%' or manager.name ILIKE '%{$search}%' or manager.last_name ILIKE '%{$search}%' or sector.name ILIKE '%{$idPadre}%' or actions.name ILIKE '%{$search}%') ORDER BY alarms.created_at DESC $sql_complete";
 
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;

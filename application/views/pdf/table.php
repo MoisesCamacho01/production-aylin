@@ -71,7 +71,7 @@
 			<div class="col">
 				<div class="logotipo">
 					<div class="img">
-						<img src="<?=base_url('resources/src/img/logo-ciya.png')?>">
+						<img src="<?=site_url('resources/src/img/logo-ciya.png')?>">
 					</div>
 					<div class="text">
 						<h6>sistema PDF</h6>

@@ -216,8 +216,9 @@ class ParishesController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->Parish_model->search($search, $start, $limit, $idInstitution);
-		$table = htmlspecialchars_decode($this->generateTable($getSearch));
-
+		$table = htmlspecialchars_decode($this->generateTable($getSearch, $start));
+		$quantity = $this->Parish_model->search($search, $start, $limit, $idInstitution, false);
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = "success";
 		$this->response->message->title = "Parroquia Encontrada";
@@ -315,11 +316,11 @@ class ParishesController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function generateTable($getRegisters)
+	public function generateTable($getRegisters, $page)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;

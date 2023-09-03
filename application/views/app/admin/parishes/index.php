@@ -21,6 +21,11 @@
 				<?= $row->name?>
 			</a>
 		<?php endif; ?>
+		<?php if ($row->id == 'BP0018'): ?>
+			<a class="btn btn-warning text-white" href="<?= site_url('SM001/reports/maps?type=city&code='.$cities->id) ?>">
+				<?= $row->name ?>
+			</a>
+		<?php endif; ?>
 	<?php endforeach; ?>
 </h4>
 <!-- Basic Bootstrap Table -->

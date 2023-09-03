@@ -56,19 +56,16 @@ class City_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function search($search='',$start=0, $limit=10)
+	public function search($search='',$start=0, $limit=10, $limited=true)
 	{
-		$this->db->select('cities.id, cities.name, states.name as states, cities.id_states, actions.name as action');
-		$this->db->from('cities');
-		$this->db->join('states', 'cities.id_states = states.id');
-		$this->db->join('actions', 'cities.id_actions = actions.id');
-		$this->db->like('cities.name', $search);
-		$this->db->or_like('states.name', $search);
-		$this->db->or_like('actions.name', $search);
-		$this->db->order_by('cities.created_at', 'ASC');
-		$this->db->limit($limit);
-		$this->db->offset($start);
-		$answer = $this->db->get();
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start": "";
+
+		$sql = "SELECT c.id, c.name, s.name as states, c.id_states, a.name as action
+		FROM cities c INNER JOIN states s ON c.id_states = s.id
+		INNER JOIN actions a ON c.id_actions = a.id
+		WHERE c.name ILIKE '%$search%' OR s.name ILIKE '%$search%' OR a.name ILIKE '%$search%'
+		ORDER BY c.created_at DESC $sql_complete";
+		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}
 

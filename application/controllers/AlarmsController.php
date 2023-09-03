@@ -237,9 +237,13 @@ class AlarmsController extends MY_Controller
 
 	public function search($idInstitution)
 	{
-		$search = $this->input->post('search');
-		$getSearch = $this->Alarm_model->search($search, $idInstitution);
-		$table = htmlspecialchars_decode($this->generateTable($getSearch));
+		$search = htmlspecialchars($this->input->post('search'));
+		$start = $this->input->post('start');
+		$limit = $this->input->post('limit');
+		$getSearch = $this->Alarm_model->search($search, $start, $limit, $idInstitution);
+		$table = htmlspecialchars_decode($this->generateTable($getSearch, $start));
+		$quantity = $this->Alarm_model->search($search, $start, $limit, $idInstitution, true);
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = 'Registro Encontrado';
@@ -306,11 +310,11 @@ class AlarmsController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function generateTable($getRegisters)
+	public function generateTable($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;

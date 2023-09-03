@@ -232,8 +232,10 @@ class SectorsController extends MY_Controller
 
 		$getSearch = $this->Sector_model->search($search, $start, $limit, $idInstitution);
 
-		$table = $this->generateTable($getSearch);
-		$this->response->data = htmlspecialchars_decode($table);
+		$table = htmlspecialchars_decode($this->generateTable($getSearch, $start));
+		$quantity = $this->Sector_model->search($search, $start, $limit, $idInstitution, false);
+		$this->response->quantity = count($quantity);
+		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = 'Sector Encontrado';
 		$this->response->message->message = 'El Sector pudo ser encontrado con éxito';
@@ -315,11 +317,11 @@ class SectorsController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function generateTable($getRegisters)
+	public function generateTable($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;
@@ -385,7 +387,8 @@ class SectorsController extends MY_Controller
 									}
 								}
 							}
-							$template .= "<a class='dropdown-item' href='" . site_url('SM001/reports/maps?type=sector&code='.$row->id) . "'><i class='bx bxs-map' ></i> Ver mapa</a>";
+							$template .= "<a class='dropdown-item' href='" . site_url('SM001/reports/maps?type=sector
+							&code='.$row->id) . "'><i class='bx bxs-map' ></i> Ver mapa</a>";
 						}
 
 

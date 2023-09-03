@@ -18,9 +18,7 @@ class CitiesController extends MY_Controller
 	{
 		$js = [
 			'resources/librerias/paginator/paginator.js',
-			// 'resources/librerias/leaflet/leaflet.js',
 			'resources/src/js/cities/cities.js?t=2s',
-			// 'resources/src/js/cities/map.js?t=6s',
 		];
 
 		$this->session->set_userdata('submenu', $submenu);
@@ -238,7 +236,9 @@ class CitiesController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->City_model->search($search, $start, $limit);
-		$table = htmlspecialchars_decode($this->generateTable($getSearch));
+		$table = htmlspecialchars_decode($this->generateTable($getSearch, $start));
+		$quantity = $this->City_model->search($search, $start, $limit, false);
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = 'success';
 		$this->response->message->title = 'Registro Encontrado';
@@ -335,11 +335,11 @@ class CitiesController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function generateTable($getRegisters)
+	public function generateTable($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				if ($row->id_states == '12') {

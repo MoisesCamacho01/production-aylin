@@ -1,8 +1,7 @@
 <!-- Menu -->
-
-<aside id="layout-menu" class="sticky layout-menu menu-vertical menu bg-menu-theme">
+<aside ocultar="si" id="layout-menu" class="sticky layout-menu menu-vertical menu bg-menu-theme">
 	<div class="app-brand demo sticky bg-white">
-		<a href="index.html" class="app-brand-link">
+		<a href="<?= site_url('dashboard')?>" class="app-brand-link">
 			<span class="app-brand-logo demo">
 				<img src="<?= base_url('resources/src/img/logo.svg')?>" width="40" alt="logo">
 			</span>

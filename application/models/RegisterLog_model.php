@@ -98,8 +98,10 @@ class RegisterLog_model extends CI_Model
 		return ($answer) ? true : false;
 	}
 
-	public function getSuccessAccess($search = '', $start=0, $limit=10, $report=false){
-		$sql = "SELECT sa.ip, u.email, pr.name, pr.last_name, sa.created_at FROM system_access sa INNER JOIN users u ON sa.id_user = u.id INNER JOIN profile pr ON u.id = pr.id_user WHERE (u.email LIKE '%$search%' OR sa.ip LIKE '%$search%' OR pr.last_name LIKE '%$search%') ORDER BY sa.created_at DESC LIMIT $limit OFFSET $start";
+	public function getSuccessAccess($search = '', $start=0, $limit=10, $report=false, $limited=true){
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start" : "";
+
+		$sql = "SELECT sa.ip, u.email, pr.name, pr.last_name, sa.created_at FROM system_access sa INNER JOIN users u ON sa.id_user = u.id INNER JOIN profile pr ON u.id = pr.id_user WHERE (u.email ILIKE '%$search%' OR sa.ip ILIKE '%$search%' OR pr.last_name ILIKE '%$search%') ORDER BY sa.created_at DESC $sql_complete";
 		if($report){
 			$sql = "SELECT sa.ip, u.email, pr.name, pr.last_name, sa.created_at FROM system_access sa INNER JOIN users u ON sa.id_user = u.id INNER JOIN profile pr ON u.id = pr.id_user";
 		}
@@ -107,16 +109,19 @@ class RegisterLog_model extends CI_Model
 		return ($answer) ? $answer->result() : false;
 	}
 
-	public function getPasswordReset($search = '', $start=0, $limit=10, $report=false){
+	public function getPasswordReset($search = '', $start=0, $limit=10, $report=false, $limited=true){
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start" : "";
 
-		$sql = "SELECT pr.status, u.email, p.name, p.last_name, pr.created_at FROM password_resets pr INNER JOIN users u ON pr.id_user = u.id INNER JOIN profile p ON u.id = p.id_user WHERE (pr.status LIKE '%$search%' OR u.email LIKE '%$search%' OR p.name LIKE '%$search%' OR p.last_name LIKE '%$search%') ORDER BY pr.created_at DESC LIMIT $limit OFFSET $start";
+		$sql = "SELECT pr.status, u.email, p.name, p.last_name, pr.created_at FROM password_resets pr INNER JOIN users u ON pr.id_user = u.id INNER JOIN profile p ON u.id = p.id_user WHERE (pr.status ILIKE '%$search%' OR u.email ILIKE '%$search%' OR p.name ILIKE '%$search%' OR p.last_name ILIKE '%$search%') ORDER BY pr.created_at DESC $sql_complete";
 		if($report){
 			$sql = "SELECT pr.status, u.email, p.name, p.last_name, pr.created_at FROM password_resets pr INNER JOIN users u ON pr.id_user = u.id INNER JOIN profile p ON u.id = p.id_user";
 		}
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}
-	public function getActiveAlarm($search = '', $start=0, $limit=10, $report=false){
+	public function getActiveAlarm($search = '', $start=0, $limit=10, $report=false, $limited=true){
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start" : "";
+
 		$sql = "SELECT nl.why_activate as why, nl.ip, s.name as sector, u.email,
 		COALESCE(
 			(SELECT CONCAT(p.name, ' ', p.last_name) FROM profile p WHERE p.id_user = u.id),
@@ -126,9 +131,9 @@ class RegisterLog_model extends CI_Model
 		FROM notification_logs nl
 		INNER JOIN sector s ON nl.id_sector = s.id
 		INNER JOIN users u ON nl.id_user = u.id
-		WHERE (nl.why_activate LIKE '%%' OR nl.ip LIKE '%%' OR s.name LIKE '%%'
-		OR u.email LIKE '%%' OR u.user_name LIKE '%%')
-		ORDER BY nl.created_at DESC LIMIT $limit OFFSET $start";
+		WHERE (nl.why_activate ILIKE '%%' OR nl.ip ILIKE '%%' OR s.name ILIKE '%%'
+		OR u.email ILIKE '%%' OR u.user_name ILIKE '%%')
+		ORDER BY nl.created_at DESC $sql_complete";
 
 		// echo $sql;
 
@@ -140,8 +145,10 @@ class RegisterLog_model extends CI_Model
 		return ($answer) ? $answer->result() : false;
 	}
 
-	public function getHistory($search = '', $start=0, $limit=10, $report=false){
-		$sql = "SELECT h.observation, u.email, u.user_name, h.created_at FROM history h INNER JOIN users u ON h.id_user = u.id WHERE (h.observation LIKE '%$search%' OR u.email LIKE '%$search%') ORDER BY h.created_at DESC LIMIT $limit OFFSET $start";
+	public function getHistory($search = '', $start=0, $limit=10, $report=false, $limited=true){
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start" : "";
+		
+		$sql = "SELECT h.observation, u.email, u.user_name, h.created_at FROM history h INNER JOIN users u ON h.id_user = u.id WHERE (h.observation ILIKE '%$search%' OR u.email ILIKE '%$search%') ORDER BY h.created_at DESC $sql_complete";
 		if($report){
 			$sql = "SELECT h.observation, u.email, u.user_name, h.created_at FROM history h INNER JOIN users u ON h.id_user = u.id";
 		}

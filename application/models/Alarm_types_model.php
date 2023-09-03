@@ -52,17 +52,12 @@ class Alarm_types_model extends CI_Model {
 		return $answer ? true : false;
 	}
 
-	public function search($search='',$start=0, $limit=10)
+	public function search($search='',$start=0, $limit=10, $limited=true)
 	{
-		$this->db->select('alarm_types.id, alarm_types.name, actions.name as action');
-		$this->db->from('alarm_types');
-		$this->db->join('actions', 'alarm_types.id_action = actions.id');
-		$this->db->like('alarm_types.name', $search);
-		$this->db->or_like('actions.name', $search);
-		$this->db->order_by('alarm_types.created_at', 'ASC');
-		$this->db->limit($limit);
-		$this->db->offset($start);
-		$answer = $this->db->get();
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start": "";
+		$sql = "SELECT * FROM alarm_types.id, alarm_types.name, actions.name as action
+		FROM alarm_types at INNER JOIN actions a ON at.id_action = a.id WHERE at.name ILIKE '%$search%' OR a.name ILIKE '%$search%' ORDER BY at.created_at DESC $sql_complete";
+		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}
 

@@ -215,8 +215,9 @@ class UserTypesController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->UserType_model->search($search, $start, $limit);
-
-		$table = $this->generateTable($getSearch);
+		$quantity = $this->RegisterLog_model->getSuccessAccess($search, $start, $limit, false);
+		$table = htmlspecialchars_decode($this->generateTable($getSearch));
+		$this->response->quantity = count($quantity);
 		$this->response->data = $table;
 		$this->response->message->type = "success";
 		$this->response->message->title = "Registro Encontrado";

@@ -48,9 +48,10 @@ class DocumentType_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function search($search = '', $start = 0, $limit = 10)
+	public function search($search = '', $start = 0, $limit = 10, $limited = true)
 	{
-		$sql = "SELECT document_type.id, document_type.name, actions.name as action FROM document_type INNER JOIN actions ON document_type.id_action = actions.id WHERE (document_type.name LIKE '%$search%' OR actions.name LIKE '%$search%') ORDER BY document_type.created_at DESC LIMIT $limit OFFSET $start";
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start": "";
+		$sql = "SELECT document_type.id, document_type.name, actions.name as action FROM document_type INNER JOIN actions ON document_type.id_action = actions.id WHERE (document_type.name ILIKE '%$search%' OR actions.name ILIKE '%$search%') ORDER BY document_type.created_at DESC $sql_complete";
 
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;

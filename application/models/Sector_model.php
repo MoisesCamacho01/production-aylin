@@ -67,14 +67,14 @@ class Sector_model extends CI_Model
 		return $answer ? true : false;
 	}
 
-	public function search($search = '', $start = 0, $limit = 10, $idPadre = '')
+	public function search($search = '', $start = 0, $limit = 10, $idPadre = '', $limited=true)
 	{
-
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start": "";
 		$sql = "SELECT sector.id, sector.name, districs.name as distric, actions.name as action FROM sector
 		INNER JOIN parishes districs ON sector.id_distric = districs.id
 		INNER JOIN actions ON sector.id_actions = actions.id
-		WHERE (districs.id = '$idPadre') AND (sector.name LIKE '%$search%' OR districs.name LIKE '%$search%' OR actions.name LIKE '%$search%')
-		ORDER BY sector.created_at DESC LIMIT $limit OFFSET $start";
+		WHERE (districs.id = '$idPadre') AND (sector.name ILIKE '%$search%' OR districs.name ILIKE '%$search%' OR actions.name ILIKE '%$search%')
+		ORDER BY sector.created_at DESC $sql_complete";
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;
 	}

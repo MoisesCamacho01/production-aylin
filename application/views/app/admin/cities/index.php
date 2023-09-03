@@ -23,6 +23,11 @@
 				<?= $row->name ?>
 			</a>
 		<?php endif; ?>
+		<?php if ($row->id == 'BP0018'): ?>
+			<a class="btn btn-warning text-white" href="<?= site_url('SM001/reports/maps?type=state&code=12') ?>">
+				<?= $row->name ?>
+			</a>
+		<?php endif; ?>
 	<?php endforeach; ?>
 
 </h4>

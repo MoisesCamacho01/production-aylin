@@ -204,8 +204,10 @@ class ManagersController extends MY_Controller
 		$start = $this->input->post('start');
 		$limit = $this->input->post('limit');
 		$getSearch = $this->Manager_model->search($search, $start, $limit);
-		$table = htmlspecialchars_decode($this->generateTable($getSearch));
+		$quantity = $this->Manager_model->search($search, $start, $limit, false);
+		$table = htmlspecialchars_decode($this->generateTable($getSearch, $start));
 		$this->response->data = $table;
+		$this->response->quantity = count($quantity);
 		$this->response->message->type = 'success';
 		$this->response->message->title = "Registro Encontrado";
 		$this->response->message->message = "El registro fue encontrado con éxito";
@@ -213,11 +215,11 @@ class ManagersController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
-	public function generateTable($getRegisters)
+	public function generateTable($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';
 		if ($getRegisters) {
-			$i = 0;
+			$i = $page;
 			$template = '';
 			foreach ($getRegisters as $row) {
 				$i++;

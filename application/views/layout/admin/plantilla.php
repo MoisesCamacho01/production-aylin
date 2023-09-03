@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="light-style layout-menu-fixed">
 
 <head>
 	<meta charset="UTF-8">
@@ -88,6 +88,7 @@
 
 	<script src="<?= base_url('resources/src/jquery.js') ?>"></script>
 	<script src="<?= base_url('resources/src/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+	<script src="<?= base_url('resources/layout/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') ?>"></script>
 	<script src="<?= base_url('resources/layout/assets/vendor/js/menu.js') ?>"></script>
 	<!-- endbuild -->
 

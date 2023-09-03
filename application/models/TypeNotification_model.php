@@ -43,8 +43,10 @@ class TypeNotification_model extends CI_Model {
 		return $answer ? true : false;
 	}
 
-	public function search($search = '', $start=0, $limit=10){
-		$sql = "SELECT notifications_types.id, notifications_types.name, actions.name as action FROM notifications_types INNER JOIN actions ON notifications_types.id_action = actions.id WHERE (notifications_types.name LIKE '%$search%' OR actions.name LIKE '%$search%') ORDER BY notifications_types.created_at DESC LIMIT $limit OFFSET $start";
+	public function search($search = '', $start=0, $limit=10, $limited=true){
+		$sql_complete = ($limited) ? "LIMIT $limit OFFSET $start" : "";
+
+		$sql = "SELECT notifications_types.id, notifications_types.name, actions.name as action FROM notifications_types INNER JOIN actions ON notifications_types.id_action = actions.id WHERE (notifications_types.name ILIKE '%$search%' OR actions.name ILIKE '%$search%') ORDER BY notifications_types.created_at DESC $sql_complete";
 
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;

@@ -1,15 +1,12 @@
-<?php if(isset($url)): ?>
 <nav class="sticky layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
 	<div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
 		<a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
 			<i class="bx bx-menu bx-sm"></i>
 		</a>
 	</div>
-
-	
+	<?php if(isset($url)): ?>
 	<div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 		<!-- Search -->
-		
 		<div class="navbar-nav align-items-center">
 			<div class="nav-item d-flex align-items-center">
 				<i class="bx bx-search fs-4 lh-0"></i>
@@ -90,5 +87,9 @@
 			<!--/ User -->
 		<!-- </ul> -->
 	</div>
+	<?php else:?>
+		<a href="#" class="mayus" id="display-menu">
+			<b><i class='bx bx-menu' style="font-size: 200%"></i></b>
+		</a>
+	<?php endif; ?>
 </nav>
-<?php endif; ?>

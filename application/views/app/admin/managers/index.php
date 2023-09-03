@@ -49,13 +49,7 @@
 					<a class="page-link page-left" href="#" tabindex="-1"><i class='bx bxs-left-arrow'></i></a>
 				</li>
 
-				<?php for ($i = 1; $i <= round(($quantity + 1) / 6); $i++): ?>
-					<li class="page-item <?= $i == 1 ? 'active' : ''; ?>">
-						<a class="page-link btnPages" href="#">
-							<?= $i ?>
-						</a>
-					</li>
-				<?php endfor; ?>
+				<!-- AQUI SE PONEN LAS PAGINAS DE FORMA AUTOMATICA -->
 
 				<li class="page-item">
 					<a class="page-link page-right" href="#"><i class='bx bxs-right-arrow'></i></a>
