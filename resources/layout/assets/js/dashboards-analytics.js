@@ -43,7 +43,7 @@
 		 totalRevenueChartOptions = {
 			series: [
 			  {
-				 name: '2022',
+				 name: 'Activada',
 				 data: series
 			  },
 			],
@@ -56,19 +56,19 @@
 			plotOptions: {
 			  bar: {
 				 horizontal: false,
-				 columnWidth: '33%',
-				 borderRadius: 12,
+				 columnWidth: '25%',
+				 borderRadius: 10,
 				 startingShape: 'rounded',
 				 endingShape: 'rounded'
 			  }
 			},
-			colors: [config.colors.primary, config.colors.info],
+			colors: [config.colors.danger, config.colors.info],
 			dataLabels: {
 			  enabled: false
 			},
 			stroke: {
 			  curve: 'smooth',
-			  width: 6,
+			  width: 2,
 			  lineCap: 'round',
 			  colors: [cardColor]
 			},
@@ -83,14 +83,14 @@
 				 offsetX: -3
 			  },
 			  labels: {
-				 colors: axisColor
+				 colors: "#fff"//axisColor
 			  },
 			  itemMargin: {
 				 horizontal: 10
 			  }
 			},
 			grid: {
-			  borderColor: borderColor,
+			  borderColor: "#fff", //borderColor,
 			  padding: {
 				 top: 0,
 				 bottom: -8,
@@ -103,7 +103,7 @@
 			  labels: {
 				 style: {
 					fontSize: '13px',
-					colors: axisColor
+					colors: "#fff" //axisColor
 				 }
 			  },
 			  axisTicks: {
@@ -117,7 +117,7 @@
 			  labels: {
 				 style: {
 					fontSize: '13px',
-					colors: axisColor
+					colors: "#fff" //axisColor
 				 }
 			  }
 			},

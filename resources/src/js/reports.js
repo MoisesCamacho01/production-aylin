@@ -7,13 +7,17 @@ $('.select-alarm').select2({
 	width: 'resolve'
 });
 
-var alarmCoord;
+var alarmCoordMap;
 
-function initMap() {
+async function initMap() {
 	let coords = { lat: -0.9179301528102732, lng: -78.63297106182672 };
 	let drawMap = "";
 	let informationAlarms = [];
+	let path = [];
 
+	// var polygonMarker = "";
+	var DrawingPolygon = "";
+	var borrado = 0;
 
 	$("#bodyTable").on("click", ".btnAlarmEdit", function (e) {
 		e.preventDefault();
@@ -133,7 +137,7 @@ function initMap() {
 	});
 
 	viewAll();
-	function viewAll() {
+	async function viewAll() {
 		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
 			center: coords,
 			zoom: 9,
@@ -147,7 +151,36 @@ function initMap() {
 			mapTypeControl: false,
 			streetViewControl: false,
 		});
-		states(drawMap);
+
+		var type = getQueryVariable('type');
+		var code = getQueryVariable('code');
+
+		if (type !== null || code !== null) {
+			if(type === 'state'){
+				await cities(code);
+				await myPolygon(drawMap, 'drawState/'+code, 'cantidadProvincias', '#FF9E00');
+				await myChildrenPolygon(drawMap, 'reports/cities/all-city-state/'+code, 'cantidadCantones', '#FF3600');
+				await AlarmPolygon(drawMap, 'reports/cities/all-alarm-state/'+code, 'cantidadAlarmas', '#0046FF');
+			}else if(type === 'city'){
+				await parishes(code);
+				await myPolygon(drawMap, 'drawCity/'+code, 'cantidadCantones', '#FF9E00');
+				await myChildrenPolygon(drawMap, 'reports/parish/all-parish-city/'+code, 'cantidadParroquias', '#FF3600');
+				await AlarmPolygon(drawMap, 'reports/cities/all-alarm-city/'+code, 'cantidadAlarmas', '#0046FF');
+			}else if(type === 'parish'){
+				sectors(code);
+				await myPolygon(drawMap, 'drawParish/'+code, 'cantidadParroquias', '#FF9E00');
+				await myChildrenPolygon(drawMap, 'reports/sectors/all-sectors-barrio/'+code, 'cantidadBarrios', '#FF3600');
+				await AlarmPolygon(drawMap, 'reports/parish/all-alarm-parish/'+code, 'cantidadAlarmas', '#0046FF');
+			}else if(type === 'sector'){
+				await myPolygon(drawMap, 'drawSector/'+code, 'cantidadBarrios', '#FF9E00');
+				await AlarmPolygon(drawMap, 'reports/sector/all-alarm-sector/'+code, 'cantidadAlarmas', '#0046FF');
+			}else{
+				states(drawMap);
+			}
+
+		}else{
+			states(drawMap);
+		}
 	}
 
 	function states(drawMap) {
@@ -281,14 +314,12 @@ function initMap() {
 	async function viewDrawFatherOnMap(drawMap, urlFather, color = '#000') {
 		let url = base_url(urlFather);
 
-		$(".loaderModal").removeClass("ocultar");
-		$("#map").addClass("ocultar");
-
 		await $.ajax({
 			type: "GET",
 			url,
 			success: function (answer) {
 				let response = JSON.parse(answer);
+
 				if (response.message.type == "success") {
 					let polygon = JSON.parse(response.data[0].geom);
 					let geoJSON = {
@@ -464,7 +495,7 @@ function initMap() {
 						labelMarker.setMap(drawMap);
 
 						let urlIcon = base_url("resources/src/img/logo.png");
-						console.log(row.sector+ " "+ row.estado_alarma);
+
 						if(row.estado_alarma != 'P3grDcY020230817zW8HaN190633' && row.estado_alarma !== null){
 							urlIcon = base_url("resources/src/img/logo-white.png");
 						}
@@ -631,6 +662,478 @@ function initMap() {
 		);
 		return centroid;
 	}
+
+	// Función para calcular el centroide de un polígono
+	function getPolygonCentroid(coords) {
+		var bounds = new google.maps.LatLngBounds();
+		coords.forEach(function (point) {
+			bounds.extend(point);
+		});
+
+		return bounds.getCenter();
+	}
+
+	function getPolygon(polygon) {
+		path = [];
+		let array = polygon.coordinates[0];
+		array.forEach((row) => {
+			path.push({ lat: row[1], lng: row[0] });
+		});
+	}
+
+	// OBTENER LA UBICACION DEL MARCADOR
+	async function newAlarmCords(
+		id,
+		x,
+		color = "#1051D5",
+		latitude = 0,
+		longitude = 0
+	) {
+		let map = "mapLocationAlarmE";
+
+		drawMap = new google.maps.Map(document.getElementById(map), {
+			center: coords,
+			zoom: 17,
+			mapTypeControl: false,
+			streetViewControl: false,
+		});
+		let sectorId = $("input[id=sectorE]").val();
+		await viewDrawFatherOnMap(drawMap, 'drawSector/'+sectorId, "#C60303");
+		coords = getPolygonCentroid(path);
+
+		if (latitude != 0 && longitude != 0) {
+			coords = { lat: latitude*1, lng: longitude*1};
+		}
+
+		drawMap.setCenter(coords);
+
+		if (x == "view") {
+			$("#lat").val('')
+			let url = base_url("drawAlarm/" + id);
+			await $.ajax({
+				type: "GET",
+				url,
+				success: function (answer) {
+					let response = JSON.parse(answer);
+					if (response.message.type == "success" && response.data[0].geom != undefined) {
+						let polygon = JSON.parse(response.data[0].geom);
+
+						let centro = getCentro(polygon);
+
+						getPolygon(polygon);
+						polygonMarker = new google.maps.Polygon({
+							path: path,
+							strokeColor: color,
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+							fillColor: color,
+							fillOpacity: 0.2,
+						});
+
+						polygonMarker.setMap(drawMap);
+						drawMap.setCenter(centro);
+						let urlIcon = base_url("resources/src/img/logo-white.png");
+
+						// Crea un nuevo ícono personalizado
+						let icon = {
+							url: urlIcon,
+							scaledSize: new google.maps.Size(35, 40), // Tamaño del ícono (ajústalo según tus necesidades)
+							origin: new google.maps.Point(0, 0), // Punto de origen del ícono
+							anchor: new google.maps.Point(16, 32), // Punto de anclaje del ícono (ajústalo según el diseño del ícono)
+						};
+
+						let markerAlarm = "";
+
+						let coords2 = {
+							lat: response.data[0].lat_alarm * 1,
+							lng: response.data[0].lng_alarm * 1,
+						};
+
+						// Crea el marcador
+						markerAlarm = new google.maps.Marker({
+							position: coords2,
+							map: drawMap,
+							title: response.data[0].code,
+							draggable: false,
+						});
+
+						markerAlarm.setIcon(icon);
+
+					} else {
+						if(response.data[0].lat_alarm != undefined) {
+							toast(
+								"bg-info",
+								""+response.message.title,
+								""+response.message.message,
+								1
+							);
+						}else{
+							toast(
+								"bg-danger",
+								response.message.title,
+								"Tenemos un problema, recargar la pagina por favor",
+								1
+							);
+						}
+					}
+
+					if(response.data[0].lat_alarm != undefined) {
+						let msm = (response.data[0].geom != undefined) ? "La alarma no puede ir fuera del rango de escucha" : "La alarma no puede ir fuera del barrio asignado";
+						let urlIcon = base_url("resources/src/img/logo.png");
+
+						// Crea un nuevo ícono personalizado
+						let icon = {
+							url: urlIcon,
+							scaledSize: new google.maps.Size(35, 40), // Tamaño del ícono (ajústalo según tus necesidades)
+							origin: new google.maps.Point(0, 0), // Punto de origen del ícono
+							anchor: new google.maps.Point(16, 32), // Punto de anclaje del ícono (ajústalo según el diseño del ícono)
+						};
+
+						let markerAlarm = "";
+
+						let coords2 = {
+							lat: response.data[0].lat_alarm * 1,
+							lng: response.data[0].lng_alarm * 1,
+						};
+
+						let centro = new google.maps.LatLng(coords2);
+						drawMap.setCenter(centro);
+						// Crea el marcador
+						markerAlarm = new google.maps.Marker({
+							position: coords2,
+							map: drawMap,
+							title: response.data[0].code,
+							draggable: true,
+						});
+
+						markerAlarm.setIcon(icon);
+
+						// Agrega el evento de arrastre al marcador
+						google.maps.event.addListener(
+							markerAlarm,
+							"dragend",
+							function (event) {
+								let cord = coords;
+								if($("#lat").val() != ""){
+									cord = new google.maps.LatLng({lat: $("#lat").val()*1, lng: $("#lng").val()*1})
+								}
+								// Verifica si la nueva posición del marcador está dentro del polígono
+								if (
+									!google.maps.geometry.poly.containsLocation(
+										event.latLng,
+										polygonMarker
+									)
+								) {
+									// Si la nueva posición está fuera del polígono, impide que el marcador se mueva allí
+									markerAlarm.setPosition(cord); // Devuelve el marcador a su posición original
+									toast(
+										"bg-info",
+										"Ubicar alarma",
+										msm,
+										1
+									);
+								} else {
+									$("#lat").val(event.latLng.lat());
+									$("#lng").val(event.latLng.lng());
+									$("#latitudeE").val(event.latLng.lat());
+									$("#longitudeE").val(event.latLng.lng());
+								}
+							}
+						);
+					}
+
+					$(".loaderModal").addClass("ocultar");
+					$("#map").removeClass("ocultar");
+				},
+			});
+		}
+	}
+
+	// Codigo editar area de escucha de las alarmas
+
+	$("#editArea").click(function (e) {
+		e.preventDefault();
+		drawingPolygon();
+	});
+
+	// BUTTON SAVE DRAW
+	$("#btnSaveDraw").click(function (e) {
+		e.preventDefault();
+		saveDraw();
+	});
+
+	async function saveDraw() {
+		path = [];
+		if (borrado == 0) {
+			await getPolygonCoords();
+		}
+		let id = $("input[name=id]").val();
+		const data = {
+			id,
+			cords: JSON.stringify(path),
+		};
+		let url = $("input[name=url]").val() + "drawAlarm";
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: data,
+			success: function (answer) {
+				let response = JSON.parse(answer);
+				if (response.message.type == "success") {
+					toast(
+						"bg-success",
+						response.message.title,
+						response.message.message,
+						1
+					);
+					$(".btnGetForId").trigger("click");
+				} else {
+					toast(
+						"bg-danger",
+						response.message.title,
+						response.message.message,
+						1
+					);
+					$(".btnGetForId").trigger("click");
+				}
+			},
+		});
+	}
+
+	async function drawingPolygon() {
+		path = [];
+		let id = $("input[name=id").val();
+		let url = base_url("drawAlarm/" + id);
+		drawMap = new google.maps.Map(document.getElementById("mapArea"), {
+			center: coords,
+			zoom: 17,
+			styles: [
+				{
+					featureType: "poi",
+					elementType: "labels", // Aplicar estilo a las etiquetas de los parques
+					stylers: [{ visibility: "off" }],
+				},
+
+				{
+					featureType: "administrative", // Para ocultar el nombre de las ciudades
+					elementType: "labels",
+					stylers: [{ visibility: "off" }],
+				},
+				{
+					featureType: "transit", // Paradas de autobús
+					elementType: "labels",
+					stylers: [{ visibility: "off" }], // Oculta las etiquetas de las paradas de autobús
+				},
+			],
+			mapTypeControl: false,
+			streetViewControl: false,
+		});
+		let sectorId = $("input[id=sectorE]").val();
+		await viewDrawFatherOnMap(drawMap, 'drawSector/'+sectorId, "#C60303");
+		await mySiblingsPolygon(id, drawMap);
+
+		var defaultPolygon = [
+			new google.maps.LatLng(-0.979835, -78.592705),
+			new google.maps.LatLng(-0.896679, -78.710152),
+			new google.maps.LatLng(-0.868363, -78.569822),
+		];
+
+		DrawingPolygon = new google.maps.Polygon({
+			draggable: false,
+			editable: true,
+			strokeColor: "#FF0000",
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: "#FF0000",
+			fillOpacity: 0.35,
+		});
+
+		$(".loaderModal").removeClass("ocultar");
+		$("#mapArea").addClass("ocultar");
+
+		await $.ajax({
+			type: "GET",
+			url,
+			success: function (answer) {
+				let response = JSON.parse(answer);
+				console.log(response);
+				if (response.message.type == "success" && response.data[0].geom != undefined) {
+					let polygon = JSON.parse(response.data[0].geom);
+
+					let centro = getCentro(polygon);
+					drawMap.setCenter(centro);
+					getPolygon(polygon);
+
+					toast(
+						"bg-success",
+						response.message.title,
+						response.message.message,
+						1
+					);
+				} else {
+					if(response.data[0].lat_alarm != undefined) {
+						toast(
+							"bg-info",
+							response.message.title,
+							response.message.message + ", puedes dibujar uno.",
+							1
+						);
+					}else{
+						toast(
+							"bg-danger",
+							response.message.title,
+							"Tenemos un problema, recargar la pagina por favor",
+							1
+						);
+					}
+				}
+
+				if(response.data[0].lat_alarm != undefined) {
+					let urlIcon = base_url("resources/src/img/logo-white.png");
+
+					// Crea un nuevo ícono personalizado
+					let icon = {
+						url: urlIcon,
+						scaledSize: new google.maps.Size(35, 40), // Tamaño del ícono (ajústalo según tus necesidades)
+						origin: new google.maps.Point(0, 0), // Punto de origen del ícono
+						anchor: new google.maps.Point(16, 32), // Punto de anclaje del ícono (ajústalo según el diseño del ícono)
+					};
+
+					let markerAlarm = "";
+
+					let coords2 = {
+						lat: response.data[0].lat_alarm * 1,
+						lng: response.data[0].lng_alarm * 1,
+					};
+
+					let centro = new google.maps.LatLng(coords2);
+					drawMap.setCenter(centro);
+					if(response.data[0].geom === undefined){
+						path = [];
+						// path.push(centro);
+						path.push({
+							lat: centro.lat() + 0.001,
+							lng: centro.lng() + 0.001,
+						});
+						path.push({
+							lat: centro.lat() + 0.001,
+							lng: centro.lng() - 0.001,
+						});
+						path.push({
+							lat: centro.lat() - 0.001,
+							lng: centro.lng() - 0.001,
+						});
+						path.push({
+							lat: centro.lat() - 0.001,
+							lng: centro.lng() + 0.001,
+						});
+					}
+
+					// Crea el marcador
+					markerAlarm = new google.maps.Marker({
+						position: coords2,
+						map: drawMap,
+						title: response.data[0].code,
+						draggable: false,
+					});
+
+					markerAlarm.setIcon(icon);
+				}
+				$(".loaderModal").addClass("ocultar");
+				$("#mapArea").removeClass("ocultar");
+			},
+		});
+
+		if (path.length > 0) {
+			DrawingPolygon.setPath(path);
+		} else {
+			DrawingPolygon.setPath(defaultPolygon);
+		}
+
+		DrawingPolygon.setMap(drawMap);
+
+		google.maps.event.addListener(DrawingPolygon, "rightclick", function (event) {
+			var vertices = DrawingPolygon.getPath();
+			var clickedIndex = -1;
+
+			for (var i = 0; i < vertices.getLength(); i++) {
+				if (
+					google.maps.geometry.spherical.computeDistanceBetween(
+						event.latLng,
+						vertices.getAt(i)
+					) < 10
+				) {
+					clickedIndex = i;
+					break;
+				}
+			}
+			if (clickedIndex !== -1) {
+				vertices.removeAt(clickedIndex); // Elimina el vértice
+			}
+		});
+	}
+
+	function getPolygonCoords() {
+		path = [];
+		var len = DrawingPolygon.getPath().getLength();
+		for (var i = 0; i < len; i++) {
+			let lat = DrawingPolygon.getPath().getAt(i).lat();
+			let lng = DrawingPolygon.getPath().getAt(i).lng();
+			path.push({ lat: lat, lng: lng });
+		}
+	}
+
+	async function mySiblingsPolygon(id, drawMap) {
+		let idI = $("input[id=sectorE]").val();
+		let url = base_url("reports/alarms/all-of-sector/" + idI);
+		await $.ajax({
+			type: "GET",
+			url,
+			success: function (answer) {
+				let response = JSON.parse(answer);
+				if (response.message.type == "success") {
+					let data = response.data;
+					data.forEach((row) => {
+						if (id != row.id_city) {
+							let polygon = JSON.parse(row.geom);
+							let geoJSON = {
+								type: "Feature",
+								geometry: polygon,
+							};
+							drawMap.data.addGeoJson(geoJSON);
+							drawMap.data.setStyle({
+								fillColor: "purple",
+								strokeWeight: 1,
+							});
+
+							let centro = getCentro(polygon);
+
+							// Crea un marcador en el centroide del polígono
+							let labelMarker = new google.maps.Marker({
+								position: centro,
+								map: drawMap,
+								label: {
+									text: row.name,
+									color: "#251A1C",
+									fontWeight: "bold",
+									fontSize: "12px",
+									labelOrigin: new google.maps.Point(0, -20),
+								},
+								icon: {
+									url: "https://maps.google.com/mapfiles/transparent.png", // Imagen transparente para ocultar el marcador
+									size: new google.maps.Size(1, 1), // Tamaño del icono del marcador (1x1 píxeles)
+									anchor: new google.maps.Point(0, 0), // Punto de anclaje del icono del marcador
+								},
+							});
+							labelMarker.setMap(drawMap);
+						}
+					});
+				}
+			},
+		});
+	}
+
+	alarmsCoordMap = newAlarmCords;
 }
 
 function update() {
@@ -744,21 +1247,22 @@ function ipm() {
 
 ipm();
 
-function getForId() {
+async function getForId() {
 	let id = $("input[name=id]").val();
 	let idI = $("input[name=idInstitution").val();
 
 	let url = $("input[name=url]").val() + "alarms/" + idI + "/" + id;
-	$.ajax({
+	await $.ajax({
 		type: "GET",
 		url: url,
 		success: function (answer) {
 			let response = JSON.parse(answer);
+
 			if (response.message.type == "success") {
 				toast(
 					"bg-success",
-					response.message.title,
-					response.message.message,
+					response.message.title || "Alarma Encontrada",
+					response.message.message || "Alarma encontrada con éxito",
 					1
 				);
 
@@ -766,7 +1270,7 @@ function getForId() {
 				$("#managerE").val(response.data.id_alarm_manager);
 				$("#latitudeE").val(response.data.latitud);
 				$("#longitudeE").val(response.data.longitud);
-				alarmsCoord(
+				alarmsCoordMap(
 					response.data.id,
 					"view",
 					"#1051D5",
@@ -776,118 +1280,14 @@ function getForId() {
 			} else {
 				toast(
 					"bg-danger",
-					response.message.title,
-					response.message.message,
+					response.message.title || "Alarma encontrada",
+					response.message.message || "Ocurrió un problema",
 					1
 				);
-
 				$(".btn-close").click();
 			}
 		},
 	});
-
-	// OBTENER LA UBICACION DEL MARCADOR
-	function newAlarmCords(
-		id,
-		x,
-		color,
-		latitude = 0,
-		longitude = 0,
-		name = ""
-	) {
-		let url = $("input[name=urlMap]").val() + "drawAlarm/" + id;
-		var coords = {
-			lat: latitude != 0 ? latitude : -0.9179301528102732,
-			lng: longitude != 0 ? longitude : -78.63297106182672,
-		};
-		var markerAlarm = "";
-		var markerMap = "";
-		var polygonMarker = "";
-
-		let base_url = $("input[name=baseUrl]").val();
-		let url2 = `${base_url}/src/img/logo.png`;
-
-		// Crea un nuevo ícono personalizado
-		let icon = {
-			url: url2,
-			scaledSize: new google.maps.Size(35, 40), // Tamaño del ícono (ajústalo según tus necesidades)
-			origin: new google.maps.Point(0, 0), // Punto de origen del ícono
-			anchor: new google.maps.Point(16, 32), // Punto de anclaje del ícono (ajústalo según el diseño del ícono)
-		};
-
-		markerMap = new google.maps.Map(
-			document.getElementById("mapLocationAlarmE"),
-			{
-				zoom: 17,
-				center: coords,
-			}
-		);
-
-		if (x == "view") {
-			$.ajax({
-				type: "GET",
-				url: url,
-				success: function (answer) {
-					let response = JSON.parse(answer);
-					if (response.message.type == "success") {
-						let coordenadas = response.data;
-						let geo = JSON.parse(JSON.stringify(coordenadas));
-
-						let cor = [];
-
-						geo.forEach((row) => {
-							cor.push({ lat: row.latitud * 1, lng: row.longitud * 1 });
-						});
-
-						polygonMarker = new google.maps.Polygon({
-							path: cor,
-							strokeColor: color,
-							strokeOpacity: 0.8,
-							strokeWeight: 2,
-							fillColor: color,
-							fillOpacity: 0.2,
-						});
-
-						polygonMarker.setMap(markerMap);
-					}
-				},
-			});
-
-			// Crea el marcador
-			markerAlarm = new google.maps.Marker({
-				position: coords,
-				map: markerMap,
-				title: name != "" ? name : "Mi marcador",
-				draggable: true,
-			});
-
-			// Establece el nuevo ícono personalizado en el marcador
-			markerAlarm.setIcon(icon);
-
-			// Agrega el evento de arrastre al marcador
-			google.maps.event.addListener(
-				markerAlarm,
-				"dragend",
-				function (event) {
-					// Verifica si la nueva posición del marcador está dentro del polígono
-					if (
-						!google.maps.geometry.poly.containsLocation(
-							event.latLng,
-							polygonMarker
-						)
-					) {
-						// Si la nueva posición está fuera del polígono, impide que el marcador se mueva allí
-						markerAlarm.setPosition(coords); // Devuelve el marcador a su posición original
-					} else {
-						$("#latitudeE").val(event.latLng.lat());
-						$("#longitudeE").val(event.latLng.lng());
-					}
-				}
-			);
-		}
-	}
-
-	alarmsCoord = newAlarmCords;
 }
 
 $("#btnActiveAlarm").click(function (e) {

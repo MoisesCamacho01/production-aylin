@@ -17,14 +17,18 @@ function cantidadPaginator(pagina) {
 
 	if(pagina == 1){
 		$('.page-left').parent().addClass('disabled');
+		$('.pageStart').parent().addClass('disabled');
 	}else{
 		$('.page-left').parent().removeClass('disabled');
+		$('.pageStart').parent().removeClass('disabled');
 	}
 
 	if((cantidadPaginator*pagina)>=cantidad){
 		$('.page-right').parent().addClass('disabled');
+		$('.pageFinish').parent().addClass('disabled');
 	}else{
 		$('.page-right').parent().removeClass('disabled');
+		$('.pageFinish').parent().removeClass('disabled');
 	}
 
 	let numPaginas = Math.ceil((cantidad)/cantidadPaginator)
@@ -73,7 +77,6 @@ $("#paginasContainer").on("click",".page-left", function(e){
 	$("input[name='pagePaginator']").val(pagina)
 	$("input[name='inicioPaginator']").val(inicio<=1 ? 0 : inicio)
 	paginator(pagina)
-
 })
 
 //PAGINA PARA ADELANTE
@@ -84,5 +87,20 @@ $("#paginasContainer").on("click",".page-right", function(e){
 	$("input[name='pagePaginator']").val(pagina)
 	$("input[name='inicioPaginator']").val(((pagina*cantidad)-cantidad))
 	paginator(pagina)
-
 })
+
+$("#paginasContainer").on("click",".pageStart",function (e) {
+	e.preventDefault();
+	$("input[name='pagePaginator']").val(1)
+	$("input[name='inicioPaginator']").val(0)
+	paginator(1);
+});
+
+$("#paginasContainer").on("click",".pageFinish",function (e) {
+	e.preventDefault();
+	let pageFinish = Math.ceil($('input[name="cantidadRegistros"]').val()*1 / $('input[name="cantidadPaginator"]').val()*1)
+	let cantidad = $('input[name="cantidadPaginator"]').val()
+	$("input[name='pagePaginator']").val(pageFinish)
+	$("input[name='inicioPaginator']").val((((pageFinish)*cantidad)-cantidad)+1)
+	paginator(pageFinish);
+});

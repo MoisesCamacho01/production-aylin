@@ -42,11 +42,13 @@ function searchGlobal(url, text='', start, limit){
 				if(response.message.type === 'success') {
 					$('#loader').addClass('ocultar');
 					$('#bodyTable').html(response.data);
+					$('input[name="cantidadRegistros"]').val(response.quantity)
 					cantidadPaginator($("input[name='pagePaginator']").val())
+					
 				}else{
 					toast('bg-danger', response.message.title, response.message.message, 1);
 				}
 			}
 		});
-	}, 200);
+	}, 100);
 }

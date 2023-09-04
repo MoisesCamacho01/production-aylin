@@ -6,17 +6,40 @@
 	min-height: 300px !important;
 }
 
-.sticky {
-	position: sticky;
-	top: 0px;
-	z-index: 1;
-}
+.hover-my {
+	position: relative;
+	text-decoration: none;
+	color: white;
+ }
 
-.content-wrapper {
-	display: block !important;
-	/* height: calc(100vh - 75px) !important; */
-	overflow-y: hidden;
-}
+ .hover-my::before,
+ .hover-my::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	width: 0;
+	height: 3px;
+	background-color: white;
+	transition: width 0.5s;
+ }
+
+ .hover-my::before {
+	left: 50%;
+	transform: translateX(-50%);
+	transition-delay: 0.3s; /* Añadir un retraso opcional si deseas que el efecto inicie después de un breve período. */
+ }
+
+ .hover-my::after {
+	right: 50%;
+	transform: translateX(50%);
+	transition-delay: 0.1s; /* Añadir un retraso opcional si deseas que el efecto inicie después de un breve período. */
+ }
+
+ .hover-my:hover::before,
+ .hover-my:hover::after {
+	width: 70%; /* Ancho final cuando el cursor está encima */
+ }
+
 
 /* SCROLL */
 .scroll {

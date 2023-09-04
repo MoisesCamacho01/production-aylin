@@ -993,25 +993,27 @@ async function initMap() {
 					};
 
 					let centro = new google.maps.LatLng(coords2);
-					path = [];
 					drawMap.setCenter(centro);
-					// path.push(centro);
-					path.push({
-						lat: centro.lat() + 0.001,
-						lng: centro.lng() + 0.001,
-					});
-					path.push({
-						lat: centro.lat() + 0.001,
-						lng: centro.lng() - 0.001,
-					});
-					path.push({
-						lat: centro.lat() - 0.001,
-						lng: centro.lng() - 0.001,
-					});
-					path.push({
-						lat: centro.lat() - 0.001,
-						lng: centro.lng() + 0.001,
-					});
+
+					if(response.data[0].geom === undefined){
+						path = [];
+						path.push({
+							lat: centro.lat() + 0.001,
+							lng: centro.lng() + 0.001,
+						});
+						path.push({
+							lat: centro.lat() + 0.001,
+							lng: centro.lng() - 0.001,
+						});
+						path.push({
+							lat: centro.lat() - 0.001,
+							lng: centro.lng() - 0.001,
+						});
+						path.push({
+							lat: centro.lat() - 0.001,
+							lng: centro.lng() + 0.001,
+						});
+					}
 
 					// Crea el marcador
 					markerAlarm = new google.maps.Marker({

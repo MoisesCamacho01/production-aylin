@@ -1,3 +1,19 @@
+$("#display-menu").click(function(e){
+	e.preventDefault();
+	let att = $("#layout-menu").attr("ocultar");
+	if(att == "si"){
+		$("#layout-menu").addClass('ocultar');
+		$(".layout-page").css({
+			"padding-left":"1rem"
+		});
+		$("#layout-menu").attr("ocultar", "no");
+	}else{
+		$("#layout-menu").removeClass('ocultar');
+		$(".layout-page").css("padding-left", "16.25rem");
+		$("#layout-menu").attr("ocultar", "si");
+	}
+});
+
 $("#bodyTable").on("click", ".btnInputHidden", function (e) {
 	e.preventDefault();
 	let id = $(this).attr("dataId");
