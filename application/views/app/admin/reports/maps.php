@@ -97,7 +97,7 @@
 					<div class="col-12 mb-2">
 						<label for="cities" class="form-label">Cantón</label>
                   <select id="cities" class="form-select">
-                     <option value="" selected>Seleccionar cantón</option>
+                     <option value="" selected>Seleccionar un registro</option>
 
                   </select>
 						<span class="validate-text" name="cities"></span>
@@ -107,7 +107,7 @@
 					<div class="col-12 mb-2">
 						<label for="parishes" class="form-label">Parroquias</label>
                   <select id="parishes" class="form-select">
-                     <option value="" selected>Seleccionar cantón</option>
+                     <option value="" selected>Seleccionar un registro</option>
 
                   </select>
 						<span class="validate-text" name="parishes"></span>
@@ -117,7 +117,7 @@
 					<div class="col-12 mb-2">
 						<label for="sectors" class="form-label">Barrio</label>
                   <select id="sectors" class="form-select">
-                     <option value="" selected>Seleccionar cantón</option>
+                     <option value="" selected>Seleccionar un registro</option>
 
                   </select>
 						<span class="validate-text" name="sectors"></span>
