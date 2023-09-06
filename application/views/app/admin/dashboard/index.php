@@ -24,6 +24,27 @@
 	</div>
 	<!--/ Total Revenue -->
 	<div class="col-lg-2 col-12 mb-4">
+		<div class="card bg-danger">
+			<div class="card-body text-center">
+				<span class="fw d-block text-white mayus">Parroquias</span>
+				<h3 class="card-title text-nowrap text-white">
+					<?= $parishes ?>
+				</h3>
+				<div class="card-title d-flex align-items-center justify-content-center hover-my">
+					<div class="avatar flex-shrink-0">
+						<a href="<?= base_url('pdf-parishes/0') ?>" target="_blank">
+							<i class='bx bxs-download text-white h2'></i>
+						</a>
+					</div>
+					<a href="<?= base_url('pdf-parishes/0') ?>" target="_blank">
+						<span class="mayus text-white fw">Descargar</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-2 col-12 mb-4">
 		<div class="card bg-success">
 			<div class="card-body text-center">
 
@@ -67,26 +88,7 @@
 		</div>
 	</div>
 
-	<div class="col-lg-2 col-12 mb-4">
-		<div class="card bg-danger">
-			<div class="card-body text-center">
-				<span class="fw d-block text-white mayus">Parroquias</span>
-				<h3 class="card-title text-nowrap text-white">
-					<?= $parishes ?>
-				</h3>
-				<div class="card-title d-flex align-items-center justify-content-center hover-my">
-					<div class="avatar flex-shrink-0">
-						<a href="<?= base_url('pdf-parishes/0') ?>" target="_blank">
-							<i class='bx bxs-download text-white h2'></i>
-						</a>
-					</div>
-					<a href="<?= base_url('pdf-parishes/0') ?>" target="_blank">
-						<span class="mayus text-white fw">Descargar</span>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
+
 </div>
 
 <div class="row">
@@ -120,11 +122,11 @@
 				</h3>
 				<div class="card-title d-flex align-items-center justify-content-center hover-my">
 					<div class="avatar flex-shrink-0">
-						<a href="<?= base_url('pdf-users/web'); ?>" target="_blank">
+						<a href="<?= base_url('pdf-users/movil'); ?>" target="_blank">
 							<i class='bx bxs-download text-success h2 text-white'></i>
 						</a>
 					</div>
-					<a href="<?= base_url('pdf-users/web'); ?>" target="_blank">
+					<a href="<?= base_url('pdf-users/movil'); ?>" target="_blank">
 						<span class="mayus text-white fw">Descargar</span>
 					</a>
 				</div>
@@ -218,7 +220,7 @@
 										</div>
 										<div class="user-progress d-flex align-items-center gap-1">
 											<h6 class="mb-0">
-												<?= $row->name . " " . $row->last_name ?> <br> <span>
+												<?= $row->user_name ?> <br> <span>
 													<?= $row->created_at ?>
 												</span>
 											</h6>
@@ -308,7 +310,6 @@
 	</div>
 	<!--  -->
 </div>
-
 
 <!-- HIDDENS STADISTICS-->
 <input type="hidden" name="alarmsActive" value="<?= $alarmsActive ?>">

@@ -215,6 +215,25 @@ class ManagersController extends MY_Controller
 		echo json_encode($this->response);
 	}
 
+	public function searchAlarm(){
+		$code = htmlspecialchars($this->input->post('search'));
+
+		$answer = $this->Manager_model->searchAlarm($code);
+		$this->response->message->type = 'error';
+		$this->response->message->title = 'Registro no encontrado';
+		$this->response->message->message = 'La alarma no pudo ser creada con éxito';
+
+		if($answer){
+			$this->response->quantity = count($answer);
+			$this->response->data = $answer;
+			$this->response->message->type = 'success';
+			$this->response->message->title = 'Registro Encontrado';
+			$this->response->message->message = 'La alarma pudo ser creada con éxito';
+		}
+
+		echo json_encode($this->response);
+	}
+
 	public function generateTable($getRegisters, $page=1)
 	{
 		$template = '<tr><td><p>No se encontraron datos</p></td></tr>';

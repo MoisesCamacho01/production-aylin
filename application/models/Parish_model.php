@@ -30,7 +30,7 @@ class Parish_model extends CI_Model {
 
 	public function getForId($idI, $idP='')
 	{
-		$this->db->select('parishes.id, parishes.name, cities.name as city, actions.name as action');
+		$this->db->select('parishes.id, parishes.name, cities.name as city, parishes.id_city, actions.name as action');
 		$this->db->from('parishes');
 		$this->db->join('cities', 'parishes.id_city = cities.id');
 		$this->db->join('actions', 'parishes.id_actions = actions.id');

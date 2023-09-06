@@ -40,9 +40,10 @@ class Sector_model extends CI_Model
 
 	public function getForId($idI, $idP = '')
 	{
-		$this->db->select('sector.id, sector.name, sector.color, parishes.name as distric, actions.name as action');
+		$this->db->select('sector.id, sector.name, sector.color, parishes.name as distric, sector.id_distric, parishes.id_city, cities.name as city, actions.name as action');
 		$this->db->from('sector');
 		$this->db->join('parishes', 'sector.id_distric = parishes.id');
+		$this->db->join('cities', 'parishes.id_city = cities.id');
 		$this->db->join('actions', 'sector.id_actions = actions.id');
 		$this->db->where('sector.id', $idI);
 		if ($idP != '') $this->db->where('sector.id_distric', $idP);

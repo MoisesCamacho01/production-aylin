@@ -88,7 +88,7 @@
 		<!-- </ul> -->
 	</div>
 	<?php else:?>
-		<a href="#" class="mayus" id="display-menu">
+		<a href="#" class="mayus d-md-none d-xl-block" id="display-menu">
 			<b><i class='bx bx-menu' style="font-size: 200%"></i></b>
 		</a>
 	<?php endif; ?>

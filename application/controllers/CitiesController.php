@@ -12,24 +12,36 @@ class CitiesController extends MY_Controller
 		$this->load->model("City_model");
 		$this->load->model("Country_model");
 		$this->load->model("State_model");
+		$this->load->model("Manager_model");
+		$this->load->model("NotificationType_model");
 	}
 
 	public function index($submenu)
 	{
+		$user = $this->session->userdata('usuario');
+
 		$js = [
 			'resources/librerias/paginator/paginator.js',
+			'resources/librerias/select2/dist/js/select2.min.js',
 			'resources/src/js/cities/cities.js?t=2s',
+			'resources/src/js/cities/maps.js?t=2s',
+			// 'resources/src/js/alarmsSound.js?t=2s',
+
 		];
 
 		$this->session->set_userdata('submenu', $submenu);
 		$this->submenu = $submenu;
 
 		$this->data = [
+			'code' => $user->id,
+			'userName' => $user->user_name,
 			'title' => 'Cantones',
 			'js' => $js,
 			'countries' => $this->Country_model->getAll(),
 			'states' => $this->State_model->getAll(),
 			'url' => site_url('cities/search'),
+			'managers' => $this->Manager_model->getAll(),
+			'buttonNotifications' => $this->NotificationType_model->getAll(),
 			'quantity' => count($this->City_model->getAll()),
 		];
 

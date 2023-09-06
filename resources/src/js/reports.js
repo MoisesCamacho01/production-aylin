@@ -4,7 +4,12 @@ $('.select-alarm').select2({
 	allowClear: true,
 	dropdownCssClass: 'select-search',
 	closeOnSelect: false,
-	width: 'resolve'
+	width: 'resolve',
+	language: {
+		noResults: function () {
+		  return 'No se encontraron resultados'; // Cambia este texto por el que desees
+		}
+	 }
 });
 
 var alarmCoordMap;
@@ -78,10 +83,15 @@ async function initMap() {
 
 		var primerOption = $("#parishes option:first-child").detach();
 		$("#parishes").empty().append(primerOption);
-		await parishes($(this).val());
-		await myPolygon(drawMap, 'drawCity/'+$(this).val(), 'cantidadCantones', '#FF9E00');
-		await myChildrenPolygon(drawMap, 'reports/parish/all-parish-city/'+$(this).val(), 'cantidadParroquias', '#FF3600');
-		await AlarmPolygon(drawMap, 'reports/cities/all-alarm-city/'+$(this).val(), 'cantidadAlarmas', '#0046FF');
+
+		if($(this).val() === "All"){
+			$("#states").trigger('change');
+		}else{
+			await parishes($(this).val());
+			await myPolygon(drawMap, 'drawCity/'+$(this).val(), 'cantidadCantones', '#FF9E00');
+			await myChildrenPolygon(drawMap, 'reports/parish/all-parish-city/'+$(this).val(), 'cantidadParroquias', '#FF3600');
+			await AlarmPolygon(drawMap, 'reports/cities/all-alarm-city/'+$(this).val(), 'cantidadAlarmas', '#0046FF');
+		}
 	});
 
 	$("#parishes").change(async function (e) {
@@ -102,10 +112,14 @@ async function initMap() {
 		});
 		var primerOption = $("#sectors option:first-child").detach();
 		$("#sectors").empty().append(primerOption);
-		sectors($(this).val());
-		await myPolygon(drawMap, 'drawParish/'+$(this).val(), 'cantidadParroquias', '#FF9E00');
-		await myChildrenPolygon(drawMap, 'reports/sectors/all-sectors-barrio/'+$(this).val(), 'cantidadBarrios', '#FF3600');
-		await AlarmPolygon(drawMap, 'reports/parish/all-alarm-parish/'+$(this).val(), 'cantidadAlarmas', '#0046FF');
+		if($(this).val() === "All"){
+			$("#cities").trigger('change');
+		}else{
+			sectors($(this).val());
+			await myPolygon(drawMap, 'drawParish/'+$(this).val(), 'cantidadParroquias', '#FF9E00');
+			await myChildrenPolygon(drawMap, 'reports/sectors/all-sectors-barrio/'+$(this).val(), 'cantidadBarrios', '#FF3600');
+			await AlarmPolygon(drawMap, 'reports/parish/all-alarm-parish/'+$(this).val(), 'cantidadAlarmas', '#0046FF');
+		}
 	});
 
 	$("#sectors").change(async function (e) {
@@ -127,13 +141,353 @@ async function initMap() {
 			mapTypeControl: false,
 			streetViewControl: false,
 		});
-		await myPolygon(drawMap, 'drawSector/'+$(this).val(), 'cantidadBarrios', '#FF9E00');
-		await AlarmPolygon(drawMap, 'reports/sector/all-alarm-sector/'+$(this).val(), 'cantidadAlarmas', '#0046FF');
+		if($(this).val() === "All"){
+			$("#parishes").trigger('change');
+		}else{
+			await myPolygon(drawMap, 'drawSector/'+$(this).val(), 'cantidadBarrios', '#FF9E00');
+			await AlarmPolygon(drawMap, 'reports/sector/all-alarm-sector/'+$(this).val(), 'cantidadAlarmas', '#0046FF');
+		}
 	});
 
 	$("#btnViewAll").click(function (e) {
 		e.preventDefault();
 		viewAll();
+	});
+
+	$("#searchCodeAlarm").keyup(async function (e) {
+		e.preventDefault();
+		$("input[name=msm]").val("");
+		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
+			center: coords,
+			zoom: 18,
+			styles: [
+				{
+					featureType: "administrative", // Para ocultar el nombre de las ciudades
+					elementType: "labels",
+					stylers: [{ visibility: "off" }],
+				},
+			],
+			mapTypeControl: false,
+			streetViewControl: false,
+		});
+		let code = $(this).val();
+		console.log(code);
+		let url = base_url('reports/alarm/get-alarm')
+		const data = {
+			search : code
+		}
+		await $.ajax({
+			type: "POST",
+			data,
+			url,
+			success: function (answer) {
+				let response = JSON.parse(answer);
+				if (response.message.type == "success") {
+					let data = response.data;
+					// x = 1;
+					data.forEach((row) => {
+						// $("#"+contador).text(x);
+						// x = x+1;
+						let polygon = JSON.parse(row.geom);
+						let geoJSON = {
+							type: "Feature",
+							geometry: polygon,
+						};
+						// Define el estilo personalizado para el GeoJSON
+						var geoJsonStyle = {
+							strokeColor: "#000", // Color del contorno
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+							fillColor: "#0385C6", // Color de relleno
+							fillOpacity: 0.35,
+						};
+
+						// Crea una nueva capa GeoJSON con el estilo personalizado
+						var geoJsonLayer = new google.maps.Data();
+						geoJsonLayer.addGeoJson(geoJSON);
+
+						// Aplica el estilo personalizado al GeoJSON
+						geoJsonLayer.setStyle(geoJsonStyle);
+
+						// Agrega la capa GeoJSON al mapa
+						geoJsonLayer.setMap(drawMap);
+
+						let centro = getCentro(polygon);
+						// Crea un marcador en el centroide del polígono
+						drawMap.setCenter(centro);
+						let labelMarker = new google.maps.Marker({
+							position: centro,
+							map: drawMap,
+							label: {
+								text: row.code,
+								color: "#251A1C",
+								fontWeight: "bold",
+								fontSize: "12px",
+								labelOrigin: new google.maps.Point(0, -20),
+							},
+							icon: {
+								url: "https://maps.google.com/mapfiles/transparent.png", // Imagen transparente para ocultar el marcador
+								size: new google.maps.Size(1, 1), // Tamaño del icono del marcador (1x1 píxeles)
+								anchor: new google.maps.Point(0, 0), // Punto de anclaje del icono del marcador
+							},
+						});
+						labelMarker.setMap(drawMap);
+
+						let urlIcon = base_url("resources/src/img/logo.png");
+
+						if(row.estado_alarma != 'P3grDcY020230817zW8HaN190633' && row.estado_alarma !== null){
+							urlIcon = base_url("resources/src/img/logo-white.png");
+						}
+						// Crea un nuevo ícono personalizado
+						let icon = {
+							url: urlIcon,
+							scaledSize: new google.maps.Size(35, 40), // Tamaño del ícono (ajústalo según tus necesidades)
+							origin: new google.maps.Point(0, 0), // Punto de origen del ícono
+							anchor: new google.maps.Point(16, 32), // Punto de anclaje del ícono (ajústalo según el diseño del ícono)
+						};
+
+						let markerAlarm = new google.maps.Marker({
+							position: { lat: row.lat_alarm * 1, lng: row.lng_alarm * 1 },
+							map: drawMap,
+							title: row.code,
+							draggable: false,
+						});
+
+						markerAlarm.setIcon(icon);
+						let disabled = "";
+						if (
+							row.a_alarm == "ac03" ||
+							row.a_alarm == "ac04" ||
+							row.a_sector == "ac03" ||
+							row.a_sector == "ac04" ||
+							row.a_parish == "ac03" ||
+							row.a_parish == "ac04" ||
+							row.a_city == "ac03" ||
+							row.a_city == "ac04"
+						) {
+							disabled = "disabled";
+						}
+
+						information = `
+							<button type='button' data-bs-toggle='modal' sector='${row.sector}' sectorId='${row.id_sector}' data-bs-target='#updateModal' dataId='${row.id}' class='btnAlarmEdit btn btn-info'>Editar</button>
+							<a class='btnInputHidden btnGetForId' dataId='${row.id}'></a>`;
+
+						if (
+							row.estado_alarma != 'P3grDcY020230817zW8HaN190633' && row.estado_alarma !== null
+						) {
+							information += `
+								<button type='button' data-bs-toggle='modal' data-bs-target='#stopSoundAlarmModel' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Parar</button>
+							`;
+						} else {
+							information += `
+								<button type='button' data-bs-toggle='modal' data-bs-target='#soundAlarmModel' sector='${row.sector}' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Activar</button>
+							`;
+						}
+
+						information += `
+
+							<h5 class='mt-2'>Información de la alarma</h5>
+							<p>
+								<b>Código:</b> ${row.code}<br>
+								<b>Barrio:</b> ${row.sector}<br>
+								<b>Parroquia:</b> ${row.parish}<br>
+								<b>Cantón:</b> ${row.canton}<br>
+							</p>
+							<h5>Datos del encargado</h5>
+							<p>
+								<b>Nombre:</b> ${row.name_manager}<br>
+								<b>Teléfono:</b> ${row.phone}<br>
+								<b>Celular:</b> ${row.mobile}<br>
+							</p>
+						`;
+
+						var panelInformation = new google.maps.InfoWindow({
+							content: information,
+							pixelOffset: new google.maps.Size(0, -10),
+						});
+
+						// Establece el nuevo ícono personalizado en el marcador
+
+						informationAlarms.push(panelInformation);
+
+						markerAlarm.addListener("click", async function () {
+							await closeAllInfoWindows();
+							$("#sound").val(row.id_sector);
+							panelInformation.open(drawMap, markerAlarm);
+						});
+
+					});
+				}
+			},
+		});
+	});
+
+	$("#searchManagerAlarm").keyup(async function (e) {
+		e.preventDefault();
+		$("input[name=msm]").val("");
+		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
+			center: coords,
+			zoom: 12,
+			styles: [
+				{
+					featureType: "administrative", // Para ocultar el nombre de las ciudades
+					elementType: "labels",
+					stylers: [{ visibility: "off" }],
+				},
+			],
+			mapTypeControl: false,
+			streetViewControl: false,
+		});
+		let code = $(this).val();
+		console.log(code);
+		let url = base_url('reports/manager/get-alarm')
+		const data = {
+			search : code
+		}
+		await $.ajax({
+			type: "POST",
+			data,
+			url,
+			success: function (answer) {
+				let response = JSON.parse(answer);
+				if (response.message.type == "success") {
+					let data = response.data;
+					// x = 1;
+					data.forEach((row) => {
+						// $("#"+contador).text(x);
+						// x = x+1;
+						let polygon = JSON.parse(row.geom);
+						let geoJSON = {
+							type: "Feature",
+							geometry: polygon,
+						};
+						// Define el estilo personalizado para el GeoJSON
+						var geoJsonStyle = {
+							strokeColor: "#000", // Color del contorno
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+							fillColor: "#0385C6", // Color de relleno
+							fillOpacity: 0.35,
+						};
+
+						// Crea una nueva capa GeoJSON con el estilo personalizado
+						var geoJsonLayer = new google.maps.Data();
+						geoJsonLayer.addGeoJson(geoJSON);
+
+						// Aplica el estilo personalizado al GeoJSON
+						geoJsonLayer.setStyle(geoJsonStyle);
+
+						// Agrega la capa GeoJSON al mapa
+						geoJsonLayer.setMap(drawMap);
+
+						let centro = getCentro(polygon);
+						// Crea un marcador en el centroide del polígono
+						drawMap.setCenter(centro);
+						let labelMarker = new google.maps.Marker({
+							position: centro,
+							map: drawMap,
+							label: {
+								text: row.code,
+								color: "#251A1C",
+								fontWeight: "bold",
+								fontSize: "12px",
+								labelOrigin: new google.maps.Point(0, -20),
+							},
+							icon: {
+								url: "https://maps.google.com/mapfiles/transparent.png", // Imagen transparente para ocultar el marcador
+								size: new google.maps.Size(1, 1), // Tamaño del icono del marcador (1x1 píxeles)
+								anchor: new google.maps.Point(0, 0), // Punto de anclaje del icono del marcador
+							},
+						});
+						labelMarker.setMap(drawMap);
+
+						let urlIcon = base_url("resources/src/img/logo.png");
+
+						if(row.estado_alarma != 'P3grDcY020230817zW8HaN190633' && row.estado_alarma !== null){
+							urlIcon = base_url("resources/src/img/logo-white.png");
+						}
+						// Crea un nuevo ícono personalizado
+						let icon = {
+							url: urlIcon,
+							scaledSize: new google.maps.Size(35, 40), // Tamaño del ícono (ajústalo según tus necesidades)
+							origin: new google.maps.Point(0, 0), // Punto de origen del ícono
+							anchor: new google.maps.Point(16, 32), // Punto de anclaje del ícono (ajústalo según el diseño del ícono)
+						};
+
+						let markerAlarm = new google.maps.Marker({
+							position: { lat: row.lat_alarm * 1, lng: row.lng_alarm * 1 },
+							map: drawMap,
+							title: row.code,
+							draggable: false,
+						});
+
+						markerAlarm.setIcon(icon);
+						let disabled = "";
+						if (
+							row.a_alarm == "ac03" ||
+							row.a_alarm == "ac04" ||
+							row.a_sector == "ac03" ||
+							row.a_sector == "ac04" ||
+							row.a_parish == "ac03" ||
+							row.a_parish == "ac04" ||
+							row.a_city == "ac03" ||
+							row.a_city == "ac04"
+						) {
+							disabled = "disabled";
+						}
+
+						information = `
+							<button type='button' data-bs-toggle='modal' sector='${row.sector}' sectorId='${row.id_sector}' data-bs-target='#updateModal' dataId='${row.id}' class='btnAlarmEdit btn btn-info'>Editar</button>
+							<a class='btnInputHidden btnGetForId' dataId='${row.id}'></a>`;
+
+						if (
+							row.estado_alarma != 'P3grDcY020230817zW8HaN190633' && row.estado_alarma !== null
+						) {
+							information += `
+								<button type='button' data-bs-toggle='modal' data-bs-target='#stopSoundAlarmModel' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Parar</button>
+							`;
+						} else {
+							information += `
+								<button type='button' data-bs-toggle='modal' data-bs-target='#soundAlarmModel' sector='${row.sector}' sectorId='${row.id_sector}' class='btn btn-success btnSoundAlarm ${disabled}'>Activar</button>
+							`;
+						}
+
+						information += `
+
+							<h5 class='mt-2'>Información de la alarma</h5>
+							<p>
+								<b>Código:</b> ${row.code}<br>
+								<b>Barrio:</b> ${row.sector}<br>
+								<b>Parroquia:</b> ${row.parish}<br>
+								<b>Cantón:</b> ${row.canton}<br>
+							</p>
+							<h5>Datos del encargado</h5>
+							<p>
+								<b>Nombre:</b> ${row.name_manager}<br>
+								<b>Teléfono:</b> ${row.phone}<br>
+								<b>Celular:</b> ${row.mobile}<br>
+							</p>
+						`;
+
+						var panelInformation = new google.maps.InfoWindow({
+							content: information,
+							pixelOffset: new google.maps.Size(0, -10),
+						});
+
+						// Establece el nuevo ícono personalizado en el marcador
+
+						informationAlarms.push(panelInformation);
+
+						markerAlarm.addListener("click", async function () {
+							await closeAllInfoWindows();
+							$("#sound").val(row.id_sector);
+							panelInformation.open(drawMap, markerAlarm);
+						});
+
+					});
+				}
+			},
+		});
 	});
 
 	viewAll();
@@ -236,8 +590,10 @@ async function initMap() {
 						1
 					);
 					let data = response.data;
+					let nuevaOpcion = $("<option>").val('All').text('TRAER TODOS');
+					$("#cities").append(nuevaOpcion);
 					data.forEach((row) => {
-						var nuevaOpcion = $("<option>").val(row.id_city).text(row.name);
+						nuevaOpcion = $("<option>").val(row.id_city).text(row.name);
 						$("#cities").append(nuevaOpcion);
 					});
 
@@ -266,8 +622,10 @@ async function initMap() {
 						1
 					);
 					let data = response.data;
+					let nuevaOpcion = $("<option>").val('All').text('TRAER TODOS');
+					$("#parishes").append(nuevaOpcion);
 					data.forEach((row) => {
-						var nuevaOpcion = $("<option>").val(row.id_city).text(row.name);
+						nuevaOpcion = $("<option>").val(row.id_city).text(row.name);
 						$("#parishes").append(nuevaOpcion);
 					});
 				}
@@ -294,8 +652,10 @@ async function initMap() {
 						1
 					);
 					let data = response.data;
+					let nuevaOpcion = $("<option>").val('All').text('TRAER TODOS');
+					$("#sectors").append(nuevaOpcion);
 					data.forEach((row) => {
-						var nuevaOpcion = $("<option>").val(row.id).text(row.name);
+						nuevaOpcion = $("<option>").val(row.id).text(row.name);
 						$("#sectors").append(nuevaOpcion);
 					});
 				}
@@ -956,7 +1316,7 @@ async function initMap() {
 			url,
 			success: function (answer) {
 				let response = JSON.parse(answer);
-				console.log(response);
+
 				if (response.message.type == "success" && response.data[0].geom != undefined) {
 					let polygon = JSON.parse(response.data[0].geom);
 

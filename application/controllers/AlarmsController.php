@@ -12,25 +12,31 @@ class AlarmsController extends MY_Controller
 		$this->load->model('Alarm_model');
 		$this->load->model('Sector_model');
 		$this->load->model('Manager_model');
+		$this->load->model("NotificationType_model");
 	}
 
 	public function index($submenu, $idSector)
 	{
+		$user = $this->session->userdata('usuario');
+
 		$js = [
 			'resources/librerias/paginator/paginator.js',
 			'resources/librerias/select2/dist/js/select2.min.js',
 			'resources/src/js/alarms.js?t=5',
+			// 'resources/src/js/alarmsSound.js?t=2s',
 		];
 
 		$this->session->set_userdata('submenu', $submenu);
 		$this->submenu = $submenu;
 
 		$this->data = [
-
+			'code' => $user->id,
+			'userName' => $user->user_name,
+			'managers' => $this->Manager_model->getAll(),
+			'buttonNotifications' => $this->NotificationType_model->getAll(),
 			'title' => 'Alarmas',
 			'js' => $js,
 			'sector' => $this->Sector_model->getForId($idSector),
-			'managers' => $this->Manager_model->getAll(),
 			'quantity' => count($this->Alarm_model->getAll($idSector)),
 			'url' => site_url('alarms/' . $idSector . '/search')
 		];
@@ -117,7 +123,6 @@ class AlarmsController extends MY_Controller
 
 		echo json_encode($this->response);
 	}
-
 	public function update()
 	{
 		$validate = new ValidateController();
@@ -179,7 +184,6 @@ class AlarmsController extends MY_Controller
 
 		echo json_encode($this->response);
 	}
-
 	public function delete()
 	{
 		$id = $this->input->post('id');
@@ -197,7 +201,6 @@ class AlarmsController extends MY_Controller
 		}
 		echo json_encode($this->response);
 	}
-
 	public function suspend()
 	{
 		$id = $this->input->post('id');
@@ -215,7 +218,6 @@ class AlarmsController extends MY_Controller
 		}
 		echo json_encode($this->response);
 	}
-
 	public function active()
 	{
 		$id = $this->input->post('id');
@@ -248,6 +250,25 @@ class AlarmsController extends MY_Controller
 		$this->response->message->type = 'success';
 		$this->response->message->title = 'Registro Encontrado';
 		$this->response->message->message = 'La alarma pudo ser creada con éxito';
+
+		echo json_encode($this->response);
+	}
+
+	public function searchAlarm(){
+		$code = htmlspecialchars($this->input->post('search'));
+
+		$answer = $this->Alarm_model->searchAlarm($code);
+		$this->response->message->type = 'error';
+		$this->response->message->title = 'Registro no encontrado';
+		$this->response->message->message = 'La alarma no pudo ser creada con éxito';
+
+		if($answer){
+			$this->response->quantity = count($answer);
+			$this->response->data = $answer;
+			$this->response->message->type = 'success';
+			$this->response->message->title = 'Registro Encontrado';
+			$this->response->message->message = 'La alarma pudo ser creada con éxito';
+		}
 
 		echo json_encode($this->response);
 	}

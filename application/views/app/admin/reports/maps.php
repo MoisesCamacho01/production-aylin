@@ -1,3 +1,5 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- API DE GOOGLE MAPS -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&libraries=places&callback=initMap" defer>
 </script>
@@ -28,7 +30,7 @@
 <div class="card" id="imprMapa">
 	<div class="row">
 		<div class="col-12">
-			<h5 class="card-header" id="title-map">Descripción de mapa</h5>
+			<h5 class="card-header" id="title-map">Descripción del mapa</h5>
 		</div>
 		<div class="col-2 ps-5 mb-4" style="font-size:18px;">
 			<div style="width: 20px; height: 20px; border-radius:50%; background-color: #1051D5; float: left; margin-top: 5px; margin-right:10px;"></div> Alarmas <span id="cantidadAlarmas"></span>
@@ -47,74 +49,91 @@
 		</div>
 	</div>
 	<div id="bodyTable">
-		<div id="viewMap" class="" style="border: none; width: 100%; height: 70vh;"></div>
-
+		<div id="viewMap" class="" style="border: none; width: 100%; height: 80vh;"></div>
 	</div>
 </div>
 
 <!-- MODALES -->
+<!-- MODALES -->
 <div class="modal fade" id="viewSector" tabindex="-1" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel1">FILTROS</h5>
-				<button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Titulo centrado -->
+                <div class="text-center">
+                    <h5 class="modal-title" id="exampleModalLabel1">FILTROS</h5>
+                </div>
+                <button type="button" class="btn-close btn-model-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+				<!-- BUSCAR POR CODIGO -->
 
-				<div class="row">
+				<!-- Campo de búsqueda para "Código de Alarma" -->
+                <div class="mb-3">
+                    <label for="codigoAlarma" class="form-label">Buscar por código de Alarma</label>
+                    <input type="text" class="form-control" id="searchCodeAlarm" placeholder="Ingrese el código de la alarma">
+                </div>
+                <!-- Campo de búsqueda para "Encargado" -->
+                <div class="mb-3">
+                    <label for="encargado" class="form-label">Buscar por encargado</label>
+                    <input type="text" class="form-control" id="searchManagerAlarm" placeholder="Ingrese el nombre del encargado">
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <label for="states" class="form-label">Provincias</label>
+                        <select id="states" class="form-select">
+                            <option value="" selected>Selecciona una provincia</option>
+                            <?php if(count($states)>0): ?>
+                                <?php foreach ($states as $row): ?>
+                                    <option value="<?= $row->id?>"><?= $row->name?></option>
+                                <?php endforeach;?>
+                            <?php endif;?>
+                        </select>
+                        <span class="validate-text" name="states"></span>
+                    </div>
+                </div>
+                <div class="row">
 					<div class="col-12 mb-2">
-						<label for="states" class="form-label">Provincias</label>
-                  <select id="states" class="form-select">
-                     <option value="" selected>Selecciona un provincia</option>
-							<?php if(count($states)>0): ?>
-								<?php foreach ($states as $row): ?>
-									<option value="<?= $row->id?>"><?= $row->name?></option>
-								<?php endforeach;?>
-							<?php endif;?>
-                  </select>
-						<span class="validate-text" name="states"></span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 mb-2">
-						<label for="cities" class="form-label">Canton</label>
+						<label for="cities" class="form-label">Cantón</label>
                   <select id="cities" class="form-select">
-                     <option value="" selected>Seleccione un canton</option>
+                     <option value="" selected>Seleccionar cantón</option>
+
                   </select>
 						<span class="validate-text" name="cities"></span>
 					</div>
 				</div>
-				<div class="row">
+                <div class="row">
 					<div class="col-12 mb-2">
 						<label for="parishes" class="form-label">Parroquias</label>
                   <select id="parishes" class="form-select">
-                     <option value="" selected>Seleccione un parroquia</option>
+                     <option value="" selected>Seleccionar cantón</option>
 
                   </select>
 						<span class="validate-text" name="parishes"></span>
 					</div>
 				</div>
-				<div class="row">
+                <div class="row">
 					<div class="col-12 mb-2">
 						<label for="sectors" class="form-label">Barrio</label>
                   <select id="sectors" class="form-select">
-                     <option value="" selected>Seleccione un barrio</option>
+                     <option value="" selected>Seleccionar cantón</option>
 
                   </select>
 						<span class="validate-text" name="sectors"></span>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-					Cancelar
-				</button>
-				<button type="button" id="btnViewSector" class="btn btn-primary" data-bs-dismiss="modal">Ver</button>
-			</div>
-		</div>
-	</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" id="btnViewSector" class="btn btn-primary" data-bs-dismiss="modal">Ver</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <!-- MODAL EDITAR -->
 <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
@@ -186,12 +205,12 @@
 			<div class="modal-footer">
 				<!-- Button trigger modal -->
 				<button type="button" id="editArea" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#dibujarModal">
-					Editar area
+					Editar rango sonoro
 				</button>
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
 					Cancelar
 				</button>
-				<button type="button" id="btnUpdate" class="btn btn-primary">Actualizar</button>
+				<button type="button" id="btnUpdateAlarm" class="btn btn-primary">Actualizar</button>
 			</div>
 		</div>
 	</div>
@@ -214,15 +233,6 @@
 						<span class="validate-text" name="ip"></span>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col mb-3">
-						<label for="why" class="form-label">¿Por que la activo?</label>
-						<input type="text" id="why" class="form-control" placeholder="Motivo" />
-						<span class="validate-text" name="why"></span>
-					</div>
-				</div>
-
 				<div class="row">
 					<div class="col-12 mb-2">
 						<label for="typeNot" class="form-label">Tipo de notificación</label>
@@ -237,6 +247,15 @@
 						<span class="validate-text" name="typeNot"></span>
 					</div>
 				</div>
+
+				<div class="row">
+					<div class="col mb-3">
+						<label for="why" class="form-label">¿Por que la activo?</label>
+						<input type="text" id="why" class="form-control" placeholder="Motivo" />
+						<span class="validate-text" name="why"></span>
+					</div>
+				</div>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -285,7 +304,7 @@
 </div>
 
 <!-- MODAL DIBUJAR -->
-<div class="modal fade" id="dibujarModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="dibujarModalSonoro" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -361,4 +380,5 @@
 <input type="hidden" id="lng" name="lng" value="">
 
 <input type="hidden" name="urlMap" value="<?= site_url() ?>">
+
 

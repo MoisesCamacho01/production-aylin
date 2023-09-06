@@ -17,8 +17,16 @@ class Dashboard_model extends CI_Model
 	// ------------------------------------------------------------------------
 	public function historyNotifications()
 	{
-		$sql = "SELECT s.name as sector, p.name, p.last_name, nl.created_at, nt.name as type FROM notification_logs nl
-	 INNER JOIN sector s ON nl.id_sector = s.id INNER JOIN users u ON nl.id_user = u.id INNER JOIN profile p ON u.id = p.id_user INNER JOIN notifications_types nt ON nl.id_notification_type = nt.id ORDER BY nl.created_at DESC LIMIT 10";
+		$sql = "SELECT s.name as sector,
+		COALESCE(
+				(SELECT CONCAT(p.name, ' ', p.last_name) FROM profile p WHERE p.id_user = u.id),
+					 u.user_name
+				) as user_name, nl.created_at, nt.name as type
+		FROM notification_logs nl
+		INNER JOIN sector s ON nl.id_sector = s.id
+		INNER JOIN users u ON nl.id_user = u.id
+		INNER JOIN notifications_types nt ON nl.id_notification_type = nt.id
+		ORDER BY nl.created_at DESC LIMIT 10";
 
 		$answer = $this->db->query($sql);
 
@@ -42,20 +50,21 @@ class Dashboard_model extends CI_Model
 	}
 
 	public function getTotalMotiveAlarm(){
-		$sql = "SELECT TO_CHAR(nl.created_at, 'YYYY-MM') AS mes,
-					COUNT(*) AS cantidad_registros,
-					nt.name
-			FROM
-					notification_logs nl
-			JOIN
-					notifications_types nt ON nl.id_notification_type = nt.id
-			WHERE
-					EXTRACT(YEAR FROM nl.created_at) = 2023
-			GROUP BY
-					mes, nt.name
-			ORDER BY
-					mes;
-			";
+		// $sql = "SELECT TO_CHAR(nl.created_at, 'YYYY-MM') AS mes,
+		// 			COUNT(*) AS cantidad_registros,
+		// 			nt.name
+		// 	FROM notification_logs nl
+		// 	JOIN notifications_types nt ON nl.id_notification_type = nt.id
+		// 	WHERE EXTRACT(YEAR FROM nl.created_at) = 2023
+		// 	GROUP BY mes, nt.name
+		// 	ORDER BY mes";
+
+		$sql = "SELECT COUNT(*) AS cantidad_registros, nt.name
+		FROM notification_logs nl
+		JOIN notifications_types nt ON nl.id_notification_type = nt.id
+		WHERE EXTRACT(YEAR FROM nl.created_at) = 2023
+		GROUP BY nt.name
+		ORDER BY nt.name";
 
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result() : false;

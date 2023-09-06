@@ -129,7 +129,12 @@
 
 .mapa {
 	border: 1px solid black;
-	height: 400px;
+	height: 80vh;
+}
+
+.over{
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 @keyframes spin {

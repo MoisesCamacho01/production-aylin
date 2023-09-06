@@ -30,7 +30,7 @@ class User_model extends CI_Model
 		if($type == "web"){
 			$condition = "AND (users.id_user_type != 'T002')";
 		}else if($type == "movil"){
-			$condition = "AND (users.id_user_type == 'T001')";
+			$condition = "AND (users.id_user_type = 'T002')";
 		}
 
 		$sql = "SELECT users.id, users.user_name, users.email, user_types.name AS user_type, actions.name AS action FROM users INNER JOIN user_types ON users.id_user_type = user_types.id INNER JOIN actions ON users.id_action = actions.id WHERE (users.id != 'U001') $condition";
@@ -46,7 +46,7 @@ class User_model extends CI_Model
 	}
 
 	public function getAllMovil(){
-		$sql = "SELECT count(*) FROM users WHERE users.id_user_type = 'T001'";
+		$sql = "SELECT count(*) FROM users WHERE users.id_user_type = 'T002'";
 		$answer = $this->db->query($sql);
 		return ($answer) ? $answer->result()[0]->count : false;
 	}

@@ -19,6 +19,11 @@ $route['reports/parish/all-alarm-parish/(:any)']['GET'] = 'ParishesController/al
 
 $route['reports/sector/all-alarm-sector/(:any)']['GET'] = 'SectorsController/allAlarmOfSector/$1';
 
+// SEARCH FOR CODE ALARM
+$route['reports/alarm/get-alarm']['POST'] = 'AlarmsController/searchAlarm';
+$route['reports/manager/get-alarm']['POST'] = 'ManagersController/searchAlarm';
+
+
 // ALL
 $route['reports/sectors/all']['GET'] = 'SectorsController/all';
 $route['reports/sectors/all-sectors-barrio/(:any)']['GET'] = 'SectorsController/allSectorDistrict/$1';

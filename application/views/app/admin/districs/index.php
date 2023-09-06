@@ -1,5 +1,5 @@
 <h4 class="fw-bold py-3 mb-4">
-	<span class="text-muted fw-light"><?= $parish->name ?> /</span> Barrios
+	<span class="text-muted fw-light"><?= $parish->name ?> /</span> Barriosfvrvtgf
 
 	<!--<a class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#createModal">
 		AÑADIR

@@ -13,19 +13,29 @@ class SectorsController extends MY_Controller
 		// $this->load->model('Distric_model');
 		$this->load->model('Parish_model');
 		$this->load->model('City_model');
+		$this->load->model("Manager_model");
+		$this->load->model("NotificationType_model");
 	}
 
 	public function index($submenu, $idDistric)
 	{
+		$user = $this->session->userdata('usuario');
+
 		$js = [
 			'resources/librerias/paginator/paginator.js',
+			'resources/librerias/select2/dist/js/select2.min.js',
 			'resources/src/js/sectors.js?t=6',
+			// 'resources/src/js/alarmsSound.js?t=2s',
 		];
 
 		$this->session->set_userdata('submenu', $submenu);
 		$this->submenu = $submenu;
 
 		$this->data = [
+			'code' => $user->id,
+			'userName' => $user->user_name,
+			'managers' => $this->Manager_model->getAll(),
+			'buttonNotifications' => $this->NotificationType_model->getAll(),
 			'title' => 'SECTORES',
 			'js' => $js,
 			'distric' => $this->Parish_model->getForId($idDistric),

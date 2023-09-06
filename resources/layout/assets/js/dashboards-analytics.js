@@ -37,6 +37,8 @@
 		motive.push(row.name);
 	  });
 
+	  console.log(series);
+
 	  // Total Revenue Report Chart - Bar Chart
 	  // --------------------------------------------------------------------
 	  const totalRevenueChartEl = document.querySelector('#totalRevenueChart'),

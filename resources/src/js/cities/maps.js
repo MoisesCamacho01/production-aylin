@@ -12,294 +12,18 @@ $('.select-alarm').select2({
 	 }
 });
 
-getRegister();
-
-function suspend() {
-	let id = $("input[name=id]").val();
-
-	const data = {
-		id,
-	};
-
-	let url = $("input[name=url]").val() + "parishes/suspend";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: data,
-		success: function (answer) {
-			let response = JSON.parse(answer);
-			if (response.message.type == "success") {
-				toast(
-					"bg-success",
-					response.message.title,
-					response.message.message,
-					1
-				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
-			} else {
-				toast(
-					"bg-danger",
-					response.message.title,
-					response.message.message,
-					1
-				);
-			}
-		},
-	});
-}
-
-function active() {
-	let id = $("input[name=id]").val();
-
-	const data = {
-		id,
-	};
-
-	let url = $("input[name=url]").val() + "parishes/active";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: data,
-		success: function (answer) {
-			let response = JSON.parse(answer);
-			if (response.message.type == "success") {
-				toast(
-					"bg-success",
-					response.message.title,
-					response.message.message,
-					1
-				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
-			} else {
-				toast(
-					"bg-danger",
-					response.message.title,
-					response.message.message,
-					1
-				);
-			}
-		},
-	});
-}
-
-function deleted() {
-	let id = $("input[name=id]").val();
-
-	const data = {
-		id,
-	};
-
-	let url = $("input[name=url]").val() + "parishes/delete";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: data,
-		success: function (answer) {
-			let response = JSON.parse(answer);
-			if (response.message.type == "success") {
-				toast(
-					"bg-success",
-					response.message.title,
-					response.message.message,
-					1
-				);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
-			} else {
-				toast(
-					"bg-danger",
-					response.message.title,
-					response.message.message,
-					1
-				);
-			}
-		},
-	});
-}
-
-function update() {
-	let id = $("input[name=id]").val();
-	let name = $("#nameE").val();
-   let city = $("#cityE").val();
-
-	let value = validate([
-		{
-			name: "nameE",
-			type: "string",
-			campo: "nombre",
-			value: name,
-			min: 1,
-			max: 255,
-			required: true,
-		},
-
-		{
-			name: "cityE",
-			type: "string",
-			campo: "cantón",
-			value: city,
-			min: 1,
-			max: 255,
-			required: true,
-		},
-	])
-
-	if(value){
-		const data = {
-			id,
-			name,
-			city
-		};
-
-		let url = $("input[name=url]").val() + "parishes/update";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: data,
-			success: function (answer) {
-				let response = JSON.parse(answer);
-				if (response.message.type == "success") {
-					toast(
-						"bg-success",
-						response.message.title,
-						response.message.message,
-						1
-					);
-					// setTimeout(() => {
-					// 	window.location.href = 'dashboard';
-					// }, 600);
-				} else {
-					toast(
-						"bg-danger",
-						response.message.title,
-						response.message.message,
-						1
-					);
-				}
-			},
-		});
-	}
-}
-
-function create() {
-	let name = $("#name").val();
-	let city = $("#city").val();
-
-	let value = validate([
-		{
-			name: "name",
-			type: "string",
-			value: name,
-			min: 1,
-			max: 255,
-			required: true,
-		},
-
-		{
-			name: "city",
-			type: "string",
-			campo: "cantón",
-			value: city,
-			min: 1,
-			max: 255,
-			required: true,
-		},
-	])
-
-	if(value){
-		const data = {
-			name,
-			city
-		};
-
-		let url = $("input[name=url]").val() + "parishes/crear";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: data,
-			success: function (answer) {
-				let response = JSON.parse(answer);
-				if (response.message.type == "success") {
-					toast(
-						"bg-success",
-						response.message.title,
-						response.message.message,
-						1
-					);
-					$("#name").val('');
-
-					$(".btn-model-close").trigger("click");
-					paginator(1);
-				} else {
-					toast(
-						"bg-danger",
-						response.message.title,
-						response.message.message,
-						1
-					);
-				}
-			},
-		});
-	}
-}
-
-function getForId(){
-	let id = $("input[name=id]").val();
-	let idI = $("input[name=idInstitution").val();
-
-	let url = $("input[name=url]").val() + "parishes/"+idI+"/"+id;
-	$.ajax({
-		type: "GET",
-		url: url,
-		success: function (answer) {
-			let response = JSON.parse(answer);
-			if (response.message.type == "success") {
-				toast(
-					"bg-success",
-					response.message.title,
-					response.message.message,
-					1
-				);
-
-				$('#nameE').val(response.data.name);
-				// setTimeout(() => {
-				// 	window.location.href = 'dashboard';
-				// }, 600);
-			} else {
-				toast(
-					"bg-danger",
-					response.message.title,
-					response.message.message,
-					1
-				);
-
-				$('.btn-close').click();
-			}
-		},
-	});
-}
-
-function getRegister(){
-	let urlSearch = $('input[name=searchGlobal]').attr('url');
-	if(urlSearch!=''){
-		paginator(1);
-	}
-}
-
-function initMap() {
+async function initMap() {
 	let path = [];
 	let coords = { lat: -0.9179301528102732, lng: -78.63297106182672 };
 	let drawMap = "";
-	var myPolygon = '';
 	var borrado = 0;
+	var myPolygon = '';
+	var DrawingPolygon = "";
+	let informationAlarms = [];
 
 	$("#bodyTable").on("click", ".btnDrawMap", function (e) {
 		e.preventDefault();
+		$("input[name=idInstitution]").val($(this).attr('dataIdC'))
 		drawingPolygon();
 	});
 
@@ -311,10 +35,12 @@ function initMap() {
 
 	$("#bodyTable").on("click", ".btnGetDraw", function (e) {
 		e.preventDefault();
+		$("input[name=idInstitution]").val($(this).attr('dataIdC'))
 		viewDrawOnMap();
 	});
 
 	async function saveDraw() {
+		// updatePath();
 		path=[];
 		if(borrado==0){
 			await getPolygonCoords();
@@ -325,8 +51,8 @@ function initMap() {
 			cords: JSON.stringify(path),
 		};
 
-		let url = $("input[name=url]").val() + "drawParish";
-		$.ajax({
+		let url = $("input[name=url]").val() + "drawCity";
+		await $.ajax({
 			type: "POST",
 			url: url,
 			data: data,
@@ -339,6 +65,11 @@ function initMap() {
 						response.message.message,
 						1
 					);
+					borrado = 0;
+					$(".btnNuevo").addClass('disabled');
+					$(".btnNoMover").addClass('disabled');
+					$(".btnMB").removeClass('disabled');
+					$(".btnMover").removeClass('disabled');
 				} else {
 					toast(
 						"bg-danger",
@@ -350,8 +81,6 @@ function initMap() {
 			},
 		});
 	}
-
-	// NUEVO CODIGO
 
 	$(".btnMover").click(function (e) {
 		e.preventDefault();
@@ -391,7 +120,7 @@ function initMap() {
 	async function viewDrawOnMap() {
 
 		let id = $("input[name=id").val();
-		let url = base_url("drawParish/" + id);
+		let url = base_url("drawCity/" + id);
 
 		drawMap = new google.maps.Map(document.getElementById("viewMap"), {
 			zoom: 9,
@@ -451,7 +180,7 @@ function initMap() {
 	async function viewDrawFatherOnMap(drawMap) {
 
 		let id = $("input[name=idInstitution").val();
-		let url = base_url("drawCity/" + id);
+		let url = base_url("drawState/" + id);
 
 		$('.loaderModal').removeClass('ocultar');
 		$("#map").addClass("ocultar");
@@ -497,7 +226,7 @@ function initMap() {
 	async function drawingPolygon() {
 		path = [];
 		let id = $("input[name=id").val();
-		let url = base_url("drawParish/" + id);
+		let url = base_url("drawCity/" + id);
 		drawMap = new google.maps.Map(document.getElementById("map"), {
 			center: coords,
 			zoom: 9,
@@ -607,7 +336,7 @@ function initMap() {
 
 	async function mySiblingsPolygon(id, drawMap) {
 		let idI = $("input[name=idInstitution").val();
-		let url = base_url("reports/parish/all-parish-city/"+idI);
+		let url = base_url("reports/cities/all-city-state/"+idI);
 		await $.ajax({
 			type: "GET",
 			url,
@@ -667,10 +396,33 @@ function initMap() {
 			path.push({lat: row[1], lng: row[0]});
 		});
 	}
+
 	// ========================================
 
 	// CODIGO DEL MODAL DE MAPAS
-	
+	function getCentro(polygon) {
+		var coordinates = polygon.coordinates[0];
+		var centroid = coordinates.reduce(
+			function (acc, current) {
+				return [acc[0] + current[0], acc[1] + current[1]];
+			},
+			[0, 0]
+		);
+
+		centroid = new google.maps.LatLng(
+			centroid[1] / coordinates.length,
+			centroid[0] / coordinates.length
+		);
+		return centroid;
+	}
+
+	function getPolygon(polygon){
+		path = [];
+		let array = polygon.coordinates[0];
+		array.forEach(row => {
+			path.push({lat: row[1], lng: row[0]});
+		});
+	}
 
 	function ipm() {
 		$.getJSON(
@@ -1907,4 +1659,5 @@ function initMap() {
 			);
 		}
 	});
+
 }
