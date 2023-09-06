@@ -1170,7 +1170,7 @@ async function initMap() {
 	// ===============================================
 
 	// CODIGO DEL MODAL DE MAPAS
-	
+
 
 	function ipm() {
 		$.getJSON(
@@ -1537,7 +1537,7 @@ async function initMap() {
 					$("#managerE").val(response.data.id_alarm_manager);
 					$("#latitudeE").val(response.data.latitud);
 					$("#longitudeE").val(response.data.longitud);
-					newAlarmCords(
+					newAlarmCords2(
 						response.data.id,
 						"view",
 						"#1051D5",
@@ -1557,7 +1557,7 @@ async function initMap() {
 		});
 	}
 
-	async function newAlarmCords(
+	async function newAlarmCords2(
 		id,
 		x,
 		color = "#1051D5",

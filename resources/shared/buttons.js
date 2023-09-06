@@ -21,6 +21,13 @@ $("#bodyTable").on("click", ".btnInputHidden", function (e) {
 	borrarInputs();
 });
 
+$("body").on("click", ".btnSoundAlarm", function (e) {
+	e.preventDefault();
+	let id = $(this).attr("dataId");
+	$("input[type=text]").val("");
+	$("#typeNot").val("");
+});
+
 $(".btn-success").click(function (e) {
 	e.preventDefault();
 	borrarInputs();
