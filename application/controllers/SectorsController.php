@@ -262,7 +262,7 @@ class SectorsController extends MY_Controller
 		$this->response->message->title = 'Dibujar Sector';
 		$this->response->message->message = 'El mapa del sector no se pudo dibujar';
 
-		if ($this->City_model->drawDelete($id)) {
+		if ($this->Sector_model->drawDelete($id)) {
 			$poligono = "";
 			if(isset($cords[0]->lng)){
 				foreach ($cords as $row) {
