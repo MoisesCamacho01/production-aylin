@@ -4,7 +4,7 @@
 </main>
 <footer>
 	<!-- <span>Desarrollado por la facultad de <a href="https://ciya.utc.edu.ec/">CIYA</a></span> -->
-	<span>DESARROLLADO POR LA FACULTAD DEG <a href="https://ciya.utc.edu.ec/" class="mayus">CARRERA DE SISTEMAS DE INFORMACIÓN <br> Ciencias de la ingeniería y aplicadas</a></span>
+	<span>DESARROLLADO POR LA FACULTAD DE <a href="https://ciya.utc.edu.ec/" class="mayus">CARRERA DE SISTEMAS DE INFORMACIÓN <br> Ciencias de la ingeniería y aplicadas</a></span>
 </footer>
 
 <!-- Core JS -->
